@@ -10,10 +10,11 @@ import java.util.List;
 
 public class Tokenizer {
     private InputBuffer inputBuffer;
-    private ErrorManager errorManager = new ErrorManager();
+    private ErrorManager errorManager;
 
-    public Tokenizer(InputBuffer inputBuffer) {
+    public Tokenizer(InputBuffer inputBuffer, ErrorManager errorManager) {
         this.inputBuffer = inputBuffer;
+        this.errorManager = errorManager;
     }
 
     public ArrayList<Symbol> extractAllSymbols() {

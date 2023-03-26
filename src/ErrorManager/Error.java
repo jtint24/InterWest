@@ -1,10 +1,10 @@
 package ErrorManager;
 
 public class Error {
-    private int errorLevel;
-    private String annotation;
-    private ErrorType type;
-    private boolean isFatal;
+    private final int errorLevel;
+    private final String annotation;
+    private final ErrorType type;
+    private final boolean isFatal;
 
     public Error(ErrorType type, String annotation, boolean isFatal) {
         this.annotation = annotation;
