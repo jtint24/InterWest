@@ -3,7 +3,7 @@ package Lexer;
 import java.util.ArrayList;
 
 public class SymbolString {
-    private ArrayList<Symbol> symbols;
+    private final ArrayList<Symbol> symbols;
 
     public SymbolString(ArrayList<Symbol> symbols) {
         this.symbols = symbols;
@@ -25,5 +25,18 @@ public class SymbolString {
     }
     public void append(SymbolString string2) {
         symbols.addAll(string2.symbols);
+    }
+    public Symbol get(int i) { return symbols.get(i); }
+
+    public int length() {
+        return symbols.size();
+    }
+
+    public SymbolString substring(int startIdx, int untilIdx) {
+        return new SymbolString((ArrayList<Symbol>) symbols.subList(startIdx, untilIdx));
+    }
+
+    public SymbolString substring(int untilIdx) {
+        return substring(untilIdx, symbols.size());
     }
 }
