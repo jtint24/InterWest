@@ -8,6 +8,6 @@ public class ParseRuleLibrary {
     }
 
     private static final Nonterminal plusNonterminal = new Nonterminal(
-            new Nonterminal.Definition(TokenLibrary.intToken.asParseVariable(), TokenLibrary.plus.asParseVariable(), TokenLibrary.intToken.asParseVariable())
+            new Nonterminal.Definition(TokenLibrary.intToken.asParseVariable(), TokenLibrary.plusToken.asParseVariable(), TokenLibrary.intToken.asParseVariable())
     );
 }

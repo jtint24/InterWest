@@ -34,7 +34,7 @@ public class Nonterminal {
         }
 
         public Definition(Definition definition, int i) {
-            this.definitionString = (ArrayList<ParseVariable>) definition.definitionString.subList(i, definition.definitionString.size());
+            this.definitionString = new ArrayList<>(definition.definitionString.subList(i, definition.definitionString.size()));
         }
 
         public NonterminalParseTreeNode buildParseTree(Nonterminal nt, SymbolString inString, ErrorManager errorManager) {
@@ -50,10 +50,15 @@ public class Nonterminal {
                 SymbolString leadingString = inString.substring(0,i);
                 ParseVariable variableToMatch = definitionString.get(0);
 
+                System.out.println("trying "+leadingString);
+
                 ParseTreeNode matchNode = variableToMatch.matches(leadingString, errorManager);
                 if (matchNode != null) {
+                    System.out.println("Success! Leading parsed as " +matchNode.extractRepresentativeString());
                     Definition remainingDefinition = new Definition(this, 1);
                     NonterminalParseTreeNode remainingParseTree = remainingDefinition.buildParseTree(nt, inString.substring(i+1), errorManager);
+
+                    System.out.println("remaining definition parsed as "+ (remainingParseTree==null ? "null" : remainingParseTree.extractRepresentativeString()));
                     if (remainingParseTree != null) {
                         rootNode.insertAtStart(matchNode);
                         rootNode.mergeWith(remainingParseTree);

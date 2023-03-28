@@ -24,6 +24,9 @@ public class InterpretationSession {
 
     public void runSession() {
         SymbolString symbolString = tokenizer.extractAllSymbols();
+
+        System.out.println("symbol string: "+symbolString);
+
         ParseTreeNode ptn = parser.buildParseTree(symbolString);
 
         System.out.println(ptn.extractRepresentativeString());

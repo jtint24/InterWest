@@ -6,7 +6,7 @@ public class TokenLibrary {
             whitespace,
                 floatToken,
                 intToken,
-                plus
+                plusToken
         };
     }
 
@@ -20,7 +20,7 @@ public class TokenLibrary {
             }
     );
 
-    public static final Token plus = new Token(
+    public static final Token plusToken = new Token(
             "plus",
             (String lexeme) -> {
                 return lexeme.equals("+");
@@ -31,7 +31,7 @@ public class TokenLibrary {
     );
 
     private static final Token floatToken = new Token(
-            "floatToken",
+            "float",
             (String lexeme) -> {
                 return allIn(lexeme, "1234567890.") && 1 == countOf(lexeme, '.');
             },
@@ -41,7 +41,7 @@ public class TokenLibrary {
     );
 
     public static final Token intToken = new Token(
-            "intToken",
+            "int",
             (String lexeme) -> {
                 return allIn(lexeme, "1234567890");
             },

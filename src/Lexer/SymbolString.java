@@ -33,10 +33,18 @@ public class SymbolString {
     }
 
     public SymbolString substring(int startIdx, int untilIdx) {
-        return new SymbolString((ArrayList<Symbol>) symbols.subList(startIdx, untilIdx));
+        return new SymbolString(new ArrayList<>(symbols.subList(startIdx, untilIdx)));
     }
 
     public SymbolString substring(int untilIdx) {
         return substring(untilIdx, symbols.size());
+    }
+
+    public String toString() {
+        StringBuilder retString = new StringBuilder();
+        for (Symbol s : symbols) {
+            retString.append(s);
+        }
+        return retString.toString();
     }
 }

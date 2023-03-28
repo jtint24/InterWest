@@ -58,7 +58,7 @@ public class ParseVariable {
      * */
     public ParseTreeNode matches(SymbolString str, ErrorManager errorManager) {
         if (isToken()) {
-            if (str.length() == 1 & str.get(0).getTokenType() == getToken()) {
+            if (str.length() == 1 && str.get(0).getTokenType() == getToken()) {
                 return new SymbolParseTreeNode(str.get(0));
             } else {
                 return null;
