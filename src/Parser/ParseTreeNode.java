@@ -9,4 +9,7 @@ public abstract class ParseTreeNode {
      * Get the string that is represented by the ParseTree with this node as the root.
      * */
     public abstract SymbolString extractRepresentativeString();
+
+    public abstract void printTreeRepresentation();
+    protected abstract void printTreeRepresentation(int i);
 }

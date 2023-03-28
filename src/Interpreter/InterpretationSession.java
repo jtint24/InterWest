@@ -30,6 +30,7 @@ public class InterpretationSession {
         ParseTreeNode ptn = parser.buildParseTree(symbolString);
 
         System.out.println(ptn.extractRepresentativeString());
+        ptn.printTreeRepresentation();
     }
 
 }

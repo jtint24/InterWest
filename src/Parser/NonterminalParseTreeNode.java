@@ -47,4 +47,17 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
     private ArrayList<ParseTreeNode> getChildNodes() {
         return childNodes;
     }
+
+    @Override
+    protected void printTreeRepresentation(int i) {
+        System.out.println("\t".repeat(i)+"- "+representativeNonterminal+" "+definition);
+        for (ParseTreeNode childNode : childNodes) {
+            childNode.printTreeRepresentation(i+1);
+        }
+    }
+
+    @Override
+    public void printTreeRepresentation() {
+        printTreeRepresentation(0);
+    }
 }

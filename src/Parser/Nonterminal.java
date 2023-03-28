@@ -40,25 +40,31 @@ public class Nonterminal {
         public NonterminalParseTreeNode buildParseTree(Nonterminal nt, SymbolString inString, ErrorManager errorManager) {
 
 
+            if (inString.length() == 0 && definitionString.size() == 0) {
+                return new NonterminalParseTreeNode(nt, this);
+            }
+
             // Iterate over the s = [0...n] substring for n = 0...len(inString)
             // Check if the s substring matches the leading ParseVariable in the definition string
             // If it does, build a new definition that has the [1...] substring of the definition string and return that
 
             NonterminalParseTreeNode rootNode = new NonterminalParseTreeNode(nt, this);
 
-            for (int i = 0; i<inString.length(); i++) {
+            for (int i = 0; i<inString.length()+1; i++) {
                 SymbolString leadingString = inString.substring(0,i);
                 ParseVariable variableToMatch = definitionString.get(0);
 
-                System.out.println("trying "+leadingString);
+                System.out.println("trying "+leadingString +" against "+variableToMatch);
 
                 ParseTreeNode matchNode = variableToMatch.matches(leadingString, errorManager);
                 if (matchNode != null) {
-                    System.out.println("Success! Leading parsed as " +matchNode.extractRepresentativeString());
+                    System.out.println("success! Leading parsed as " +matchNode.extractRepresentativeString());
                     Definition remainingDefinition = new Definition(this, 1);
-                    NonterminalParseTreeNode remainingParseTree = remainingDefinition.buildParseTree(nt, inString.substring(i+1), errorManager);
+                    NonterminalParseTreeNode remainingParseTree = remainingDefinition.buildParseTree(nt, inString.substring(i), errorManager);
 
                     System.out.println("remaining definition parsed as "+ (remainingParseTree==null ? "null" : remainingParseTree.extractRepresentativeString()));
+
+
                     if (remainingParseTree != null) {
                         rootNode.insertAtStart(matchNode);
                         rootNode.mergeWith(remainingParseTree);

@@ -67,4 +67,9 @@ public class ParseVariable {
             return getNonterminal().buildParseTree(str, errorManager);
         }
     }
+
+    @Override
+    public String toString() {
+        return isNonterminal() ? nonterminal.toString() : token.toString();
+    }
 }
