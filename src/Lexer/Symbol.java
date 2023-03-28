@@ -1,8 +1,8 @@
 package Lexer;
 
 public class Symbol {
-    private String lexeme;
-    private Token tokenType;
+    private final String lexeme;
+    private final Token tokenType;
 
     public Symbol(String lexeme, Token tokenType) {
         this.lexeme = lexeme;
@@ -11,5 +11,9 @@ public class Symbol {
 
     public String toString() {
         return "{ lexeme = `"+lexeme+"` tokenType = "+tokenType+" }";
+    }
+
+    public Token getTokenType() {
+        return tokenType;
     }
 }

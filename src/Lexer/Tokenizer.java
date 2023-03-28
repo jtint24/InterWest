@@ -9,20 +9,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Tokenizer {
-    private InputBuffer inputBuffer;
-    private ErrorManager errorManager;
+    private final InputBuffer inputBuffer;
+    private final ErrorManager errorManager;
 
     public Tokenizer(InputBuffer inputBuffer, ErrorManager errorManager) {
         this.inputBuffer = inputBuffer;
         this.errorManager = errorManager;
     }
 
-    public ArrayList<Symbol> extractAllSymbols() {
+    public SymbolString extractAllSymbols() {
         ArrayList<Symbol> retList = new ArrayList<>();
         while (!inputBuffer.isTerminated()) {
             retList.add(getSymbol());
         }
-        return retList;
+        return new SymbolString(retList);
     }
 
     public Symbol getSymbol() {

@@ -1,23 +1,22 @@
 package Parser;
 
 import ErrorManager.ErrorManager;
-import Lexer.Symbol;
 import Lexer.SymbolString;
-
+import Lexer.Token;
 import java.util.Objects;
 
 public class ParseVariable {
-    private Symbol symbol;
-    private Nonterminal nonterminal;
+    private final Token token;
+    private final Nonterminal nonterminal;
 
 
-    public ParseVariable(Symbol s) {
-        this.symbol = s;
+    public ParseVariable(Token t) {
+        this.token = t;
         this.nonterminal = null;
     }
 
     public ParseVariable(Nonterminal nt) {
-        this.symbol = null;
+        this.token = null;
         this.nonterminal = nt;
     }
 
@@ -26,23 +25,23 @@ public class ParseVariable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ParseVariable that = (ParseVariable) o;
-        return Objects.equals(symbol, that.symbol) && Objects.equals(nonterminal, that.nonterminal);
+        return Objects.equals(token, that.token) && Objects.equals(nonterminal, that.nonterminal);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(symbol, nonterminal);
+        return Objects.hash(token, nonterminal);
     }
 
     public boolean isNonterminal() {
         return nonterminal != null;
     }
-    public boolean isSymbol() {
-        return symbol != null;
+    public boolean isToken() {
+        return token != null;
     }
 
-    public Symbol getSymbol() {
-        return symbol;
+    public Token getToken() {
+        return token;
     }
 
     public Nonterminal getNonterminal() {
@@ -58,9 +57,9 @@ public class ParseVariable {
      *
      * */
     public ParseTreeNode matches(SymbolString str, ErrorManager errorManager) {
-        if (isSymbol()) {
-            if (str.length() == 1 & str.get(0) == getSymbol()) {
-                return new SymbolParseTreeNode(getSymbol());
+        if (isToken()) {
+            if (str.length() == 1 & str.get(0).getTokenType() == getToken()) {
+                return new SymbolParseTreeNode(str.get(0));
             } else {
                 return null;
             }

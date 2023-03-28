@@ -35,5 +35,16 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         return retString;
     }
 
+    /**
+     * mergeWith
+     *
+     * For another parse tree, PT_B, this method adds all of PT_B's children as this node's own children,
+     * */
+    public void mergeWith(NonterminalParseTreeNode remainingParseTree) {
+        childNodes.addAll(remainingParseTree.getChildNodes());
+    }
 
+    private ArrayList<ParseTreeNode> getChildNodes() {
+        return childNodes;
+    }
 }
