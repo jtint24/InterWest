@@ -3,6 +3,8 @@ package Parser;
 import ErrorManager.ErrorManager;
 import Lexer.SymbolString;
 import Lexer.Token;
+
+import java.util.HashSet;
 import java.util.Objects;
 
 public class ParseVariable {
@@ -71,5 +73,15 @@ public class ParseVariable {
     @Override
     public String toString() {
         return isNonterminal() ? nonterminal.toString() : token.toString();
+    }
+
+    public HashSet<Token> getFirstSet() {
+        if (isNonterminal()) {
+            return getNonterminal().getFirstSet();
+        } else {
+            HashSet<Token> fSet = new HashSet<>();
+            fSet.add(getToken());
+            return fSet;
+        }
     }
 }

@@ -47,28 +47,32 @@ public class Tokenizer {
             availableTokens = newAvailableTokens;
         }
 
-        if (!inputBuffer.isTerminated()) {
+        ArrayList<Token> possibleTokens;
+        String originalLexeme = currentLexeme;
+
+        do {
+            possibleTokens = new ArrayList<>();
+
+            for (Token possibleToken : TokenLibrary.getTokens()) {
+                if (possibleToken.isCurrentlyValid(currentLexeme)) {
+                    possibleTokens.add(possibleToken);
+                }
+            }
+
+            if (possibleTokens.size() == 1) {
+                return new Symbol(currentLexeme, possibleTokens.get(0));
+            } else if (possibleTokens.size() > 1) {
+                errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "Ambiguous tokens for `"+currentLexeme+"`", true));
+            }
+
             inputBuffer.ungetChar(currentLexeme.charAt(currentLexeme.length() - 1));
             currentLexeme = currentLexeme.substring(0, currentLexeme.length() - 1);
-        }
+        } while (!currentLexeme.equals(""));
+
+        errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "No possible token for `"+originalLexeme+"`", true));
 
         // System.out.println("currentLexeme: `"+currentLexeme+"`");
 
-        ArrayList<Token> possibleTokens = new ArrayList<>();
-
-        for (Token possibleToken : TokenLibrary.getTokens()) {
-            if (possibleToken.isCurrentlyValid(currentLexeme)) {
-                possibleTokens.add(possibleToken);
-            }
-        }
-
-        if (possibleTokens.size() == 1) {
-            return new Symbol(currentLexeme, possibleTokens.get(0));
-        } else if (possibleTokens.size() == 0) {
-            errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "No possible tokens for "+currentLexeme, true));
-        } else {
-            errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "Ambiguous tokens for "+currentLexeme, true));
-        }
 
         return null;
     }

@@ -18,11 +18,14 @@ public class InterpretationSession {
         errorManager = new ErrorManager();
         inputBuffer = new InputBuffer(body, errorManager);
         tokenizer = new Tokenizer(inputBuffer, errorManager);
-        parser = new Parser(ParseRuleLibrary.getStartRule(), errorManager);
+        ParseRuleLibrary parseRuleLibrary = new ParseRuleLibrary();
+        parser = new Parser(parseRuleLibrary.getStartRule(), parseRuleLibrary.getNonterminals(), errorManager);
     }
 
 
     public void runSession() {
+
+
         SymbolString symbolString = tokenizer.extractAllSymbols();
 
         System.out.println("symbol string: "+symbolString);

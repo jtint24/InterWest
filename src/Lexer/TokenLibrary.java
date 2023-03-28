@@ -50,6 +50,16 @@ public class TokenLibrary {
             }
     );
 
+    public static final Token epsilon = new Token(
+            "epsilon",
+            (String lexeme) -> {
+                return lexeme.length() == 0;
+            },
+            (String lexeme) -> {
+                return lexeme.length() == 0;
+            }
+    );
+
 
     private static boolean allIn(String lexeme, String validChars) {
         for (char lexemeChar : lexeme.toCharArray()) {
@@ -71,4 +81,7 @@ public class TokenLibrary {
         return count;
     }
 
+    public static Token getEpsilon() {
+        return epsilon;
+    }
 }
