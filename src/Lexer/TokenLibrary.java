@@ -81,6 +81,16 @@ public class TokenLibrary {
         return count;
     }
 
+    public static final Token a = new Token("a", (a)->false, (a)->false);
+    public static final Token b = new Token("b", (a)->false, (a)->false);
+    public static final Token c = new Token("c", (a)->false, (a)->false);
+
+    public static final Token d = new Token("d", (a)->false, (a)->false);
+    public static final Token f = new Token("f", (a)->false, (a)->false);
+
+    public static final Token g = new Token("g", (a)->false, (a)->false);
+    public static final Token h = new Token("h", (a)->false, (a)->false);
+
     public static Token getEpsilon() {
         return epsilon;
     }

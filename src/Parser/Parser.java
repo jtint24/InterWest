@@ -2,6 +2,7 @@ package Parser;
 
 import ErrorManager.ErrorManager;
 import Lexer.SymbolString;
+import Lexer.Token;
 import Lexer.TokenLibrary;
 import Parser.Nonterminal.Definition;
 
@@ -45,7 +46,7 @@ public class Parser {
 
         return retList;
     }
-    public void makeFirstSet() {
+    public void makeFirstSets() {
         ArrayList<Definition> definitions = getDefinitions();
 
         boolean hasChanged = true;
@@ -63,15 +64,17 @@ public class Parser {
                 }
             }
 
+
             // Rule IV
 
             for (Definition definition : definitions) {
-                for (int i = 0; i<definition.getDefinitionString().size()-1; i++) {
+                for (int i = 0; i<definition.getDefinitionString().size(); i++) {
                     if (definition.hasLeadingEps(i)) {
                         hasChanged |= definition.getDefinedNT().coallesceFirstSetMinusEp(definition.getDefinitionString().get(i).getFirstSet());
                     }
                 }
             }
+
 
             // Rule V
 
@@ -80,9 +83,24 @@ public class Parser {
                     hasChanged |= definition.getDefinedNT().addToFirstSet(TokenLibrary.getEpsilon());
                 }
             }
+
+
+            printFirstSets();
         }
 
     }
 
 
+    public void printFirstSets() {
+        for (Nonterminal nonterminal : nonterminals) {
+            StringBuilder setString = new StringBuilder();
+
+            for (Token t : nonterminal.getFirstSet()) {
+                setString.append(t).append(", ");
+            }
+
+            System.out.println("First("+nonterminal + ") = "+setString);
+        }
+
+    }
 }

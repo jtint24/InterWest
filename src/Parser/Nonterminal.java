@@ -6,7 +6,6 @@ import Lexer.Token;
 import Lexer.TokenLibrary;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class Nonterminal {
     public boolean addToFirstSet(Token newToken) {
         boolean alreadyContained = firstSet.contains(newToken);
         firstSet.add(newToken);
-        return alreadyContained;
+        return !alreadyContained;
     }
 
     public ArrayList<Definition> getDefinitions() {

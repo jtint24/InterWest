@@ -32,6 +32,10 @@ public class InterpretationSession {
 
         ParseTreeNode ptn = parser.buildParseTree(symbolString);
 
+        parser.makeFirstSets();
+
+        parser.printFirstSets();
+
         System.out.println(ptn.extractRepresentativeString());
         ptn.printTreeRepresentation();
     }
