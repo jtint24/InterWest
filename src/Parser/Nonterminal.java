@@ -6,6 +6,7 @@ import Lexer.Token;
 import Lexer.TokenLibrary;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 
@@ -73,6 +74,25 @@ public class Nonterminal {
 
     public ArrayList<Definition> getDefinitions() {
         return definitions;
+    }
+
+    public void addToFollowSet(Token newToken) {
+        followSet.add(newToken);
+    }
+
+    public boolean addFollowSetToFollowSet(Nonterminal nonterminal) {
+        int prevSize = followSet.size();
+        followSet.addAll(nonterminal.getFollowSet());
+        return prevSize != followSet.size();
+    }
+
+    public HashSet<Token> getFollowSet() {
+        return followSet;
+    }
+
+    public void addFirstMinusEpToFollow(HashSet<Token> firstSet) {
+        followSet.addAll(firstSet);
+        followSet.remove(TokenLibrary.epsilon);
     }
 
     public static class Definition {
@@ -153,6 +173,15 @@ public class Nonterminal {
 
         public boolean hasLeadingEps(int i) {
             for (int n = 0; n<i; n++) {
+                if (!definitionString.get(n).getFirstSet().contains(TokenLibrary.getEpsilon())) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        public boolean hasEpsBetween(int i, int k) {
+            for (int n = i; n<k; n++) {
                 if (!definitionString.get(n).getFirstSet().contains(TokenLibrary.getEpsilon())) {
                     return false;
                 }

@@ -60,6 +60,16 @@ public class TokenLibrary {
             }
     );
 
+    public static final Token eof = new Token(
+            "eof",
+            (String lexeme) -> {
+                return false;
+            },
+            (String lexeme) -> {
+                return false;
+            }
+    );
+
 
     private static boolean allIn(String lexeme, String validChars) {
         for (char lexemeChar : lexeme.toCharArray()) {
@@ -93,5 +103,9 @@ public class TokenLibrary {
 
     public static Token getEpsilon() {
         return epsilon;
+    }
+
+    public static Token getEOF() {
+        return eof;
     }
 }

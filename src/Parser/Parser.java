@@ -46,6 +46,66 @@ public class Parser {
 
         return retList;
     }
+
+    public void makeFollowSets() {
+
+        ArrayList<Definition> definitions = getDefinitions();
+
+        primaryNonterminal.addToFollowSet(TokenLibrary.getEOF());
+
+        // Rule IV
+        for (Definition definition : definitions) {
+            for (int i = 0; i<definition.getDefinitionString().size()-1; i++) {
+                if (definition.getDefinitionString().get(i).isNonterminal()) {
+                    definition.getDefinitionString().get(i).getNonterminal().addFirstMinusEpToFollow(definition.getDefinitionString().get(i+1).getFirstSet());
+                }
+            }
+        }
+
+        // Rule V
+
+        for (Definition definition : definitions) {
+            for (int i = 0; i<definition.getDefinitionString().size()-1; i++) {
+                for (int k = i+1; k<definition.getDefinitionString().size(); k++) {
+                    if (definition.getDefinitionString().get(i).isNonterminal() && definition.hasEpsBetween(i+1,k)) {
+                        definition.getDefinitionString().get(i).getNonterminal().addFirstMinusEpToFollow(definition.getDefinitionString().get(k).getFirstSet());
+                    }
+                }
+            }
+        }
+
+        boolean hasChanged = true;
+
+        while (hasChanged) {
+            hasChanged = false;
+
+            // Rule II
+
+            for (Definition definition : definitions) {
+                if (definition.getDefinitionString().size() > 0) {
+                    ParseVariable finalPV = definition.getDefinitionString().get(definition.getDefinitionString().size()-1);
+
+                    if (finalPV.isNonterminal()) {
+                        hasChanged |= definition.getDefinedNT().addFollowSetToFollowSet(finalPV.getNonterminal());
+                    }
+                }
+            }
+
+            // Rule III
+
+            for (Definition definition : definitions) {
+                if (definition.getDefinitionString().size() > 0) {
+                    for (int i = 1; i<definition.getDefinitionString().size(); i++) {
+                        ParseVariable finalPV = definition.getDefinitionString().get(i-1);
+
+                        if (finalPV.isNonterminal() && definition.hasEpsBetween(i,definition.getDefinitionString().size())) {
+                            hasChanged |= definition.getDefinedNT().addFollowSetToFollowSet(finalPV.getNonterminal());
+                        }
+                    }
+                }
+            }
+        }
+    }
     public void makeFirstSets() {
         ArrayList<Definition> definitions = getDefinitions();
 
@@ -83,9 +143,6 @@ public class Parser {
                     hasChanged |= definition.getDefinedNT().addToFirstSet(TokenLibrary.getEpsilon());
                 }
             }
-
-
-            printFirstSets();
         }
 
     }
@@ -101,6 +158,17 @@ public class Parser {
 
             System.out.println("First("+nonterminal + ") = "+setString);
         }
+    }
 
+    public void printFollowSets() {
+        for (Nonterminal nonterminal : nonterminals) {
+            StringBuilder setString = new StringBuilder();
+
+            for (Token t : nonterminal.getFollowSet()) {
+                setString.append(t).append(", ");
+            }
+
+            System.out.println("Follow("+nonterminal + ") = "+setString);
+        }
     }
 }
