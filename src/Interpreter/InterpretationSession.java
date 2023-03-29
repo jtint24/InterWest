@@ -19,18 +19,18 @@ public class InterpretationSession {
         inputBuffer = new InputBuffer(body, errorManager);
         tokenizer = new Tokenizer(inputBuffer, errorManager);
         ParseRuleLibrary parseRuleLibrary = new ParseRuleLibrary();
-        parser = new Parser(parseRuleLibrary.getStartRule(), parseRuleLibrary.getNonterminals(), errorManager);
+        parser = new Parser(parseRuleLibrary.getStartRule(), parseRuleLibrary.getNonterminals(), tokenizer, errorManager);
     }
 
 
     public void runSession() {
 
 
-        SymbolString symbolString = tokenizer.extractAllSymbols();
+        // SymbolString symbolString = tokenizer.extractAllSymbols();
 
-        System.out.println("symbol string: "+symbolString);
+        // System.out.println("symbol string: "+symbolString);
 
-        ParseTreeNode ptn = parser.buildParseTree(symbolString);
+        ParseTreeNode ptn = parser.buildParseTree();
 
         parser.makeFirstSets();
         parser.makeFollowSets();

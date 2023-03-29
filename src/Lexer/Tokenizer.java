@@ -76,4 +76,8 @@ public class Tokenizer {
 
         return null;
     }
+
+    public boolean isTerminated() {
+        return inputBuffer.isTerminated();
+    }
 }

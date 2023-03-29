@@ -1,26 +1,29 @@
 package Parser;
 
 import ErrorManager.ErrorManager;
-import Lexer.SymbolString;
 import Lexer.Token;
 import Lexer.TokenLibrary;
+import Lexer.Tokenizer;
 import Parser.Nonterminal.Definition;
 
-import java.util.ArrayList;
+import java.util.*;
 
 
 public class Parser {
-
     private final ErrorManager errorManager;
-
     private final Nonterminal primaryNonterminal;
-
     private final ArrayList<Nonterminal> nonterminals;
+    private final Tokenizer tokenizer;
 
-    public Parser(Nonterminal primaryNonterminal, ArrayList<Nonterminal> nonterminals, ErrorManager errorManager) {
+    private final Stack<ParseTreeNode> valueStack = new Stack<>();
+    private final Stack<ParsingState> controlStack = new Stack<>();
+    private final HashMap<ParsingState, HashMap<Token, ParseDecision>> actionTable = new HashMap<>();
+
+    public Parser(Nonterminal primaryNonterminal, ArrayList<Nonterminal> nonterminals, Tokenizer tokenizer, ErrorManager errorManager) {
         this.errorManager = errorManager;
         this.primaryNonterminal = primaryNonterminal;
         this.nonterminals =  nonterminals;
+        this.tokenizer = tokenizer;
     }
 
     /**
@@ -29,10 +32,47 @@ public class Parser {
      * Returns a parseTree based on the available rule library for given SymbolString
      * Returns null an logs an error if no such thing exists
      * */
-    public ParseTreeNode buildParseTree(SymbolString inString) {
+
+    public ParseTreeNode buildParseTree() {
+        makeFirstSets();
+        makeFollowSets();
 
 
-        return null;
+        /**
+        while (true) {
+            Symbol readSymbol = tokenizer.getSymbol();
+            ParsingState topState = controlStack.peek();
+            ParseDecision decision = actionTable.get(topState).get(readSymbol.getTokenType());
+
+            if (decision instanceof ParseDecision.Shift) {
+                ParsingState stateToPush = ((ParseDecision.Shift) decision).pushState;
+                SymbolParseTreeNode nodeToPush = new SymbolParseTreeNode(readSymbol);
+
+                valueStack.push(nodeToPush);
+                controlStack.push(stateToPush);
+            } else if (decision instanceof ParseDecision.Accept) {
+                return valueStack.peek();
+            } else if (decision instanceof ParseDecision.Reduce) {
+                Definition someDefinition;
+                ArrayList<ParseVariable> valueList = new ArrayList<ParseVariable>();
+                for (int i = 0; i < someDefinition.getDefinitionString().size(); i++) {
+                    valueList.add(valueStack.pop().asParseTreeNode());
+                    controlStack.pop();
+                }
+
+                // x = Apply the semantic action to the popped elements of the value stack
+                // Push x onto the value stack
+                // Push the result of GOTO(currentState, R) onto the control stack
+            }
+         }
+
+         */
+
+
+
+
+
+        return new PDAParser(primaryNonterminal, errorManager).buildParseTree(tokenizer);
         //return primaryNonterminal.buildParseTree(inString, errorManager);
     }
 
@@ -170,6 +210,25 @@ public class Parser {
             }
 
             System.out.println("Follow("+nonterminal + ") = "+setString);
+        }
+    }
+
+    static class ParsingState {
+        HashMap<Definition,Integer> positions;
+        ParseTreeNode parseTree;
+
+        ParsingState() {
+            positions = new HashMap<>();
+        }
+
+        ParseTreeNode getParseTree() {
+            return parseTree;
+        }
+        void advancePositions() {
+            for (Map.Entry<Definition, Integer> position : positions.entrySet()) {
+                ParseVariable locus = position.getKey().getDefinitionString().get(position.getValue());
+
+            }
         }
     }
 }
