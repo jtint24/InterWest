@@ -51,6 +51,7 @@ public class Parser {
 
         ArrayList<Definition> definitions = getDefinitions();
 
+        // Rule I
         primaryNonterminal.addToFollowSet(TokenLibrary.getEOF());
 
         // Rule IV
@@ -65,7 +66,7 @@ public class Parser {
         // Rule V
 
         for (Definition definition : definitions) {
-            for (int i = 0; i<definition.getDefinitionString().size()-1; i++) {
+            for (int i = 0; i<definition.getDefinitionString().size(); i++) {
                 for (int k = i+1; k<definition.getDefinitionString().size(); k++) {
                     if (definition.getDefinitionString().get(i).isNonterminal() && definition.hasEpsBetween(i+1,k)) {
                         definition.getDefinitionString().get(i).getNonterminal().addFirstMinusEpToFollow(definition.getDefinitionString().get(k).getFirstSet());
@@ -86,7 +87,7 @@ public class Parser {
                     ParseVariable finalPV = definition.getDefinitionString().get(definition.getDefinitionString().size()-1);
 
                     if (finalPV.isNonterminal()) {
-                        hasChanged |= definition.getDefinedNT().addFollowSetToFollowSet(finalPV.getNonterminal());
+                        hasChanged |= finalPV.getNonterminal().addFollowSetToFollowSet(definition.getDefinedNT());
                     }
                 }
             }
