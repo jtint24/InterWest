@@ -47,4 +47,8 @@ public class SymbolString {
         }
         return retString.toString();
     }
+
+    public ArrayList<Symbol> toList() {
+        return symbols;
+    }
 }

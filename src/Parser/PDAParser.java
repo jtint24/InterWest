@@ -2,11 +2,11 @@ package Parser;
 
 
 import Lexer.Token;
+import Lexer.TokenLibrary;
 import Lexer.Tokenizer;
 import Lexer.Symbol;
 import ErrorManager.ErrorManager;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Stack;
 
@@ -22,83 +22,61 @@ public class PDAParser {
     PDAParser(Nonterminal primaryNonterminal, ErrorManager errorManager) {
         this.primaryNonterminal = primaryNonterminal;
     }
+
     public ParseTreeNode buildParseTree(Tokenizer tokenizer) {
+        // pdaStates.add(new PDAState(primaryNonterminal));
 
-        pdaStates.add(new PDAState(primaryNonterminal));
+        while (true) {
+            HashSet<PDAState> newPDAStates = new HashSet<>();
 
-        while (!tokenizer.isTerminated()) {
             Symbol newSymbol = tokenizer.getSymbol();
-            System.out.println(newSymbol+" "+pdaStates.size());
-            advanceFrame(newSymbol);
+
+            for (PDAState state : pdaStates) {
+                if (state.isEmpty()) {
+                    return new SymbolParseTreeNode(new Symbol("hooray", TokenLibrary.plusToken));
+                }
+                HashSet<PDAState> stateCanContinue = state.getIterated(newSymbol);
+
+                newPDAStates.addAll(stateCanContinue);
+            }
+
         }
 
-        if (pdaStates.size() > 1) {
-            // Uh oh! Ambiguity!
-            return null;
-        } else if (pdaStates.isEmpty()) {
-            // Uh oh! No available parse!
-            return null;
-        } else {
-            return ((PDAState) pdaStates.toArray()[0]).getTree();
-        }
     }
 
-    public void advanceFrame(Symbol newSymbol) {
-        HashSet<PDAState> newPDAStates = new HashSet<>();
+    class PDAState implements Cloneable {
+        Stack<ParseTreeNode> pdaStack = new Stack<>();
 
-        Token newToken = newSymbol.getTokenType();
-        for (PDAState state : pdaStates) {
-            ParseVariable topVariable = state.getTopVariable();
-            if (topVariable.isToken()) {
-                if (newToken == topVariable.getToken()) {
-                    state.popVariable();
-                    newPDAStates.add(state);
+        public PDAState(Stack<ParseTreeNode> stack) {
+            this.pdaStack = stack;
+        }
+
+        public PDAState() {}
+
+        public HashSet<PDAState> getIterated(Symbol inputSymbol) {
+            HashSet<PDAState> returnedPDAState = new HashSet<>();
+
+            if (pdaStack.peek() instanceof SymbolParseTreeNode) {
+                if (((SymbolParseTreeNode) pdaStack.peek()).getSymbol() == inputSymbol) {
+                    pdaStack.pop();
+                    returnedPDAState.add((PDAState) this.clone());
                 }
+                return returnedPDAState;
             } else {
-                for (Nonterminal.Definition definition : topVariable.getNonterminal().getDefinitions()) {
-                    newPDAStates.add(state.copyWithPushedDefinition(definition));
-                }
-            }
-        }
 
-        pdaStates = newPDAStates;
-    }
-
-    static class PDAState {
-        Stack<ParseVariable> parseVariableStack;
-        ParseTreeNode tree;
-
-        PDAState(Nonterminal nt) {
-            tree = new NonterminalParseTreeNode(nt, null);
-            parseVariableStack = new Stack<ParseVariable>();
-            parseVariableStack.push(nt.asParseVariable());
-        }
-
-        PDAState(Stack<ParseVariable> parseVariableStack, ParseTreeNode tree) {
-            this.parseVariableStack = parseVariableStack;
-            this.tree = tree;
-        }
-
-        public ParseTreeNode getTree() {
-            return tree;
-        }
-
-        public ParseVariable getTopVariable() {
-            return parseVariableStack.peek();
-        }
-
-        public void popVariable() {
-            parseVariableStack.pop();
-        }
-
-        public PDAState copyWithPushedDefinition(Nonterminal.Definition definition) {
-            Stack<ParseVariable> newStack = parseVariableStack;
-
-            for (int i = definition.getDefinitionString().size()-1; i>=0; i--) {
-                newStack.push(definition.getDefinitionString().get(i));
             }
 
-            return new PDAState(newStack, tree);
+            return null;
+
+
+        }
+
+        public Object clone() {
+            return new PDAState((Stack<ParseTreeNode>) pdaStack.clone());
+        }
+
+        public boolean isEmpty() {
+            return false;
         }
     }
 }

@@ -1,16 +1,21 @@
 package Lexer;
 
+import java.util.HashSet;
+
 public class TokenLibrary {
     public static Token[] getTokens() {
         return new Token[]{
             whitespace,
                 floatToken,
                 intToken,
-                plusToken
+                plusToken,
+                let,
+                equals,
+                identifier
         };
     }
 
-    private static final Token whitespace = new Token(
+    public static final Token whitespace = new Token(
             "whitespace",
             (String lexeme) -> {
                 return allIn(lexeme, " \t");
@@ -18,6 +23,12 @@ public class TokenLibrary {
             (String lexeme) -> {
                 return allIn(lexeme, " \t");
             }
+    );
+
+    public static final Token identifier = new Token(
+            "identifier",
+            (String lexeme) -> allIn(lexeme.toLowerCase(), "qwertyuiopasdfghjklzxcvbnm") && !inKeywords(lexeme),
+            (String lexeme) -> allIn(lexeme.toLowerCase(), "qwertyuiopasdfghjklzxcvbnm")
     );
 
     public static final Token plusToken = new Token(
@@ -70,6 +81,10 @@ public class TokenLibrary {
             }
     );
 
+    public static final Token let = fromString("let");
+    public static final Token equals = fromString("=");
+
+
 
     private static boolean allIn(String lexeme, String validChars) {
         for (char lexemeChar : lexeme.toCharArray()) {
@@ -91,6 +106,25 @@ public class TokenLibrary {
         return count;
     }
 
+    private static boolean inKeywords(String lexeme) {
+        HashSet<String> keywords = new HashSet<>() {{
+                add("let");
+                add("match");
+                add("if");
+        }};
+
+        return keywords.contains(lexeme);
+
+    }
+
+    private static Token fromString(String target) {
+        return new Token(
+                target,
+                target::equals,
+                target::startsWith
+        );
+    }
+
     public static final Token a = new Token("a", (a)->false, (a)->false);
     public static final Token b = new Token("b", (a)->false, (a)->false);
     public static final Token c = new Token("c", (a)->false, (a)->false);
@@ -100,6 +134,8 @@ public class TokenLibrary {
 
     public static final Token g = new Token("g", (a)->false, (a)->false);
     public static final Token h = new Token("h", (a)->false, (a)->false);
+
+
 
     public static Token getEpsilon() {
         return epsilon;

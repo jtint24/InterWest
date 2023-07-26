@@ -26,7 +26,8 @@ public class Error {
 
     public enum ErrorType {
         LEXER_ERROR,
-        INPUT_ERROR
+        INPUT_ERROR,
+        PARSER_ERROR
     }
 
     @Override

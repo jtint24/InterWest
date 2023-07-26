@@ -2,7 +2,7 @@ package Parser;
 
 import Lexer.SymbolString;
 
-public abstract class ParseTreeNode {
+public abstract class ParseTreeNode implements Cloneable {
     /**
      * extractRepresentativeString
      *
@@ -12,4 +12,8 @@ public abstract class ParseTreeNode {
 
     public abstract void printTreeRepresentation();
     protected abstract void printTreeRepresentation(int i);
+
+    public abstract void addChild(ParseTreeNode ptn);
+
+    public abstract Object clone();
 }

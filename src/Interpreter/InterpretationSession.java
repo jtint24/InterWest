@@ -2,11 +2,13 @@ package Interpreter;
 
 import ErrorManager.ErrorManager;
 import InputBuffer.InputBuffer;
+import LLParser.LLParser;
 import Lexer.SymbolString;
 import Lexer.Tokenizer;
 import Parser.Parser;
 import Parser.ParseRuleLibrary;
 import Parser.ParseTreeNode;
+import LLParser.NonterminalLibrary;
 
 public class InterpretationSession {
     private final ErrorManager errorManager;
@@ -14,32 +16,43 @@ public class InterpretationSession {
     private final Tokenizer tokenizer;
     private final Parser parser;
 
+    private final LLParser llParser;
+
     public InterpretationSession(String body) {
-        errorManager = new ErrorManager();
-        inputBuffer = new InputBuffer(body, errorManager);
-        tokenizer = new Tokenizer(inputBuffer, errorManager);
+        this.errorManager = new ErrorManager();
+        this.inputBuffer = new InputBuffer(body, errorManager);
+        this.tokenizer = new Tokenizer(inputBuffer, errorManager);
         ParseRuleLibrary parseRuleLibrary = new ParseRuleLibrary();
-        parser = new Parser(parseRuleLibrary.getStartRule(), parseRuleLibrary.getNonterminals(), tokenizer, errorManager);
+        this.parser = new Parser(parseRuleLibrary.getStartRule(), parseRuleLibrary.getNonterminals(), tokenizer, errorManager);
+        this.llParser = new LLParser(tokenizer, errorManager);
     }
 
 
     public void runSession() {
 
 
-        // SymbolString symbolString = tokenizer.extractAllSymbols();
+        SymbolString symbolString = tokenizer.extractAllSymbols();
+        System.out.println(symbolString);
+        llParser.setSymbols( symbolString.toList());
 
         // System.out.println("symbol string: "+symbolString);
 
-        ParseTreeNode ptn = parser.buildParseTree();
+        //ParseTreeNode ptn = parser.buildParseTree();
 
-        parser.makeFirstSets();
-        parser.makeFollowSets();
+        //parser.makeFirstSets();
+        //parser.makeFollowSets();
 
-        parser.printFirstSets();
-        parser.printFollowSets();
+        //parser.printFirstSets();
+        //parser.printFollowSets();
 
-        System.out.println(ptn.extractRepresentativeString());
-        ptn.printTreeRepresentation();
+        //System.out.println(ptn.extractRepresentativeString());
+        // ptn.printTreeRepresentation();
+
+
+        NonterminalLibrary.file.apply(llParser);
+
+        llParser.buildTree();
+
     }
 
 }

@@ -23,7 +23,21 @@ public class SymbolParseTreeNode extends ParseTreeNode {
     }
 
     @Override
+    public void addChild(ParseTreeNode ptn) {
+
+    }
+
+    @Override
     public void printTreeRepresentation() {
         printTreeRepresentation(0);
+    }
+
+    public Symbol getSymbol() {
+        return representativeSymbol;
+    }
+
+    @Override
+    public Object clone() {
+        return new SymbolParseTreeNode(representativeSymbol);
     }
 }

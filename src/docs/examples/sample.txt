@@ -1,0 +1,39 @@
+
+
+
+// The primary statement in the language is the `let` statement to assign constants
+
+let my_variable = 5
+
+// Everything in the language is IMMUTABLE
+
+// Types in the language are inferred and built out of a refinement type system.
+// Every value in the language doesn't have a singular type defined; everything is basically duck-typed
+// However, values keep caches of types that apply (and don't apply) to them when type checks are performed
+// This is where immutability is a huge plus; these caches stay good FOREVER
+
+assert(my_variable is_type Int)
+
+// Types in the language are FIRST CLASS. That means they can be assigned to values, passed into and out of functions
+
+let Int_Copy = Int
+
+// Functions in this language ALSO use let; they're values that get lambdas assigned to them.
+
+let double = {Int x -> x * 2}
+
+// There are expression lambdas, that use the above syntax and only return the result of the expression
+// But there are also statement lambdas, that hold code
+
+let get_entropy = {Int trues, Int falses -> Bool
+    let probability = trues / (trues + falses)
+    return -probability * log(probability)
+}
+
+//
+
+
+// Lambdas can be defined by using braces
+
+
+// The language is expression oriented

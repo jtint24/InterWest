@@ -20,6 +20,11 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         childNodes.add(ptn);
     }
 
+    @Override
+    public Object clone() {
+        return null;
+    }
+
     public void insertAtStart(ParseTreeNode matchNode) {
         childNodes.add(0, matchNode);
     }
