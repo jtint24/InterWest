@@ -4,11 +4,13 @@ import ErrorManager.ErrorManager;
 import InputBuffer.InputBuffer;
 import LLParser.LLParser;
 import Lexer.SymbolString;
+import Lexer.TokenLibrary;
 import Lexer.Tokenizer;
 import Parser.Parser;
 import Parser.ParseRuleLibrary;
 import Parser.ParseTreeNode;
 import LLParser.NonterminalLibrary;
+import LLParser.LLParseTreeNode;
 
 public class InterpretationSession {
     private final ErrorManager errorManager;
@@ -51,7 +53,14 @@ public class InterpretationSession {
 
         NonterminalLibrary.file.apply(llParser);
 
-        llParser.buildTree();
+        LLParseTreeNode parseTree = llParser.buildTree();
+
+        parseTree.removeSymbolsOfType(TokenLibrary.whitespace);
+
+        System.out.println(parseTree.getHierarchyString());
+
+
+
 
     }
 

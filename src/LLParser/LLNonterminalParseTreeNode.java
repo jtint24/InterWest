@@ -1,5 +1,7 @@
 package LLParser;
 
+import Lexer.Token;
+
 import java.util.ArrayList;
 
 public class LLNonterminalParseTreeNode extends LLParseTreeNode {
@@ -11,6 +13,38 @@ public class LLNonterminalParseTreeNode extends LLParseTreeNode {
 
     public void addChild(LLParseTreeNode child) {
         children.add(child);
+    }
+
+    @Override
+    public String getHierarchyString(int tabLevel) {
+        StringBuilder retString = new StringBuilder("\t".repeat(tabLevel)+"Nonterminal(" + kind + ", [\n");
+        for (int i = 0; i < children.size(); i++) {
+            LLParseTreeNode child = children.get(i);
+            retString.append(child.getHierarchyString(tabLevel+1));
+            if ( i != children.size()-1) {
+                retString.append(", ");
+            }
+            retString.append("\n");
+        }
+        return retString+"\t".repeat(tabLevel)+"])";
+    }
+
+    @Override
+    public void removeSymbolsOfType(Token t) {
+        ArrayList<LLParseTreeNode> newChildren = new ArrayList<>();
+
+        for (LLParseTreeNode child : children) {
+            if (child instanceof LLTerminalParseTreeNode) {
+                if (!((LLTerminalParseTreeNode) child).wrappedSymbol.getTokenType().equals(t)) {
+                    newChildren.add(child);
+                }
+            } else if (child instanceof  LLNonterminalParseTreeNode) {
+                child.removeSymbolsOfType(t);
+                newChildren.add(child);
+            }
+        }
+
+        children = newChildren;
     }
 
 

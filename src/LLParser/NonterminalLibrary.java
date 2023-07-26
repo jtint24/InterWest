@@ -7,6 +7,8 @@ public class NonterminalLibrary {
     static Nonterminal letStatement = new Nonterminal("let") {
         @Override
         public void apply(LLParser parser) {
+            MarkOpened opener = parser.open();
+
             parser.expect(TokenLibrary.let);
             parser.eat(TokenLibrary.whitespace);
             parser.expect(TokenLibrary.identifier);
@@ -14,6 +16,8 @@ public class NonterminalLibrary {
             parser.expect(TokenLibrary.equals);
             parser.eat(TokenLibrary.whitespace);
             parser.expect(TokenLibrary.intToken);
+
+            parser.close(opener, TreeKind.valid(this));
         }
     };
     public static Nonterminal file = new Nonterminal("file") {
