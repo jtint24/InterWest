@@ -57,6 +57,8 @@ public class InterpretationSession {
 
         parseTree.removeSymbolsOfType(TokenLibrary.whitespace);
 
+        errorManager.logErrors(parseTree.getMalformedNodeErrors());
+
         System.out.println(parseTree.getHierarchyString());
 
 

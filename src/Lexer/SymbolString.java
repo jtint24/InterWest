@@ -1,6 +1,7 @@
 package Lexer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SymbolString {
     private final ArrayList<Symbol> symbols;
@@ -48,7 +49,7 @@ public class SymbolString {
         return retString.toString();
     }
 
-    public ArrayList<Symbol> toList() {
+    public List<Symbol> toList() {
         return symbols;
     }
 }

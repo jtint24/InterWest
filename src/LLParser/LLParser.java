@@ -5,10 +5,8 @@ import ErrorManager.ErrorManager;
 import Lexer.Symbol;
 import Lexer.SymbolString;
 import Lexer.Token;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Stack;
+
+import java.util.*;
 
 import Lexer.Tokenizer;
 import LLParser.EventLibrary.*;
@@ -27,8 +25,9 @@ public class LLParser {
          this.tokenizer = tokenizer;
      }
 
-     public void setSymbols(ArrayList<Symbol> symbols) {
-         this.symbols = symbols;
+     public void setSymbols(List<Symbol> symbols) {
+         this.symbols.clear();
+         this.symbols.addAll(symbols);
      }
      MarkOpened open() {
          MarkOpened mark = new MarkOpened(this.events.size());

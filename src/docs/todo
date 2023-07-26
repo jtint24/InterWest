@@ -1,0 +1,7 @@
+
+
+Things to do:
+
+    - [ ] Parser
+    - [ ] Minor fixes
+        - [x] Change all methods that return/accept subclasses of Collection to return as general a subclass as possible (ie. ArrayList<> -> List<>)

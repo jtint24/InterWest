@@ -1,8 +1,11 @@
 package LLParser;
 
+import ErrorManager.ErrorManager;
+import ErrorManager.Error;
 import Lexer.Token;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LLNonterminalParseTreeNode extends LLParseTreeNode {
     TreeKind kind;
@@ -45,6 +48,18 @@ public class LLNonterminalParseTreeNode extends LLParseTreeNode {
         }
 
         children = newChildren;
+    }
+
+    @Override
+    public List<Error> getMalformedNodeErrors() {
+        ArrayList<Error> errors = new ArrayList<>();
+        if (!kind.isValid) {
+            errors.add(new Error(Error.ErrorType.PARSER_ERROR, "Malformed tree node", true));
+        }
+        for (LLParseTreeNode child : children) {
+            errors.addAll(child.getMalformedNodeErrors());
+        }
+        return errors;
     }
 
 
