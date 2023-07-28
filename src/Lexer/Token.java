@@ -1,7 +1,5 @@
 package Lexer;
 
-import Parser.ParseVariable;
-
 public class Token {
 
     private final TokenValidator isCurrentlyValid;
@@ -20,10 +18,6 @@ public class Token {
 
     public boolean couldBeValid(String s) {
         return couldBeValid.isValid(s);
-    }
-
-    public ParseVariable asParseVariable() {
-        return new ParseVariable(this);
     }
 
     public interface TokenValidator {

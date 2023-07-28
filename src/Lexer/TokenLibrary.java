@@ -8,22 +8,55 @@ public class TokenLibrary {
             whitespace,
                 floatToken,
                 intToken,
-                plusToken,
+                stringLiteral,
+                identifier,
                 let,
+
+
+                plusToken,
                 equals,
-                identifier
+                lParen,
+                rParen,
+                comma,
         };
     }
 
     public static final Token whitespace = new Token(
             "whitespace",
             (String lexeme) -> {
-                return allIn(lexeme, " \t");
+                return allIn(lexeme, " \t\n");
             },
             (String lexeme) -> {
-                return allIn(lexeme, " \t");
+                return allIn(lexeme, " \t\n");
             }
     );
+
+    public static final Token lParen = fromString("(");
+    public static final Token rParen = fromString(")");
+    public static final Token comma = fromString(",");
+
+    public static final Token stringLiteral = new Token(
+            "String",
+            (String lexeme) -> {
+                if (!lexeme.startsWith("\"") || !lexeme.endsWith("\"") || lexeme.length() < 2) {
+                    return false;
+                }
+                if (lexeme.substring(1, lexeme.length()-2).contains("\"")) {
+                    return false;
+                }
+                return true;
+            },
+            (String lexeme) -> {
+                if (!lexeme.startsWith("\"")) {
+                    return false;
+                }
+                if (lexeme.length() > 2 && lexeme.substring(1, lexeme.length()-2).contains("\"")) {
+                    return false;
+                }
+                return true;
+            }
+    );
+
 
     public static final Token identifier = new Token(
             "identifier",
