@@ -27,11 +27,13 @@ public class NonterminalLibrary {
 
             while (!parser.eof()) {
                 parser.eat(TokenLibrary.whitespace);
-                if (parser.at(TokenLibrary.let)) {
-                    letStatement.apply(parser);
-                } else {
-                    parser.advanceWithError(new Error(Error.ErrorType.PARSER_ERROR, "Expected a statement", false));
-                }
+
+                //if (parser.at(TokenLibrary.let)) {
+                //    letStatement.apply(parser);
+                //} else {
+                //    parser.advanceWithError(new Error(Error.ErrorType.PARSER_ERROR, "Expected a statement", false));
+                //}
+                expression.apply(parser);
             }
 
             parser.close(opener, TreeKind.valid(this));
@@ -74,6 +76,8 @@ public class NonterminalLibrary {
 
                     parser.expect(TokenLibrary.rParen);
                 }
+            } else if (parser.at(TokenLibrary.let)) {
+                letStatement.apply(parser);
             }
 
 

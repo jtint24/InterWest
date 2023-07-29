@@ -14,7 +14,7 @@ import ErrorManager.Error;
 public class Parser {
     ArrayList<Symbol> symbols = new ArrayList<>();
     int pos = 0;
-    int fuel = 255;
+    int fuel = 256;
     ArrayList<Event> events = new ArrayList<>();
     ErrorManager errorManager;
     Tokenizer tokenizer;
@@ -47,7 +47,7 @@ public class Parser {
 
      void advance() {
          assert !this.eof();
-         this.fuel = 25;
+         this.fuel = 256;
          this.events.add(new AdvanceEvent());
          this.pos++;
      }

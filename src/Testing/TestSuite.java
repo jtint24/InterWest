@@ -7,7 +7,7 @@ public class TestSuite implements Testable {
     Testable[] subTests;
     String name;
 
-    public TestSuite(String name, Testable[] subTests) {
+    public TestSuite(String name, Testable... subTests) {
         this.name = name;
         this.subTests = subTests;
 
