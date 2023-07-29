@@ -2,7 +2,11 @@
 
 Things to do:
 
+    - [ ] Lexer
+        - [ ] Revise identifier definition to be actual (accept a-Z, 0-9 after first char, and _)
     - [ ] Parser
-    - [ ] Add test suite
+        - [ ] Add Pratt parsing / parse binary operators
+    - [x] Add test suite
+        - [x] Build testing module
     - [ ] Minor fixes
         - [x] Change all methods that return/accept subclasses of Collection to return as general a subclass as possible (ie. ArrayList<> -> List<>)

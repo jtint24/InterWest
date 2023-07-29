@@ -11,15 +11,20 @@ public class TokenLibrary {
                 stringLiteral,
                 identifier,
                 let,
-
-
+                returnToken,
                 plusToken,
                 equals,
                 lParen,
                 rParen,
+                lBrace,
+                rBrace,
+                lBracket,
+                rBracket,
                 comma,
+                arrow
         };
     }
+
 
     public static final Token whitespace = new Token(
             "whitespace",
@@ -33,6 +38,13 @@ public class TokenLibrary {
 
     public static final Token lParen = fromString("(");
     public static final Token rParen = fromString(")");
+
+    public static final Token lBrace = fromString("{");
+    public static final Token rBrace = fromString("}");
+    public static final Token lBracket = fromString("[");
+    public static final Token rBracket = fromString("]");
+    public static final Token arrow = fromString("->");
+
     public static final Token comma = fromString(",");
 
     public static final Token stringLiteral = new Token(
@@ -115,6 +127,7 @@ public class TokenLibrary {
     );
 
     public static final Token let = fromString("let");
+    public static final Token returnToken = fromString("return");
     public static final Token equals = fromString("=");
 
 
@@ -144,6 +157,8 @@ public class TokenLibrary {
                 add("let");
                 add("match");
                 add("if");
+                add("else");
+                add("return");
         }};
 
         return keywords.contains(lexeme);

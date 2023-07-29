@@ -70,7 +70,7 @@ public class Parser {
      }
 
      boolean eat(Token kind) {
-         if (this.at(kind)) {
+         if (!this.eof() && this.at(kind)) {
              this.advance();
              return true;
          } else {
