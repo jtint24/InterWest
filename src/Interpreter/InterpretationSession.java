@@ -1,7 +1,8 @@
 package Interpreter;
 
 import ErrorManager.ErrorManager;
-import InputBuffer.InputBuffer;
+import IO.InputBuffer;
+import IO.OutputBuffer;
 import LLParser.LLParser;
 import Lexer.SymbolString;
 import Lexer.TokenLibrary;
@@ -11,15 +12,41 @@ import LLParser.LLParseTreeNode;
 
 public class InterpretationSession {
     private final ErrorManager errorManager;
+    private final OutputBuffer outputBuffer;
     private final InputBuffer inputBuffer;
     private final Tokenizer tokenizer;
     private final LLParser llParser;
 
     public InterpretationSession(String body) {
-        this.errorManager = new ErrorManager();
+        this(body, false);
+    }
+    public InterpretationSession(String body, boolean test) {
+        this.outputBuffer = new OutputBuffer(test);
+        this.errorManager = new ErrorManager(outputBuffer);
         this.inputBuffer = new InputBuffer(body, errorManager);
         this.tokenizer = new Tokenizer(inputBuffer, errorManager);
         this.llParser = new LLParser(tokenizer, errorManager);
+    }
+
+    public OutputBuffer testGetParseTree() {
+        try {
+            SymbolString symbolString = tokenizer.extractAllSymbols();
+            llParser.setSymbols(symbolString.toList());
+            NonterminalLibrary.file.apply(llParser);
+            LLParseTreeNode parseTree = llParser.buildTree();
+            outputBuffer.println(parseTree);
+        } catch (RuntimeException ignored) {}
+
+        return outputBuffer;
+    }
+
+    public OutputBuffer testGetLexerString() {
+        try {
+            SymbolString symbolString = tokenizer.extractAllSymbols();
+            outputBuffer.println(symbolString);
+        } catch (RuntimeException ignored) {}
+
+        return outputBuffer;
     }
 
 

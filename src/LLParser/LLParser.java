@@ -101,8 +101,6 @@ public class LLParser {
          assert events.get(events.size()-1) instanceof CloseEvent;
 
          for (Event event : events) {
-             // System.out.println(Arrays.toString(stack.toArray()));
-             // System.out.println(Arrays.toString(events.toArray()));
              if (event instanceof OpenEvent) {
                  stack.push(new LLNonterminalParseTreeNode(((OpenEvent) event).kind));
              } else if (event instanceof CloseEvent) {

@@ -1,4 +1,4 @@
-package InputBuffer;
+package IO;
 
 
 import ErrorManager.Error;

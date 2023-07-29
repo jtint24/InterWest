@@ -2,7 +2,7 @@ package Lexer;
 
 import ErrorManager.ErrorManager;
 import ErrorManager.Error;
-import InputBuffer.InputBuffer;
+import IO.InputBuffer;
 
 import java.util.ArrayList;
 import java.util.Arrays;

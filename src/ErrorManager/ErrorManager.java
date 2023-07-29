@@ -1,10 +1,22 @@
 package ErrorManager;
 
+import IO.OutputBuffer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ErrorManager {
     ArrayList<Error> errors = new ArrayList<>();
+    boolean suppress = false;
+    OutputBuffer outputBuffer;
+
+    public ErrorManager(OutputBuffer outputBuffer) {
+        this(outputBuffer, false);
+    }
+    public ErrorManager(OutputBuffer outputBuffer, boolean suppress) {
+        this.outputBuffer = outputBuffer;
+        this.suppress = suppress;
+    }
 
     public void logError(Error e) {
         errors.add(e);
@@ -24,16 +36,24 @@ public class ErrorManager {
         }
     }
 
+    public boolean hasErrors() {
+        return errors.size() > 0;
+    }
+
     public void killSession() {
         printErrors();
-        System.exit(0);
+        // System.exit(0);
+        throw new RuntimeException();
     }
 
     public void printErrors() {
+        if (suppress) {
+            return;
+        }
         for (Error error : errors) {
-            System.out.println(error);
-            new Exception().printStackTrace();
-            System.out.println();
+            outputBuffer.println(error);
+            outputBuffer.printStackTrace();
+            outputBuffer.println();
         }
     }
 }

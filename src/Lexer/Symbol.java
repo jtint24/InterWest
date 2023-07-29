@@ -10,7 +10,7 @@ public class Symbol {
     }
 
     public String toString() {
-        return "{ lexeme = `"+lexeme+"` tokenType = "+tokenType+" }";
+        return "{ lexeme = `"+lexeme.replace("\n", "\\n")+"` tokenType = "+tokenType+" }";
     }
 
     public Token getTokenType() {
