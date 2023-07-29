@@ -1,4 +1,4 @@
-package LLParser;
+package Parser;
 
 class MarkOpened {
     int index;

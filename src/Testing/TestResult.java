@@ -1,4 +1,4 @@
-package Tests;
+package Testing;
 
 public class TestResult {
     String expected;

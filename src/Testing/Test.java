@@ -1,4 +1,4 @@
-package Tests;
+package Testing;
 
 import Interpreter.InterpretationSession;
 

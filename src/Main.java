@@ -1,8 +1,7 @@
-import Interpreter.InterpretationSession;
-import Tests.Test;
-import Tests.Test.TestFunction;
-import Tests.TestSuite;
-import Tests.Testable;
+import Testing.Test;
+import Testing.Test.TestFunction;
+import Testing.TestSuite;
+import Testing.Testable;
 
 
 public class Main {
@@ -13,7 +12,7 @@ public class Main {
         // newSession.runSession();
 
         TestSuite testSuite = new TestSuite(
-                "Tests",
+                "Testing",
                 new Testable[]{
                         new TestSuite(
                                 "Lexer",
@@ -27,13 +26,19 @@ public class Main {
                                             "let",
                                             "{ lexeme = `let` tokenType = let }\n",
                                             TestFunction.lexer
-                                        ),
-                                        new Test(
-                                                "",
-                                                "awefawef",
-                                                TestFunction.lexer
                                         )
-                                })
+                                }
+                        ),
+                        new TestSuite(
+                                "Parser",
+                                new Testable[]{
+                                        new Test(
+                                                "let a = 5",
+                                                "Nonterminal(TreeKind(file), [Nonterminal(TreeKind(let), [Terminal({ lexeme = `let` tokenType = let }), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `a` tokenType = identifier }), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `=` tokenType = = }), Terminal({ lexeme = ` ` tokenType = whitespace }), Nonterminal(TreeKind(Expression), [Terminal({ lexeme = `5` tokenType = int })])])])\n",
+                                                TestFunction.parser
+                                        )
+                                }
+                        )
                 }
 
         );

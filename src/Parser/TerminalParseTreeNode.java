@@ -1,6 +1,5 @@
-package LLParser;
+package Parser;
 
-import ErrorManager.ErrorManager;
 import ErrorManager.Error;
 
 import Lexer.Symbol;
@@ -9,9 +8,9 @@ import Lexer.Token;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LLTerminalParseTreeNode extends LLParseTreeNode {
+public class TerminalParseTreeNode extends ParseTreeNode {
     Symbol wrappedSymbol;
-    public LLTerminalParseTreeNode(Symbol wrappedSymbol) {
+    public TerminalParseTreeNode(Symbol wrappedSymbol) {
         this.wrappedSymbol = wrappedSymbol;
     }
     @Override

@@ -1,14 +1,12 @@
-package LLParser;
+package Parser;
 
 import ErrorManager.Error;
 import Lexer.TokenLibrary;
-import Lexer.Token;
-import com.sun.source.tree.Tree;
 
 public class NonterminalLibrary {
     static Nonterminal letStatement = new Nonterminal("let") {
         @Override
-        public void apply(LLParser parser) {
+        public void apply(Parser parser) {
             MarkOpened opener = parser.open();
 
             parser.expect(TokenLibrary.let);
@@ -24,7 +22,7 @@ public class NonterminalLibrary {
     };
     public static Nonterminal file = new Nonterminal("file") {
         @Override
-        public void apply(LLParser parser) {
+        public void apply(Parser parser) {
             MarkOpened opener = parser.open();
 
             while (!parser.eof()) {
@@ -42,7 +40,7 @@ public class NonterminalLibrary {
 
     public static Nonterminal argumentList = new Nonterminal("Argument List") {
         @Override
-        public void apply(LLParser parser) {
+        public void apply(Parser parser) {
             MarkOpened opener = parser.open();
 
             do {
@@ -55,7 +53,7 @@ public class NonterminalLibrary {
     };
     public static Nonterminal expression = new Nonterminal("Expression") {
         @Override
-        public void apply(LLParser parser) {
+        public void apply(Parser parser) {
             MarkOpened opener = parser.open();
 
             if (parser.at(TokenLibrary.lParen)) {

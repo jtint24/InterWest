@@ -1,20 +1,19 @@
-package LLParser;
+package Parser;
 
-import ErrorManager.ErrorManager;
 import ErrorManager.Error;
 import Lexer.Token;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LLNonterminalParseTreeNode extends LLParseTreeNode {
+public class NonterminalParseTreeNode extends ParseTreeNode {
     TreeKind kind;
-    ArrayList<LLParseTreeNode> children = new ArrayList<>();
-    public LLNonterminalParseTreeNode(TreeKind kind) {
+    ArrayList<ParseTreeNode> children = new ArrayList<>();
+    public NonterminalParseTreeNode(TreeKind kind) {
         this.kind = kind;
     }
 
-    public void addChild(LLParseTreeNode child) {
+    public void addChild(ParseTreeNode child) {
         children.add(child);
     }
 
@@ -22,7 +21,7 @@ public class LLNonterminalParseTreeNode extends LLParseTreeNode {
     public String getHierarchyString(int tabLevel) {
         StringBuilder retString = new StringBuilder("\t".repeat(tabLevel)+"Nonterminal(" + kind + ", [\n");
         for (int i = 0; i < children.size(); i++) {
-            LLParseTreeNode child = children.get(i);
+            ParseTreeNode child = children.get(i);
             retString.append(child.getHierarchyString(tabLevel+1));
             if ( i != children.size()-1) {
                 retString.append(", ");
@@ -34,14 +33,14 @@ public class LLNonterminalParseTreeNode extends LLParseTreeNode {
 
     @Override
     public void removeSymbolsOfType(Token t) {
-        ArrayList<LLParseTreeNode> newChildren = new ArrayList<>();
+        ArrayList<ParseTreeNode> newChildren = new ArrayList<>();
 
-        for (LLParseTreeNode child : children) {
-            if (child instanceof LLTerminalParseTreeNode) {
-                if (!((LLTerminalParseTreeNode) child).wrappedSymbol.getTokenType().equals(t)) {
+        for (ParseTreeNode child : children) {
+            if (child instanceof TerminalParseTreeNode) {
+                if (!((TerminalParseTreeNode) child).wrappedSymbol.getTokenType().equals(t)) {
                     newChildren.add(child);
                 }
-            } else if (child instanceof  LLNonterminalParseTreeNode) {
+            } else if (child instanceof NonterminalParseTreeNode) {
                 child.removeSymbolsOfType(t);
                 newChildren.add(child);
             }
@@ -56,7 +55,7 @@ public class LLNonterminalParseTreeNode extends LLParseTreeNode {
         if (!kind.isValid) {
             errors.add(new Error(Error.ErrorType.PARSER_ERROR, "Malformed tree node", true));
         }
-        for (LLParseTreeNode child : children) {
+        for (ParseTreeNode child : children) {
             errors.addAll(child.getMalformedNodeErrors());
         }
         return errors;
@@ -68,7 +67,7 @@ public class LLNonterminalParseTreeNode extends LLParseTreeNode {
     public String toString() {
         StringBuilder retString = new StringBuilder("Nonterminal(" + kind + ", [");
         for (int i = 0; i < children.size(); i++) {
-            LLParseTreeNode child = children.get(i);
+            ParseTreeNode child = children.get(i);
             retString.append(child);
             if ( i != children.size()-1) {
                 retString.append(", ");

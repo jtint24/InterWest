@@ -1,15 +1,13 @@
-package LLParser;
+package Parser;
 
-import ErrorManager.ErrorManager;
 import ErrorManager.Error;
 
 import Lexer.Token;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class LLParseTreeNode {
+public abstract class ParseTreeNode {
     public String getHierarchyString() {
         return getHierarchyString(0);
     }

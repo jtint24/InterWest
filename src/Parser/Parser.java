@@ -1,18 +1,17 @@
-package LLParser;
+package Parser;
 
 
 import ErrorManager.ErrorManager;
 import Lexer.Symbol;
-import Lexer.SymbolString;
 import Lexer.Token;
 
 import java.util.*;
 
 import Lexer.Tokenizer;
-import LLParser.EventLibrary.*;
+import Parser.EventLibrary.*;
 import ErrorManager.Error;
 
-public class LLParser {
+public class Parser {
     ArrayList<Symbol> symbols = new ArrayList<>();
     int pos = 0;
     int fuel = 255;
@@ -20,7 +19,7 @@ public class LLParser {
     ErrorManager errorManager;
     Tokenizer tokenizer;
 
-     public LLParser(Tokenizer tokenizer, ErrorManager errorManager) {
+     public Parser(Tokenizer tokenizer, ErrorManager errorManager) {
          this.errorManager = errorManager;
          this.tokenizer = tokenizer;
      }
@@ -93,8 +92,8 @@ public class LLParser {
          this.close(m_opened, TreeKind.invalid());
      }
 
-     public LLParseTreeNode buildTree() {
-         Stack<LLParseTreeNode> stack = new Stack<>();
+     public ParseTreeNode buildTree() {
+         Stack<ParseTreeNode> stack = new Stack<>();
 
          Iterator<Symbol> symbolIterator = symbols.iterator();
 
@@ -102,17 +101,17 @@ public class LLParser {
 
          for (Event event : events) {
              if (event instanceof OpenEvent) {
-                 stack.push(new LLNonterminalParseTreeNode(((OpenEvent) event).kind));
+                 stack.push(new NonterminalParseTreeNode(((OpenEvent) event).kind));
              } else if (event instanceof CloseEvent) {
-                 LLParseTreeNode tree = stack.pop();
+                 ParseTreeNode tree = stack.pop();
                  if (stack.isEmpty()) {
                      stack.push(tree);
                  } else {
-                     ((LLNonterminalParseTreeNode) stack.peek()).addChild(tree);
+                     ((NonterminalParseTreeNode) stack.peek()).addChild(tree);
                  }
              } else if (event instanceof AdvanceEvent) {
                  Symbol symbol = symbolIterator.next();
-                 ((LLNonterminalParseTreeNode) stack.peek()).addChild(new LLTerminalParseTreeNode(symbol));
+                 ((NonterminalParseTreeNode) stack.peek()).addChild(new TerminalParseTreeNode(symbol));
              }
          }
          assert stack.size() == 1;

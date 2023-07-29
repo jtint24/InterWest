@@ -3,19 +3,19 @@ package Interpreter;
 import ErrorManager.ErrorManager;
 import IO.InputBuffer;
 import IO.OutputBuffer;
-import LLParser.LLParser;
+import Parser.Parser;
 import Lexer.SymbolString;
 import Lexer.TokenLibrary;
 import Lexer.Tokenizer;
-import LLParser.NonterminalLibrary;
-import LLParser.LLParseTreeNode;
+import Parser.NonterminalLibrary;
+import Parser.ParseTreeNode;
 
 public class InterpretationSession {
     private final ErrorManager errorManager;
     private final OutputBuffer outputBuffer;
     private final InputBuffer inputBuffer;
     private final Tokenizer tokenizer;
-    private final LLParser llParser;
+    private final Parser llParser;
 
     public InterpretationSession(String body) {
         this(body, false);
@@ -25,7 +25,7 @@ public class InterpretationSession {
         this.errorManager = new ErrorManager(outputBuffer);
         this.inputBuffer = new InputBuffer(body, errorManager);
         this.tokenizer = new Tokenizer(inputBuffer, errorManager);
-        this.llParser = new LLParser(tokenizer, errorManager);
+        this.llParser = new Parser(tokenizer, errorManager);
     }
 
     public OutputBuffer testGetParseTree() {
@@ -33,7 +33,7 @@ public class InterpretationSession {
             SymbolString symbolString = tokenizer.extractAllSymbols();
             llParser.setSymbols(symbolString.toList());
             NonterminalLibrary.file.apply(llParser);
-            LLParseTreeNode parseTree = llParser.buildTree();
+            ParseTreeNode parseTree = llParser.buildTree();
             outputBuffer.println(parseTree);
         } catch (RuntimeException ignored) {}
 
@@ -73,7 +73,7 @@ public class InterpretationSession {
 
         NonterminalLibrary.file.apply(llParser);
 
-        LLParseTreeNode parseTree = llParser.buildTree();
+        ParseTreeNode parseTree = llParser.buildTree();
 
         parseTree.removeSymbolsOfType(TokenLibrary.whitespace);
 

@@ -1,4 +1,4 @@
-package LLParser;
+package Parser;
 
 public class TreeKind {
     Nonterminal validTreeType;
