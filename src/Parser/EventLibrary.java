@@ -1,5 +1,7 @@
 package Parser;
 
+import java.util.Optional;
+
 public class EventLibrary {
     public abstract static class Event {
         String name;
@@ -11,6 +13,8 @@ public class EventLibrary {
     }
     public static class OpenEvent extends Event {
         TreeKind kind;
+        // Points forward into a list at the Open event which logically happens before this one.
+        Integer openBeforeIdx;
 
         public OpenEvent(TreeKind kind) {
 

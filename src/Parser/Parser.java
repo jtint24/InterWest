@@ -40,9 +40,11 @@ public class Parser {
         return opener;
      }
 
-     void close(MarkOpened m, TreeKind kind) {
+      MarkClosed close(MarkOpened m, TreeKind kind) {
          this.events.set(m.index, new OpenEvent(kind));
-         this.events.add(new CloseEvent());
+         CloseEvent closer = new CloseEvent();
+         this.events.add(closer);
+         return new MarkClosed(m.index);
      }
 
      void advance() {
@@ -66,6 +68,9 @@ public class Parser {
      }
 
      boolean at(Token kind) {
+         if (this.eof()) {
+             return false;
+         }
          return this.nth(0) == kind;
      }
 
