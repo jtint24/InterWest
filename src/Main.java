@@ -3,6 +3,10 @@ import Testing.Test;
 import Testing.Test.TestFunction;
 import Testing.TestSuite;
 
+import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -10,7 +14,7 @@ public class Main {
         // InterpretationSession newSession = new InterpretationSession("let func = a(10)");
         // InterpretationSession newSession = new InterpretationSession("let func = res(10)(30, \"abcs\", bob)(abced, a(c))");
         // newSession.runSession();
-
+        /*
         TestSuite testSuite = new TestSuite(
                 "Testing",
 
@@ -48,9 +52,16 @@ public class Main {
                                 "let a = {Int a -> return 123}",
                                 "Nonterminal(TreeKind(file), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Nonterminal(TreeKind(let), [Terminal({ lexeme = `let` tokenType = let }), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `a` tokenType = identifier }), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `=` tokenType = = }), Terminal({ lexeme = ` ` tokenType = whitespace }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Nonterminal(TreeKind(lambda), [Terminal({ lexeme = `{` tokenType = { }), Nonterminal(TreeKind(parameter list), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `Int` tokenType = identifier })])]), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `a` tokenType = identifier })]), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `->` tokenType = -> }), Terminal({ lexeme = ` ` tokenType = whitespace }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Nonterminal(TreeKind(return), [Terminal({ lexeme = `return` tokenType = return }), Terminal({ lexeme = ` ` tokenType = whitespace }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `123` tokenType = int })])])])])]), Terminal({ lexeme = `}` tokenType = } })])])])])])])])\n",
                                 TestFunction.parser
+                        ),
+                        new Test(
+                                "let a = func(1)(1,2)(funcB(1,2,3),4,5,6)",
+                                "Nonterminal(TreeKind(file), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Nonterminal(TreeKind(let), [Terminal({ lexeme = `let` tokenType = let }), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `a` tokenType = identifier }), Terminal({ lexeme = ` ` tokenType = whitespace }), Terminal({ lexeme = `=` tokenType = = }), Terminal({ lexeme = ` ` tokenType = whitespace }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(expression call), [Nonterminal(TreeKind(expression call), [Nonterminal(TreeKind(expression call), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `func` tokenType = identifier })]), Terminal({ lexeme = `(` tokenType = ( }), Nonterminal(TreeKind(argument list), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `1` tokenType = int })])])]), Terminal({ lexeme = `)` tokenType = ) })]), Terminal({ lexeme = `(` tokenType = ( }), Nonterminal(TreeKind(argument list), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `1` tokenType = int })])]), Terminal({ lexeme = `,` tokenType = , }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `2` tokenType = int })])])]), Terminal({ lexeme = `)` tokenType = ) })]), Terminal({ lexeme = `(` tokenType = ( }), Nonterminal(TreeKind(argument list), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(expression call), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `funcB` tokenType = identifier })]), Terminal({ lexeme = `(` tokenType = ( }), Nonterminal(TreeKind(argument list), [Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `1` tokenType = int })])]), Terminal({ lexeme = `,` tokenType = , }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `2` tokenType = int })])]), Terminal({ lexeme = `,` tokenType = , }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `3` tokenType = int })])])]), Terminal({ lexeme = `)` tokenType = ) })])]), Terminal({ lexeme = `,` tokenType = , }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `4` tokenType = int })])]), Terminal({ lexeme = `,` tokenType = , }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `5` tokenType = int })])]), Terminal({ lexeme = `,` tokenType = , }), Nonterminal(TreeKind(expression), [Nonterminal(TreeKind(delimitedExpression), [Terminal({ lexeme = `6` tokenType = int })])])]), Terminal({ lexeme = `)` tokenType = ) })])])])])])])\n",
+                                TestFunction.parser
                         )
                 )
-        );
+        );*/
+
+        TestSuite testSuite = new TestSuite(new File("tests"));
 
         testSuite.getResults();
 

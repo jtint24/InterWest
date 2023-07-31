@@ -1,5 +1,7 @@
 package Testing;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,8 +17,24 @@ public class TestSuite implements Testable {
         for (Testable subTest : subTests) {
             if (subTest instanceof Test) {
                 count++;
-                ((Test) subTest).idNumber = count;
+                ((Test) subTest).name = ""+count;
             }
+        }
+    }
+
+    public TestSuite(File directory) {
+        this.name = directory.getName();
+
+        File[] listOfFiles = directory.listFiles();
+        if (listOfFiles == null) {
+            return;
+        }
+
+        this.subTests = new Testable[listOfFiles.length];
+        for (int i = 0; i<listOfFiles.length; i++) {
+            try {
+                this.subTests[i] = Testable.fromFile(listOfFiles[i]);
+            } catch (FileNotFoundException ignored) {}
         }
     }
 

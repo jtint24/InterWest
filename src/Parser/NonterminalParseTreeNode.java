@@ -24,7 +24,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
             ParseTreeNode child = children.get(i);
             retString.append(child.getHierarchyString(tabLevel+1));
             if ( i != children.size()-1) {
-                retString.append(", ");
+                retString.append(",");
             }
             retString.append("\n");
         }
@@ -65,6 +65,10 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
 
     @Override
     public String toString() {
+        return getHierarchyString();
+    }
+
+    public String getFlatString() {
         StringBuilder retString = new StringBuilder("Nonterminal(" + kind + ", [");
         for (int i = 0; i < children.size(); i++) {
             ParseTreeNode child = children.get(i);

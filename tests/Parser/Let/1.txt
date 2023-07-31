@@ -1,0 +1,66 @@
+parser
+let a = 5
+let b = 7
+let c = "hey there this is a string"
+
+EXPECTED_RESULT:
+Nonterminal(TreeKind(file), [
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+			Nonterminal(TreeKind(let), [
+				{ lexeme = `let` tokenType = let },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `a` tokenType = identifier },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `=` tokenType = = },
+				{ lexeme = ` ` tokenType = whitespace },
+				Nonterminal(TreeKind(expression), [
+					Nonterminal(TreeKind(delimitedExpression), [
+						{ lexeme = `5` tokenType = int }
+					])
+				])
+			])
+		])
+	]),
+	{ lexeme = `\n` tokenType = whitespace },
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+			Nonterminal(TreeKind(let), [
+				{ lexeme = `let` tokenType = let },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `b` tokenType = identifier },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `=` tokenType = = },
+				{ lexeme = ` ` tokenType = whitespace },
+				Nonterminal(TreeKind(expression), [
+					Nonterminal(TreeKind(delimitedExpression), [
+						{ lexeme = `7` tokenType = int }
+					])
+				])
+			])
+		])
+	]),
+	{ lexeme = `\n` tokenType = whitespace },
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+			Nonterminal(TreeKind(let), [
+				{ lexeme = `let` tokenType = let },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `c` tokenType = identifier },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `=` tokenType = = },
+				{ lexeme = ` ` tokenType = whitespace },
+				Nonterminal(TreeKind(expression), [
+					Nonterminal(TreeKind(delimitedExpression), [
+						{ lexeme = `"hey there this is a string"` tokenType = String }
+					])
+				])
+			])
+		])
+	]),
+	{ lexeme = `\n\n` tokenType = whitespace },
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+		])
+	])
+])

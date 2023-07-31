@@ -1,0 +1,7 @@
+lexer
+let a = return b
+let hawojfoawejanweovjnaowenfaweovawlknefawefjaowefiuahwefouhawief = let
+blet 7let let
+
+EXPECTED_RESULT:
+{ lexeme = `let` tokenType = let }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `a` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `=` tokenType = = }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `return` tokenType = return }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `b` tokenType = identifier }{ lexeme = `\n` tokenType = whitespace }{ lexeme = `let` tokenType = let }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `hawojfoawejanweovjnaowenfaweovawlknefawefjaowefiuahwefouhawief` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `=` tokenType = = }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `let` tokenType = let }{ lexeme = `\n` tokenType = whitespace }{ lexeme = `blet` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `7` tokenType = int }{ lexeme = `let` tokenType = let }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `let` tokenType = let }{ lexeme = `\n\n` tokenType = whitespace }
