@@ -1,0 +1,5 @@
+lexer
+let 123 a12 12a _ab_12 AZ_
+
+EXPECTED_RESULT:
+{ lexeme = `let` tokenType = let }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `123` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `a12` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `12` tokenType = int }{ lexeme = `a` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `_ab_12` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `AZ_` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }

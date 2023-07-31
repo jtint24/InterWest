@@ -28,7 +28,8 @@ Nonterminal(TreeKind(file), [
 							{ lexeme = ` ` tokenType = whitespace },
 							Nonterminal(TreeKind(expression), [
 								Nonterminal(TreeKind(delimitedExpression), [
-									{ lexeme = `5` tokenType = int }
+									{ lexeme = `5` tokenType = int },
+									{ lexeme = `\n` tokenType = whitespace }
 								])
 							])
 						])
@@ -37,7 +38,6 @@ Nonterminal(TreeKind(file), [
 			])
 		])
 	]),
-	{ lexeme = `\n` tokenType = whitespace },
 	Nonterminal(TreeKind(expression), [
 		Nonterminal(TreeKind(delimitedExpression), [
 			Nonterminal(TreeKind(let), [
@@ -54,10 +54,10 @@ Nonterminal(TreeKind(file), [
 							Nonterminal(TreeKind(parameter list), [
 								Nonterminal(TreeKind(expression), [
 									Nonterminal(TreeKind(delimitedExpression), [
-										{ lexeme = `Int` tokenType = identifier }
+										{ lexeme = `Int` tokenType = identifier },
+										{ lexeme = ` ` tokenType = whitespace }
 									])
 								]),
-								{ lexeme = ` ` tokenType = whitespace },
 								{ lexeme = `a` tokenType = identifier }
 							]),
 							{ lexeme = ` ` tokenType = whitespace },
@@ -69,13 +69,13 @@ Nonterminal(TreeKind(file), [
 								])
 							]),
 							{ lexeme = `}` tokenType = } }
-						])
+						]),
+						{ lexeme = `\n` tokenType = whitespace }
 					])
 				])
 			])
 		])
 	]),
-	{ lexeme = `\n` tokenType = whitespace },
 	Nonterminal(TreeKind(expression), [
 		Nonterminal(TreeKind(delimitedExpression), [
 			Nonterminal(TreeKind(let), [
@@ -87,13 +87,13 @@ Nonterminal(TreeKind(file), [
 				{ lexeme = ` ` tokenType = whitespace },
 				Nonterminal(TreeKind(expression), [
 					Nonterminal(TreeKind(delimitedExpression), [
-						{ lexeme = `"had been going so well"` tokenType = String }
+						{ lexeme = `"had been going so well"` tokenType = String },
+						{ lexeme = `\n` tokenType = whitespace }
 					])
 				])
 			])
 		])
 	]),
-	{ lexeme = `\n` tokenType = whitespace },
 	Nonterminal(TreeKind(expression), [
 		Nonterminal(TreeKind(delimitedExpression), [
 			Nonterminal(TreeKind(let), [
@@ -155,13 +155,13 @@ Nonterminal(TreeKind(file), [
 								])
 							])
 						]),
-						{ lexeme = `)` tokenType = ) }
+						{ lexeme = `)` tokenType = ) },
+						{ lexeme = `\n` tokenType = whitespace }
 					])
 				])
 			])
 		])
 	]),
-	{ lexeme = `\n` tokenType = whitespace },
 	Nonterminal(TreeKind(expression), [
 		Nonterminal(TreeKind(expression call), [
 			Nonterminal(TreeKind(delimitedExpression), [
@@ -175,10 +175,10 @@ Nonterminal(TreeKind(file), [
 					])
 				])
 			]),
-			{ lexeme = `)` tokenType = ) }
+			{ lexeme = `)` tokenType = ) },
+			{ lexeme = `\n` tokenType = whitespace }
 		])
 	]),
-	{ lexeme = `\n` tokenType = whitespace },
 	Nonterminal(TreeKind(expression), [
 		Nonterminal(TreeKind(delimitedExpression), [
 			Nonterminal(TreeKind(let), [
@@ -226,7 +226,8 @@ Nonterminal(TreeKind(file), [
 																{ lexeme = ` ` tokenType = whitespace },
 																Nonterminal(TreeKind(expression), [
 																	Nonterminal(TreeKind(delimitedExpression), [
-																		{ lexeme = `4` tokenType = int }
+																		{ lexeme = `4` tokenType = int },
+																		{ lexeme = `\n\n` tokenType = whitespace }
 																	])
 																])
 															])
@@ -242,11 +243,6 @@ Nonterminal(TreeKind(file), [
 					])
 				])
 			])
-		])
-	]),
-	{ lexeme = `\n\n` tokenType = whitespace },
-	Nonterminal(TreeKind(expression), [
-		Nonterminal(TreeKind(delimitedExpression), [
 		])
 	])
 ])

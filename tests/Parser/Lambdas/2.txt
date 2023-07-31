@@ -1,0 +1,56 @@
+parser
+let a = {Bool b -> b} (true)
+
+EXPECTED_RESULT:
+Nonterminal(TreeKind(file), [
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+			Nonterminal(TreeKind(let), [
+				{ lexeme = `let` tokenType = let },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `a` tokenType = identifier },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `=` tokenType = = },
+				{ lexeme = ` ` tokenType = whitespace },
+				Nonterminal(TreeKind(expression), [
+					Nonterminal(TreeKind(expression call), [
+						Nonterminal(TreeKind(delimitedExpression), [
+							Nonterminal(TreeKind(lambda), [
+								{ lexeme = `{` tokenType = { },
+								Nonterminal(TreeKind(parameter list), [
+									Nonterminal(TreeKind(expression), [
+										Nonterminal(TreeKind(delimitedExpression), [
+											{ lexeme = `Bool` tokenType = identifier },
+											{ lexeme = ` ` tokenType = whitespace }
+										])
+									]),
+									{ lexeme = `b` tokenType = identifier }
+								]),
+								{ lexeme = ` ` tokenType = whitespace },
+								{ lexeme = `->` tokenType = -> },
+								{ lexeme = ` ` tokenType = whitespace },
+								Nonterminal(TreeKind(expression), [
+									Nonterminal(TreeKind(delimitedExpression), [
+										{ lexeme = `b` tokenType = identifier }
+									])
+								]),
+								{ lexeme = `}` tokenType = } }
+							]),
+							{ lexeme = ` ` tokenType = whitespace }
+						]),
+						{ lexeme = `(` tokenType = ( },
+						Nonterminal(TreeKind(argument list), [
+							Nonterminal(TreeKind(expression), [
+								Nonterminal(TreeKind(delimitedExpression), [
+									{ lexeme = `true` tokenType = identifier }
+								])
+							])
+						]),
+						{ lexeme = `)` tokenType = ) },
+						{ lexeme = `\n\n` tokenType = whitespace }
+					])
+				])
+			])
+		])
+	])
+])

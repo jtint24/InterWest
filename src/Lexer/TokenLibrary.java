@@ -72,8 +72,21 @@ public class TokenLibrary {
 
     public static final Token identifier = new Token(
             "identifier",
-            (String lexeme) -> allIn(lexeme.toLowerCase(), "qwertyuiopasdfghjklzxcvbnm") && !inKeywords(lexeme),
-            (String lexeme) -> allIn(lexeme.toLowerCase(), "qwertyuiopasdfghjklzxcvbnm")
+            (String lexeme) -> {
+                    if (inKeywords(lexeme)) {
+                        return false;
+                    }
+                    if (lexeme.length() == 0) {
+                        return true;
+                    }
+                    return  (Character.isLetter(lexeme.charAt(0)) || lexeme.charAt(0) == '_') && (allIn(lexeme.toLowerCase(), "1234567890qwertyuiopasdfghjklzxcvbnm_"));
+                },
+            (String lexeme) -> {
+                if (lexeme.length() == 0) {
+                    return true;
+                }
+                return  (Character.isLetter(lexeme.charAt(0)) || lexeme.charAt(0) == '_') && (allIn(lexeme.toLowerCase(), "1234567890qwertyuiopasdfghjklzxcvbnm_"));
+            }
     );
 
     public static final Token plusToken = new Token(

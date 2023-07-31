@@ -120,6 +120,7 @@ public class NonterminalLibrary {
             } else if (parser.at(TokenLibrary.returnToken)) {
                 returnStatement.apply(parser);
             }
+            parser.eat(TokenLibrary.whitespace);
         }
     };
 
@@ -133,6 +134,7 @@ public class NonterminalLibrary {
             argumentList.apply(parser);
 
             parser.expect(TokenLibrary.rParen);
+            parser.eat(TokenLibrary.whitespace);
         }
     };
 
