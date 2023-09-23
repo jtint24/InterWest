@@ -1,0 +1,5 @@
+
+
+It might be easier to parse chains of operators LTR and then just rotate the trees to accurately represent order of
+operations. First of all, we need to know if this is actually possible.
+

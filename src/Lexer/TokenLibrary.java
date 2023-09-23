@@ -53,16 +53,16 @@ public class TokenLibrary {
                 if (!lexeme.startsWith("\"") || !lexeme.endsWith("\"") || lexeme.length() < 2) {
                     return false;
                 }
-                if (lexeme.substring(1, lexeme.length()-2).contains("\"")) {
-                    return false;
+                if (lexeme.equals("\"\"")) {
+                    return true;
                 }
-                return true;
+                return !lexeme.substring(1, lexeme.length() - 1).contains("\"");
             },
             (String lexeme) -> {
                 if (!lexeme.startsWith("\"")) {
                     return false;
                 }
-                if (lexeme.length() > 2 && lexeme.substring(1, lexeme.length()-2).contains("\"")) {
+                if (lexeme.length() > 2 && lexeme.substring(1, lexeme.length()-1).contains("\"")) {
                     return false;
                 }
                 return true;
@@ -112,10 +112,16 @@ public class TokenLibrary {
     public static final Token intToken = new Token(
             "int",
             (String lexeme) -> {
-                return allIn(lexeme, "1234567890");
+                if (lexeme.length() == 0) {
+                    return false;
+                }
+                return (lexeme.charAt(0) == '-' || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
             },
             (String lexeme) -> {
-                return allIn(lexeme, "1234567890");
+                if (lexeme.length() == 0) {
+                    return false;
+                }
+                return (lexeme.charAt(0) == '-' || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
             }
     );
 

@@ -28,4 +28,23 @@ public class Token {
     public String toString() {
         return name;
     }
+
+    public static boolean rightBindsTighter(Token left, Token right) {
+        int leftTightness;
+        int rightTightness;
+
+        if (left instanceof BinderToken) {
+            leftTightness = ((BinderToken) left).rightBindingPower;
+        } else {
+            return true;
+        }
+
+        if (right instanceof BinderToken) {
+            rightTightness = ((BinderToken) right).leftBindingPower;
+        } else {
+            return false;
+        }
+
+        return rightTightness > leftTightness;
+    }
 }

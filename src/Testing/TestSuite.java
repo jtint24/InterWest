@@ -75,14 +75,21 @@ public class TestSuite implements Testable {
 
         if (level == 0) {
             System.out.println();
-            System.out.println("Failed tests:");
 
             ArrayList<TestResult> failedTests = new ArrayList<>();
+
+
 
             for (TestResult result : testResults) {
                 if (!result.isPassed()) {
                     failedTests.add(result);
                 }
+            }
+
+            if (failedTests.size() > 0) {
+                System.out.println("Failed tests:");
+            } else {
+                System.out.println("No Failed Tests!");
             }
 
             for (TestResult failedTest : failedTests) {

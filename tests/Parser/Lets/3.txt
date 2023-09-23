@@ -1,0 +1,73 @@
+parser
+let four = 2+2
+let one_hundred = 10+10+10+50+20
+
+EXPECTED_RESULT:
+Nonterminal(TreeKind(file), [
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+			Nonterminal(TreeKind(let), [
+				{ lexeme = `let` tokenType = let },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `four` tokenType = identifier },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `=` tokenType = = },
+				{ lexeme = ` ` tokenType = whitespace },
+				Nonterminal(TreeKind(expression), [
+					Nonterminal(TreeKind(delimitedExpression), [
+						{ lexeme = `2` tokenType = int }
+					]),
+					{ lexeme = `+` tokenType = plus },
+					Nonterminal(TreeKind(expression), [
+						Nonterminal(TreeKind(delimitedExpression), [
+							{ lexeme = `2` tokenType = int },
+							{ lexeme = `\n` tokenType = whitespace }
+						])
+					])
+				])
+			])
+		])
+	]),
+	Nonterminal(TreeKind(expression), [
+		Nonterminal(TreeKind(delimitedExpression), [
+			Nonterminal(TreeKind(let), [
+				{ lexeme = `let` tokenType = let },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `one_hundred` tokenType = identifier },
+				{ lexeme = ` ` tokenType = whitespace },
+				{ lexeme = `=` tokenType = = },
+				{ lexeme = ` ` tokenType = whitespace },
+				Nonterminal(TreeKind(expression), [
+					Nonterminal(TreeKind(delimitedExpression), [
+						{ lexeme = `10` tokenType = int }
+					]),
+					{ lexeme = `+` tokenType = plus },
+					Nonterminal(TreeKind(expression), [
+						Nonterminal(TreeKind(delimitedExpression), [
+							{ lexeme = `10` tokenType = int }
+						]),
+						{ lexeme = `+` tokenType = plus },
+						Nonterminal(TreeKind(expression), [
+							Nonterminal(TreeKind(delimitedExpression), [
+								{ lexeme = `10` tokenType = int }
+							]),
+							{ lexeme = `+` tokenType = plus },
+							Nonterminal(TreeKind(expression), [
+								Nonterminal(TreeKind(delimitedExpression), [
+									{ lexeme = `50` tokenType = int }
+								]),
+								{ lexeme = `+` tokenType = plus },
+								Nonterminal(TreeKind(expression), [
+									Nonterminal(TreeKind(delimitedExpression), [
+										{ lexeme = `20` tokenType = int },
+										{ lexeme = `\n\n` tokenType = whitespace }
+									])
+								])
+							])
+						])
+					])
+				])
+			])
+		])
+	])
+])

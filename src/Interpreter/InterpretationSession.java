@@ -10,6 +10,8 @@ import Lexer.Tokenizer;
 import Parser.NonterminalLibrary;
 import Parser.ParseTreeNode;
 
+import java.util.Arrays;
+
 public class InterpretationSession {
     private final ErrorManager errorManager;
     private final OutputBuffer outputBuffer;
@@ -35,7 +37,10 @@ public class InterpretationSession {
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
             outputBuffer.println(parseTree);
-        } catch (RuntimeException ignored) {}
+        } catch (RuntimeException exception) {
+            outputBuffer.println(exception);
+            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
+        }
 
         return outputBuffer;
     }
@@ -44,7 +49,10 @@ public class InterpretationSession {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();
             outputBuffer.println(symbolString);
-        } catch (RuntimeException ignored) {}
+        } catch (RuntimeException exception) {
+            outputBuffer.println(exception);
+            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
+        }
 
         return outputBuffer;
     }

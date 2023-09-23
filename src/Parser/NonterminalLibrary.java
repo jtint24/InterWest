@@ -1,6 +1,6 @@
 package Parser;
 
-import ErrorManager.Error;
+import Lexer.Token;
 import Lexer.TokenLibrary;
 
 public class NonterminalLibrary {
@@ -144,11 +144,50 @@ public class NonterminalLibrary {
         public void parse(Parser parser) {
             MarkClosed leftSide = delimitedExpression.apply(parser);
 
-            // Parses function calls
-            while (parser.at(TokenLibrary.lParen)) {
-                expressionCall.apply(parser, leftSide);
+            if (parser.at(TokenLibrary.lParen)) {
+                // Parses function calls
+                while (parser.at(TokenLibrary.lParen)) {
+                    expressionCall.apply(parser, leftSide);
+                }
+            } else if (parser.at(TokenLibrary.plusToken)) {
+                parser.eat(TokenLibrary.plusToken);
+                expression.apply(parser);
             }
 
         }
     };
+
+    public static Nonterminal fullExpression = new Nonterminal("full expression") {
+        @Override
+        public void parse(Parser parser) {
+
+        }
+
+        public void recursiveExpression(Parser parser, Token leftToken) {
+            MarkClosed lefthandSide = delimitedExpression.apply(parser);
+
+            // while (parser.at(TokenLibrary.lParen)) {
+            //     MarkOpened opener = parser.openBefore(lefthandSide);
+
+            // }
+
+            while (true) {
+                Token rightToken = parser.nth(0);
+                if (Token.rightBindsTighter(leftToken, rightToken)) {
+                    MarkOpened opener = parser.openBefore(lefthandSide);
+                    parser.advance();
+                    recursiveExpression(parser, leftToken);
+                    lefthandSide = parser.close(opener, TreeKind.valid(binaryExpression));
+                } else {
+                    break;
+                }
+            }
+        }
+    };
+
+    public static Nonterminal binaryExpression = new Nonterminal("binary expression") {
+        @Override
+        public void parse(Parser parser) {}
+    };
+
 }
