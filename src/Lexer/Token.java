@@ -33,18 +33,22 @@ public class Token {
         int leftTightness;
         int rightTightness;
 
-        if (left instanceof BinderToken) {
-            leftTightness = ((BinderToken) left).rightBindingPower;
-        } else {
-            return true;
-        }
-
         if (right instanceof BinderToken) {
             rightTightness = ((BinderToken) right).leftBindingPower;
         } else {
             return false;
         }
 
+        if (left instanceof BinderToken) {
+            leftTightness = ((BinderToken) left).rightBindingPower;
+        } else {
+            return true;
+        }
+
         return rightTightness > leftTightness;
+    }
+
+    public BinderToken toBinder(BindingPowers pl) {
+        return new BinderToken(name, isCurrentlyValid, couldBeValid, pl);
     }
 }

@@ -1,5 +1,6 @@
 package Parser;
 
+import Lexer.BinderToken;
 import Lexer.Token;
 import Lexer.TokenLibrary;
 
@@ -16,7 +17,7 @@ public class NonterminalLibrary {
                 //} else {
                 //    parser.advanceWithError(new Error(Error.ErrorType.PARSER_ERROR, "Expected a statement", false));
                 //}
-                expression.apply(parser);
+                funcCallExpression.apply(parser);
             }
 
         }
@@ -32,7 +33,7 @@ public class NonterminalLibrary {
             parser.eat(TokenLibrary.whitespace);
             parser.expect(TokenLibrary.equals);
             parser.eat(TokenLibrary.whitespace);
-            expression.apply(parser);
+            funcCallExpression.apply(parser);
 
         }
     };
@@ -42,7 +43,7 @@ public class NonterminalLibrary {
 
             parser.expect(TokenLibrary.returnToken);
             parser.eat(TokenLibrary.whitespace);
-            expression.apply(parser);
+            funcCallExpression.apply(parser);
             parser.eat(TokenLibrary.whitespace);
 
         }
@@ -63,7 +64,7 @@ public class NonterminalLibrary {
             parser.eat(TokenLibrary.whitespace);
 
             do {
-                expression.apply(parser);
+                funcCallExpression.apply(parser);
                 parser.eat(TokenLibrary.whitespace);
             } while (!parser.at(TokenLibrary.rBrace));
 
@@ -79,7 +80,7 @@ public class NonterminalLibrary {
 
             do {
                 parser.eat(TokenLibrary.whitespace);
-                expression.apply(parser);
+                funcCallExpression.apply(parser);
                 parser.eat(TokenLibrary.whitespace);
                 parser.expect(TokenLibrary.identifier);
             } while (parser.eat(TokenLibrary.comma));
@@ -93,7 +94,7 @@ public class NonterminalLibrary {
 
             do {
                 parser.eat(TokenLibrary.whitespace);
-                expression.apply(parser);
+                funcCallExpression.apply(parser);
             } while (parser.eat(TokenLibrary.comma));
 
         }
@@ -105,7 +106,7 @@ public class NonterminalLibrary {
         public void parse(Parser parser) {
             if (parser.at(TokenLibrary.lParen)) {
                 parser.eat(TokenLibrary.lParen);
-                expression.apply(parser);
+                funcCallExpression.apply(parser);
                 parser.expect(TokenLibrary.rParen);
             } else if (parser.at(TokenLibrary.intToken)) {
                 parser.eat(TokenLibrary.intToken);
@@ -139,7 +140,7 @@ public class NonterminalLibrary {
     };
 
     // Complex expressions, including function calls
-    public static Nonterminal expression = new Nonterminal("expression") {
+    public static Nonterminal funcCallExpression = new Nonterminal("func call expression") {
         @Override
         public void parse(Parser parser) {
             MarkClosed leftSide = delimitedExpression.apply(parser);
@@ -149,36 +150,47 @@ public class NonterminalLibrary {
                 while (parser.at(TokenLibrary.lParen)) {
                     expressionCall.apply(parser, leftSide);
                 }
-            } else if (parser.at(TokenLibrary.plusToken)) {
-                parser.eat(TokenLibrary.plusToken);
-                expression.apply(parser);
             }
-
         }
     };
 
     public static Nonterminal fullExpression = new Nonterminal("full expression") {
         @Override
         public void parse(Parser parser) {
-
+            recursiveExpression(parser, TokenLibrary.eof);
         }
 
         public void recursiveExpression(Parser parser, Token leftToken) {
             MarkClosed lefthandSide = delimitedExpression.apply(parser);
+            System.out.println("Recursively parsing with left "+leftToken);
 
             // while (parser.at(TokenLibrary.lParen)) {
             //     MarkOpened opener = parser.openBefore(lefthandSide);
-
             // }
 
-            while (true) {
+
+
+            while (!parser.eof()) {
                 Token rightToken = parser.nth(0);
+                System.out.println("Right token is "+rightToken);
+
+                if (rightToken instanceof BinderToken) {
+                    System.out.println("rbp: "+((BinderToken) rightToken).leftBindingPower);
+                }
+                if (leftToken instanceof BinderToken) {
+                    System.out.println("lbp: "+((BinderToken) leftToken).rightBindingPower);
+                }
+
                 if (Token.rightBindsTighter(leftToken, rightToken)) {
+                    System.out.println("Right binds tighter.");
+
                     MarkOpened opener = parser.openBefore(lefthandSide);
                     parser.advance();
-                    recursiveExpression(parser, leftToken);
+                    recursiveExpression(parser, rightToken);
                     lefthandSide = parser.close(opener, TreeKind.valid(binaryExpression));
                 } else {
+                    System.out.println("Left binds tighter: BREAK!");
+
                     break;
                 }
             }

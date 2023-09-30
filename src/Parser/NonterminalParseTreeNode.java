@@ -61,11 +61,20 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         return errors;
     }
 
+    public String getSimplifiedHierarchyString(int tabLevel) {
+        String header = "|\t".repeat(tabLevel)+"| "+kind + "\n";
+        StringBuilder body = new StringBuilder();
+        for (ParseTreeNode child : children) {
+            body.append(child.getSimplifiedHierarchyString(tabLevel + 1));
+        }
+        return header + body;
+    }
+
 
 
     @Override
     public String toString() {
-        return getHierarchyString();
+        return getSimplifiedHierarchyString();
     }
 
     public String getFlatString() {

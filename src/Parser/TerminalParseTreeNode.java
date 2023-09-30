@@ -17,6 +17,12 @@ public class TerminalParseTreeNode extends ParseTreeNode {
     public String getHierarchyString(int tabLevel) {
         return "\t".repeat(tabLevel) + wrappedSymbol;
     }
+
+    @Override
+    String getSimplifiedHierarchyString(int tabLevel) {
+        return "|\t".repeat(tabLevel)+"| "+wrappedSymbol+"\n";
+    }
+
     @Override
     public void removeSymbolsOfType(Token t) {}
     @Override

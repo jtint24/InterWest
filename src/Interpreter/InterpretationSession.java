@@ -45,6 +45,15 @@ public class InterpretationSession {
         return outputBuffer;
     }
 
+    public OutputBuffer testBinaryExpressions() {
+        SymbolString symbolString = tokenizer.extractAllSymbols();
+        llParser.setSymbols(symbolString.toList());
+        NonterminalLibrary.fullExpression.apply(llParser);
+        ParseTreeNode parseTree = llParser.buildTree();
+        outputBuffer.println(parseTree);
+        return outputBuffer;
+    }
+
     public OutputBuffer testGetLexerString() {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();

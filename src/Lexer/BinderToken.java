@@ -1,13 +1,12 @@
 package Lexer;
 
-public class BinderToken extends Token{
-    int leftBindingPower;
-    int rightBindingPower;
-    public BinderToken(String name, TokenValidator isCurrentlyValid, TokenValidator couldBeValid, int leftBindingPower, int rightBindingPower) {
-        super(name, isCurrentlyValid, couldBeValid);
-    }
+public class BinderToken extends Token {
+    public int leftBindingPower;
+    public int rightBindingPower;
 
-    public BinderToken(String name, TokenValidator isCurrentlyValid, TokenValidator couldBeValid, PrecedenceLevel precedenceLevel) {
+    public BinderToken(String name, TokenValidator isCurrentlyValid, TokenValidator couldBeValid, BindingPowers precedenceLevel) {
         super(name, isCurrentlyValid, couldBeValid);
+        leftBindingPower = precedenceLevel.leftBindingPower();
+        rightBindingPower = precedenceLevel.rightBindingPower();
     }
 }

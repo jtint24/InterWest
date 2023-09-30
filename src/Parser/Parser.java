@@ -62,7 +62,12 @@ public class Parser {
              errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Parser is stuck!", true));
          }
 
-         this.fuel --;
+         this.fuel--;
+
+         if (this.pos+lookahead >= this.symbols.size()) {
+             errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Parser has hit end!", true));
+         }
+
          Token retToken = this.symbols.get(this.pos+lookahead).getTokenType();
          return retToken;
      }

@@ -97,7 +97,7 @@ public class TokenLibrary {
             (String lexeme) -> {
                 return "+".contains(lexeme);
             }
-    );
+    ).toBinder(new BindingPowers(PrecedenceLevel.ADDITION, Associativity.LEFT));
 
     private static final Token floatToken = new Token(
             "float",
