@@ -10,5 +10,5 @@ Things to do:
         - [x] Build testing module
     - [ ] Minor fixes
         - [x] Change all methods that return/accept subclasses of Collection to return as general a subclass as possible (ie. ArrayList<> -> List<>)
-        - [ ] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value
+        - [x] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value
         - [ ] Make the parser read token-by-token from the lexer, rather than having it require all the lexemes at once

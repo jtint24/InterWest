@@ -13,59 +13,19 @@ import Parser.ParseTreeNode;
 import java.util.Arrays;
 
 public class InterpretationSession {
-    private final ErrorManager errorManager;
-    private final OutputBuffer outputBuffer;
-    private final InputBuffer inputBuffer;
-    private final Tokenizer tokenizer;
-    private final Parser llParser;
+    ErrorManager errorManager;
+    OutputBuffer outputBuffer;
+    InputBuffer inputBuffer;
+    Tokenizer tokenizer;
+    Parser llParser;
 
     public InterpretationSession(String body) {
-        this(body, false);
-    }
-    public InterpretationSession(String body, boolean test) {
-        this.outputBuffer = new OutputBuffer(test);
+        this.outputBuffer = new OutputBuffer();
         this.errorManager = new ErrorManager(outputBuffer);
         this.inputBuffer = new InputBuffer(body, errorManager);
         this.tokenizer = new Tokenizer(inputBuffer, errorManager);
         this.llParser = new Parser(tokenizer, errorManager);
     }
-
-    public OutputBuffer testGetParseTree() {
-        try {
-            SymbolString symbolString = tokenizer.extractAllSymbols();
-            llParser.setSymbols(symbolString.toList());
-            NonterminalLibrary.file.apply(llParser);
-            ParseTreeNode parseTree = llParser.buildTree();
-            outputBuffer.println(parseTree);
-        } catch (RuntimeException exception) {
-            outputBuffer.println(exception);
-            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
-        }
-
-        return outputBuffer;
-    }
-
-    public OutputBuffer testBinaryExpressions() {
-        SymbolString symbolString = tokenizer.extractAllSymbols();
-        llParser.setSymbols(symbolString.toList());
-        NonterminalLibrary.fullExpression.apply(llParser);
-        ParseTreeNode parseTree = llParser.buildTree();
-        outputBuffer.println(parseTree);
-        return outputBuffer;
-    }
-
-    public OutputBuffer testGetLexerString() {
-        try {
-            SymbolString symbolString = tokenizer.extractAllSymbols();
-            outputBuffer.println(symbolString);
-        } catch (RuntimeException exception) {
-            outputBuffer.println(exception);
-            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
-        }
-
-        return outputBuffer;
-    }
-
 
     public void runSession() {
 

@@ -1,6 +1,7 @@
 package Testing;
 
 import Interpreter.InterpretationSession;
+import Interpreter.TestInterpretationSession;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -63,12 +64,12 @@ public class Test implements Testable {
         Object result(String input);
 
         TestFunction parser = (String inputCode) -> {
-            InterpretationSession sesh = new InterpretationSession(inputCode, true);
+            TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
             return sesh.testGetParseTree();
         };
 
         TestFunction lexer = (String inputCode) -> {
-            InterpretationSession sesh = new InterpretationSession(inputCode, true);
+            TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
             return sesh.testGetLexerString();
         };
     }

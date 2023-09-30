@@ -3,12 +3,11 @@ import java.io.StringWriter;
 import java.io.PrintWriter;
 
 public class OutputBuffer {
-    boolean silence;
+    boolean silence = false;
     String output = "";
 
-    public OutputBuffer(boolean silence) {
-        this.silence = silence;
-    }
+    public OutputBuffer() {}
+
     public void printStackTrace() {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -42,4 +41,12 @@ public class OutputBuffer {
     public String toString() {
         return output;
     }
+
+    public void silence() {
+        silence = true;
+    }
+    public void unsilence() {
+        silence = false;
+    }
+
 }
