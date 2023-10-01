@@ -1,0 +1,18 @@
+
+
+
+How interpretation works?
+
+We start with a parse tree
+We turn that into a tree of expressions
+
+ExpressionSeries objects hold a list of expressions that are executed sequentially
+Expressions can also hold expressions that create their value
+Expressions take the state of the program (State object) and return a new state and a return value
+The return value is processed by the outer expressions, and so on and so forth
+
+The state object holds which values are bound to which identifiers.
+It does this in layers of scope: every time a new scope is entered, a new layer is pushed onto the scope stack
+New values always go onto the topmost layer
+When a scope is exited, the topmost layer is popped off
+Scope handling is done by expressions

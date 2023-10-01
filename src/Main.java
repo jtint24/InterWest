@@ -1,5 +1,8 @@
+import Elements.Value;
+import Elements.ValueLibrary;
+import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
-import Interpreter.InterpretationSession;
+import Interpreter.*;
 import Testing.TestSuite;
 
 import java.io.File;
@@ -8,14 +11,28 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) {
 
-        // InterpretationSession newSession = new InterpretationSession("1+2+3+4+5");
-        // OutputBuffer buffer = newSession.testBinaryExpressions();
-        // System.out.println(buffer.toString());
+
+        LetExpression myLet = new LetExpression(
+                "my_variable",
+                new IdentityExpression(ValueLibrary.falseValue)
+        );
+
+        OutputBuffer outputBuffer = new OutputBuffer();
+        ErrorManager errorManager = new ErrorManager(outputBuffer);
+        State myState = new State(errorManager);
+        myState.addScope();
+
+        ExpressionResult result = myLet.evaluate(myState);
+
+        System.out.println(result.resultingState);
+        System.out.println(result.resultingValue);
 
 
-        TestSuite testSuite = new TestSuite(new File("tests"));
 
-        testSuite.getResults();
+
+        // TestSuite testSuite = new TestSuite(new File("tests"));
+
+        // testSuite.getResults();
 
 
     }

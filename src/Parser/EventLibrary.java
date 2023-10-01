@@ -1,11 +1,8 @@
 package Parser;
 
-import java.util.Optional;
-
 public class EventLibrary {
     public abstract static class Event {
         String name;
-
         @Override
         public String toString() {
             return name;
