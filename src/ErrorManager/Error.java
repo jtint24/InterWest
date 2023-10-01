@@ -28,6 +28,7 @@ public class Error {
         LEXER_ERROR,
         INPUT_ERROR,
         PARSER_ERROR,
+        INTERPRETER_ERROR,
         RUNTIME_ERROR
     }
 

@@ -16,6 +16,13 @@ public class TreeKind {
         return new TreeKind(validTreeType, true);
     }
 
+    public String getName() {
+        if (isValid) {
+            return validTreeType.name;
+        } else {
+            return "INVALID";
+        }
+    }
     @Override
     public String toString() {
         if (isValid) {

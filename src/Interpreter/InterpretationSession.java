@@ -8,6 +8,7 @@ import Lexer.SymbolString;
 import Lexer.TokenLibrary;
 import Lexer.Tokenizer;
 import Parser.NonterminalLibrary;
+import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ public class InterpretationSession {
     InputBuffer inputBuffer;
     Tokenizer tokenizer;
     Parser llParser;
+    ExpressionBuilder expressionBuilder;
 
     public InterpretationSession(String body) {
         this.outputBuffer = new OutputBuffer();
@@ -25,13 +27,14 @@ public class InterpretationSession {
         this.inputBuffer = new InputBuffer(body, errorManager);
         this.tokenizer = new Tokenizer(inputBuffer, errorManager);
         this.llParser = new Parser(tokenizer, errorManager);
+        this.expressionBuilder = new ExpressionBuilder(errorManager);
     }
 
     public void runSession() {
 
 
         SymbolString symbolString = tokenizer.extractAllSymbols();
-        System.out.println(symbolString);
+        outputBuffer.println(symbolString);
         llParser.setSymbols( symbolString.toList());
 
         // System.out.println("symbol string: "+symbolString);
@@ -56,7 +59,17 @@ public class InterpretationSession {
 
         errorManager.logErrors(parseTree.getMalformedNodeErrors());
 
-        System.out.println(parseTree.getHierarchyString());
+        outputBuffer.println(parseTree);
+
+        Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
+
+        outputBuffer.println(expr);
+
+        State newState = new State(errorManager);
+        ExpressionResult result = expr.evaluate(newState);
+
+        outputBuffer.println(result.resultingState);
+
 
 
     }

@@ -6,28 +6,15 @@ import Interpreter.*;
 import Testing.TestSuite;
 
 import java.io.File;
+import java.util.ArrayList;
 
 
 public class Main {
     public static void main(String[] args) {
 
 
-        LetExpression myLet = new LetExpression(
-                "my_variable",
-                new IdentityExpression(ValueLibrary.falseValue)
-        );
-
-        OutputBuffer outputBuffer = new OutputBuffer();
-        ErrorManager errorManager = new ErrorManager(outputBuffer);
-        State myState = new State(errorManager);
-        myState.addScope();
-
-        ExpressionResult result = myLet.evaluate(myState);
-
-        System.out.println(result.resultingState);
-        System.out.println(result.resultingValue);
-
-
+        InterpretationSession sesh = new InterpretationSession("let my_var = true");
+        sesh.runSession();
 
 
         // TestSuite testSuite = new TestSuite(new File("tests"));

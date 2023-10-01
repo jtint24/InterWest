@@ -1,6 +1,7 @@
 package Interpreter;
 
 import Elements.Value;
+import Elements.ValueLibrary;
 import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 
@@ -12,6 +13,8 @@ public class State {
 
     public State(ErrorManager errorManager) {
         this.errorManager = errorManager;
+
+        scopes.push(ValueLibrary.builtinValues);
     }
 
     public void addScope() {
@@ -23,7 +26,7 @@ public class State {
             errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Scope already contains `"+id+"`!", true));
         }
 
-        scopes.getLast().put(id, val);
+        scopes.peek().put(id, val);
     }
 
     public boolean contains(String id) {
@@ -66,5 +69,7 @@ public class State {
     }
 
 
-
+    public void killScope() {
+        scopes.pop();
+    }
 }

@@ -13,6 +13,10 @@ public class TerminalParseTreeNode extends ParseTreeNode {
     public TerminalParseTreeNode(Symbol wrappedSymbol) {
         this.wrappedSymbol = wrappedSymbol;
     }
+
+    public Symbol getWrappedSymbol() {
+        return wrappedSymbol;
+    }
     @Override
     public String getHierarchyString(int tabLevel) {
         return "\t".repeat(tabLevel) + wrappedSymbol;

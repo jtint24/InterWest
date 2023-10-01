@@ -23,4 +23,9 @@ public class LetExpression extends Expression {
 
         return new ExpressionResult(newState, ValueLibrary.trueValue);
     }
+
+    @Override
+    public String toString() {
+        return "let "+identifierName+" = "+exprToSet+"\n";
+    }
 }

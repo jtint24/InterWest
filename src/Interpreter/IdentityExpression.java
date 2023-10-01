@@ -14,4 +14,9 @@ public class IdentityExpression extends Expression {
     public ExpressionResult evaluate(State situatedState) {
         return new ExpressionResult(situatedState, wrappedValue);
     }
+
+    @Override
+    public String toString() {
+        return wrappedValue.toString();
+    }
 }

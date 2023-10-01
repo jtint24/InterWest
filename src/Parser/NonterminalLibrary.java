@@ -101,7 +101,7 @@ public class NonterminalLibrary {
     };
 
     // Basic expressions: including expressions in parentheses, literals, identifiers, lambdas
-    public static Nonterminal delimitedExpression = new Nonterminal("delimitedExpression") {
+    public static Nonterminal delimitedExpression = new Nonterminal("delimited expression") {
         @Override
         public void parse(Parser parser) {
             if (parser.at(TokenLibrary.lParen)) {

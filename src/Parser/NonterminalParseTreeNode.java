@@ -17,6 +17,14 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         children.add(child);
     }
 
+    public TreeKind getKind() {
+        return kind;
+    }
+
+    public ArrayList<ParseTreeNode> getChildren() {
+        return children;
+    }
+
     @Override
     public String getHierarchyString(int tabLevel) {
         StringBuilder retString = new StringBuilder("\t".repeat(tabLevel)+"Nonterminal(" + kind + ", [\n");
@@ -41,7 +49,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
                     newChildren.add(child);
                 }
             } else if (child instanceof NonterminalParseTreeNode) {
-                child.removeSymbolsOfType(t);
+                // child.removeSymbolsOfType(t);
                 newChildren.add(child);
             }
         }

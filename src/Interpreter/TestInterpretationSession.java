@@ -7,6 +7,7 @@ import Lexer.SymbolString;
 import Lexer.Tokenizer;
 import Parser.Parser;
 import Parser.NonterminalLibrary;
+import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
 
 
@@ -26,6 +27,26 @@ public class TestInterpretationSession extends InterpretationSession {
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
             outputBuffer.println(parseTree);
+        } catch (RuntimeException exception) {
+            outputBuffer.println(exception);
+            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
+        }
+
+        return outputBuffer;
+    }
+
+    public OutputBuffer testGetInterpretation() {
+        try {
+            SymbolString symbolString = tokenizer.extractAllSymbols();
+            llParser.setSymbols(symbolString.toList());
+            NonterminalLibrary.file.apply(llParser);
+            ParseTreeNode parseTree = llParser.buildTree();
+            Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
+
+
+            State newState = new State(errorManager);
+            ExpressionResult result = expr.evaluate(newState);
+            outputBuffer.println(result.resultingState);
         } catch (RuntimeException exception) {
             outputBuffer.println(exception);
             outputBuffer.println(Arrays.toString(exception.getStackTrace()));

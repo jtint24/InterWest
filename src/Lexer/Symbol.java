@@ -16,4 +16,8 @@ public class Symbol {
     public Token getTokenType() {
         return tokenType;
     }
+
+    public String getLexeme() {
+        return lexeme;
+    }
 }
