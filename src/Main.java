@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        InterpretationSession sesh = new InterpretationSession("let my_var = true");
+        InterpretationSession sesh = new InterpretationSession("let my_var = true\nreturn my_var");
         sesh.runSession();
 
 

@@ -68,9 +68,8 @@ public class InterpretationSession {
         State newState = new State(errorManager);
         ExpressionResult result = expr.evaluate(newState);
 
+        outputBuffer.println(result.resultingValue);
         outputBuffer.println(result.resultingState);
-
-
 
     }
 

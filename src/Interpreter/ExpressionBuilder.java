@@ -37,6 +37,7 @@ public class ExpressionBuilder {
         return switch (ptNode.getKind().toString()) {
             case "TreeKind(file)" -> buildFileExpression(ptNode);
             case "TreeKind(let)" -> buildLetExpression(ptNode);
+            case "TreeKind(return)" -> buildReturnExpression(ptNode);
             default -> {
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown nonterminal type `"+ptNode.getKind()+"`", true));
                 yield null;
@@ -81,6 +82,15 @@ public class ExpressionBuilder {
 
         return new LetExpression(identifier, assignToExpression);
     };
+
+    public Expression buildReturnExpression(NonterminalParseTreeNode ptNode) {
+        ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
+        // [return] [expression]
+
+        Expression returnToExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
+
+        return new ReturnExpression(returnToExpression);
+    }
 
 
 }
