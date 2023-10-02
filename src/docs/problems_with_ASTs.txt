@@ -1,0 +1,14 @@
+Problems with ASTs:
+
+
+- How do we connect return statements to returnable scopes? This is easy if the return statement is on the top level
+ of a returnable scope, but it's much harder if a returnable scope contains a nonreturnable scope which contains a return
+    - Maybe ExpressionResult gets a new parameter if it's an early return, and nonreturnable scopes, upon receiving that,
+      quit immediately, but returnable scopes process it as a return? That works for me.
+- How to validate AST?
+    - There needs to be some kind of "validation context" that helps things like VariableExpressions know their types
+        by seeing what values they're referencing without actually executing the code
+    - We need to validate types, but also basic structural things, like making sure that you can't exit a function
+        without returning, maybe make some warnings about unreachable code.
+    - Maybe don't give expressions their own errormanagers, just have them return errors and concatenate them, then have
+        the interpretation session report them all at once. That allows for reporting of multiple errors

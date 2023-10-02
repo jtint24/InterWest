@@ -1,0 +1,15 @@
+
+
+Functions, expressions, operators
+
+What is their relation to one another?
+
+Plan 1:
+
+Functions wrap expressions. They also keep a function type. The function keeps track of its parameter pattern,
+and is responsible for putting all of the arguments into memory before running an expression and returning
+the value. Functions also handle type checking
+
+In order to run a function, you need the following:
+    - The state to run the function in
+    - A list of values that constitute the arguments

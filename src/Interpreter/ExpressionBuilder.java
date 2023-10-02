@@ -1,5 +1,7 @@
 package Interpreter;
 
+import Elements.ValueLibrary;
+import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
 import ErrorManager.Error;
 import Lexer.TokenLibrary;
@@ -51,6 +53,7 @@ public class ExpressionBuilder {
 
         return switch (tokenName) {
             case "identifier" -> new VariableExpression(lexeme);
+            case "int" -> new IdentityExpression(new ValueWrapper<Integer>(Integer.parseInt(lexeme), ValueLibrary.intType));
             default -> {
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown terminal type `"+tokenName+"`", true));
                 yield null;

@@ -6,6 +6,8 @@ Things to do:
         - [ ] Revise identifier definition to be actual (accept a-Z, 0-9 after first char, and _)
     - [ ] Parser
         - [x] Add Pratt parsing / parse binary operators
+    - [ ] Interpreter
+        - [ ]
     - [x] Add test suite
         - [x] Build testing module
     - [ ] Minor fixes
