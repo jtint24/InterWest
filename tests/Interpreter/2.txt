@@ -3,11 +3,9 @@ interpreter
 let int = 1232
 let second_int = 382812123
 let third_int = -123243
-return -1231243
 
 EXPECTED_RESULT:
 let int = 1232
 let second_int = 382812123
 let third_int = -123243
-return -1231243
 

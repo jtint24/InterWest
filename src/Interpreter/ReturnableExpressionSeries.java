@@ -1,14 +1,15 @@
 package Interpreter;
 
 import Elements.Type;
-import Elements.ValueLibrary;
 
 import java.util.ArrayList;
 
-public class ExpressionSeries extends Expression {
+public class ReturnableExpressionSeries extends Expression {
     ArrayList<Expression> subExpressions;
 
-    public ExpressionSeries(ArrayList<Expression> subExpressions) {
+    Type returnType;
+
+    public ReturnableExpressionSeries(ArrayList<Expression> subExpressions) {
         this.subExpressions = subExpressions;
     }
 
@@ -21,16 +22,19 @@ public class ExpressionSeries extends Expression {
             // System.out.println(result.resultingState);
             if (result.getEarlyReturn()) {
                 result.resultingState.killScope();
+                result.setEarlyReturn(false);
                 return result;
             }
             situatedState = result.resultingState;
         }
 
-        return new ExpressionResult(situatedState, ValueLibrary.trueValue);
+        return null;
     }
 
     @Override
     public ValidationContext validate(ValidationContext context) {
+        // TODO: Ensure that there's no fallthrough; every branch has to end with a return
+
         for (Expression expr : subExpressions) {
             context = expr.validate(context);
         }
@@ -39,7 +43,7 @@ public class ExpressionSeries extends Expression {
 
     @Override
     public Type getType(ValidationContext context) {
-        return ValueLibrary.boolType;
+        return returnType;
     }
 
     @Override

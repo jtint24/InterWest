@@ -1,8 +1,6 @@
 interpreter
 let a = let b = true
-return b
 
 EXPECTED_RESULT:
 let a = let b = true
-return b
 

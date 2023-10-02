@@ -1,5 +1,8 @@
 package Interpreter;
 
+import Elements.Type;
+import Elements.ValueLibrary;
+
 public class ReturnExpression extends Expression {
 
     Expression exprToReturn;
@@ -10,7 +13,21 @@ public class ReturnExpression extends Expression {
 
     @Override
     public ExpressionResult evaluate(State situatedState) {
-        return exprToReturn.evaluate(situatedState);
+        ExpressionResult returnResult = exprToReturn.evaluate(situatedState);
+        returnResult.setEarlyReturn(true);
+        return returnResult;
+    }
+
+    @Override
+    public ValidationContext validate(ValidationContext context) {
+
+        // TODO: Ensure that the return type of the expression matches the expected return type
+        return exprToReturn.validate(context);
+    }
+
+    @Override
+    public Type getType(ValidationContext context) {
+        return ValueLibrary.boolType;
     }
 
     @Override

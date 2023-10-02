@@ -1,5 +1,6 @@
 package Interpreter;
 
+import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 
@@ -22,6 +23,18 @@ public class LetExpression extends Expression {
         newState.put(identifierName, valueToAssign);
 
         return new ExpressionResult(newState, ValueLibrary.trueValue);
+    }
+
+    @Override
+    public ValidationContext validate(ValidationContext context) {
+        context = exprToSet.validate(context);
+        context.addVariableType(identifierName, exprToSet.getType(context));
+        return context;
+    }
+
+    @Override
+    public Type getType(ValidationContext context) {
+        return ValueLibrary.boolType;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Interpreter;
 
 import Elements.BuiltinValue;
+import Elements.Type;
 import Elements.Value;
 
 public class IdentityExpression extends Expression {
@@ -13,6 +14,16 @@ public class IdentityExpression extends Expression {
     @Override
     public ExpressionResult evaluate(State situatedState) {
         return new ExpressionResult(situatedState, wrappedValue);
+    }
+
+    @Override
+    public ValidationContext validate(ValidationContext context) {
+        return context;
+    }
+
+    @Override
+    public Type getType(ValidationContext context) {
+        return wrappedValue.getType();
     }
 
     @Override
