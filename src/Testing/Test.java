@@ -42,6 +42,9 @@ public class Test implements Testable {
             case "parser" -> {
                 this.function = TestFunction.parser;
             }
+            case "interpreter" -> {
+                this.function = TestFunction.interpreter;
+            }
         }
 
         while(sc.hasNextLine()) {
@@ -71,6 +74,10 @@ public class Test implements Testable {
         TestFunction lexer = (String inputCode) -> {
             TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
             return sesh.testGetLexerString();
+        };
+        TestFunction interpreter = (String inputCode) -> {
+            TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
+            return sesh.testGetInterpretation();
         };
     }
 

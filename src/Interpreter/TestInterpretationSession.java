@@ -43,10 +43,7 @@ public class TestInterpretationSession extends InterpretationSession {
             ParseTreeNode parseTree = llParser.buildTree();
             Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
 
-
-            State newState = new State(errorManager);
-            ExpressionResult result = expr.evaluate(newState);
-            outputBuffer.println(result.resultingState);
+            outputBuffer.println(expr);
         } catch (RuntimeException exception) {
             outputBuffer.println(exception);
             outputBuffer.println(Arrays.toString(exception.getStackTrace()));

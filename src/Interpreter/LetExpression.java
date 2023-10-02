@@ -26,6 +26,10 @@ public class LetExpression extends Expression {
 
     @Override
     public String toString() {
-        return "let "+identifierName+" = "+exprToSet+"\n";
+        String line = "let "+identifierName+" = "+exprToSet;
+        if (!line.endsWith("\n")) {
+            line += "\n";
+        }
+        return line;
     }
 }

@@ -13,13 +13,13 @@ public class Main {
     public static void main(String[] args) {
 
 
-        InterpretationSession sesh = new InterpretationSession("let my_var = true\nreturn my_var");
-        sesh.runSession();
+        // TestInterpretationSession sesh = new TestInterpretationSession("let my_var = let my_second_var = true");
+        // OutputBuffer buff = sesh.testGetInterpretation();
+        // System.out.println(buff);
 
+        TestSuite testSuite = new TestSuite(new File("tests"));
 
-        // TestSuite testSuite = new TestSuite(new File("tests"));
-
-        // testSuite.getResults();
+        testSuite.getResults();
 
 
     }

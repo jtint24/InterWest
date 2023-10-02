@@ -4,7 +4,7 @@ let a = {Bool b -> b} (true)
 EXPECTED_RESULT:
 | TreeKind(file)
 |	| TreeKind(full expression)
-|	|	| TreeKind(delimitedExpression)
+|	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
 |	|	|	|	| { lexeme = `let` tokenType = let }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
@@ -13,12 +13,12 @@ EXPECTED_RESULT:
 |	|	|	|	| { lexeme = `=` tokenType = = }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| TreeKind(lambda)
 |	|	|	|	|	|	|	| { lexeme = `{` tokenType = { }
 |	|	|	|	|	|	|	| TreeKind(parameter list)
 |	|	|	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	|	|	|	|	| { lexeme = `Bool` tokenType = identifier }
 |	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	|	|	|	|	| { lexeme = `b` tokenType = identifier }
@@ -26,18 +26,18 @@ EXPECTED_RESULT:
 |	|	|	|	|	|	|	| { lexeme = `->` tokenType = -> }
 |	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	|	|	|	| { lexeme = `b` tokenType = identifier }
 |	|	|	|	|	|	|	| { lexeme = `}` tokenType = } }
 |	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	| TreeKind(full expression)
-|	|	| TreeKind(delimitedExpression)
+|	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(func call expression)
 |	|	|	|	| TreeKind(expression call)
 |	|	|	|	|	| { lexeme = `(` tokenType = ( }
 |	|	|	|	|	| TreeKind(argument list)
 |	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	|	|	| { lexeme = `true` tokenType = identifier }
 |	|	|	|	|	| { lexeme = `)` tokenType = ) }
 |	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace }

@@ -6,7 +6,7 @@ let c = "hey there this is a string"
 EXPECTED_RESULT:
 | TreeKind(file)
 |	| TreeKind(full expression)
-|	|	| TreeKind(delimitedExpression)
+|	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
 |	|	|	|	| { lexeme = `let` tokenType = let }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
@@ -15,11 +15,11 @@ EXPECTED_RESULT:
 |	|	|	|	| { lexeme = `=` tokenType = = }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| { lexeme = `5` tokenType = int }
 |	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
 |	| TreeKind(full expression)
-|	|	| TreeKind(delimitedExpression)
+|	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
 |	|	|	|	| { lexeme = `let` tokenType = let }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
@@ -28,11 +28,11 @@ EXPECTED_RESULT:
 |	|	|	|	| { lexeme = `=` tokenType = = }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| { lexeme = `7` tokenType = int }
 |	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
 |	| TreeKind(full expression)
-|	|	| TreeKind(delimitedExpression)
+|	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
 |	|	|	|	| { lexeme = `let` tokenType = let }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
@@ -41,6 +41,6 @@ EXPECTED_RESULT:
 |	|	|	|	| { lexeme = `=` tokenType = = }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	| TreeKind(delimitedExpression)
+|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| { lexeme = `"hey there this is a string"` tokenType = String }
 |	|	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace }

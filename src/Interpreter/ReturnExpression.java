@@ -15,6 +15,10 @@ public class ReturnExpression extends Expression {
 
     @Override
     public String toString() {
-        return "return "+exprToReturn+"\n";
+        String line = "return "+exprToReturn;
+        if (!line.endsWith("\n")) {
+            line += "\n";
+        }
+        return line;
     }
 }
