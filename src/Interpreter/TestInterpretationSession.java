@@ -38,10 +38,16 @@ public class TestInterpretationSession extends InterpretationSession {
     public OutputBuffer testGetInterpretation() {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();
+
             llParser.setSymbols(symbolString.toList());
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
+
+
             Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
+            ValidationContext startContext = new ValidationContext();
+            ValidationContext endContext = expr.validate(startContext);
+            errorManager.logErrors(endContext.errors);
 
             outputBuffer.println(expr);
         } catch (RuntimeException exception) {

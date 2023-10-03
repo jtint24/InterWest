@@ -31,9 +31,11 @@ public class ExpressionSeries extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
+        context.addScope();
         for (Expression expr : subExpressions) {
             context = expr.validate(context);
         }
+        context.killScope();
         return context;
     }
 

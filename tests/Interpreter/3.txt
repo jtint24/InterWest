@@ -1,0 +1,21 @@
+interpreter
+let fourth_int = let a = fourth_int
+
+EXPECTED_RESULT:
+INTERPRETER_ERROR
+Can't find variable `fourth_int` in scope.
+java.lang.Exception
+	at IO.OutputBuffer.printStackTrace(OutputBuffer.java:14)
+	at ErrorManager.ErrorManager.printErrors(ErrorManager.java:55)
+	at ErrorManager.ErrorManager.killSession(ErrorManager.java:44)
+	at ErrorManager.ErrorManager.logErrors(ErrorManager.java:34)
+	at Interpreter.TestInterpretationSession.testGetInterpretation(TestInterpretationSession.java:50)
+	at Testing.Test$TestFunction.lambda$static$2(Test.java:80)
+	at Testing.Test.getResults(Test.java:91)
+	at Testing.TestSuite.getResults(TestSuite.java:50)
+	at Testing.TestSuite.getResults(TestSuite.java:50)
+	at Testing.TestSuite.getResults(TestSuite.java:43)
+	at Main.main(Main.java:22)
+
+java.lang.RuntimeException
+[ErrorManager.ErrorManager.killSession(ErrorManager.java:46), ErrorManager.ErrorManager.logErrors(ErrorManager.java:34), Interpreter.TestInterpretationSession.testGetInterpretation(TestInterpretationSession.java:50), Testing.Test$TestFunction.lambda$static$2(Test.java:80), Testing.Test.getResults(Test.java:91), Testing.TestSuite.getResults(TestSuite.java:50), Testing.TestSuite.getResults(TestSuite.java:50), Testing.TestSuite.getResults(TestSuite.java:43), Main.main(Main.java:22)]

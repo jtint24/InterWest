@@ -3,6 +3,7 @@ package Interpreter;
 import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
+import ErrorManager.Error;
 
 public class LetExpression extends Expression {
     String identifierName;
@@ -28,6 +29,9 @@ public class LetExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
         context = exprToSet.validate(context);
+        if (context.hasVariable(identifierName)) {
+            context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't redeclare variable `"+identifierName+"`", true));
+        }
         context.addVariableType(identifierName, exprToSet.getType(context));
         return context;
     }

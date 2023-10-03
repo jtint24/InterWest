@@ -35,9 +35,11 @@ public class ReturnableExpressionSeries extends Expression {
     public ValidationContext validate(ValidationContext context) {
         // TODO: Ensure that there's no fallthrough; every branch has to end with a return
 
+        context.addScope();
         for (Expression expr : subExpressions) {
             context = expr.validate(context);
         }
+        context.killScope();
         return context;
     }
 
