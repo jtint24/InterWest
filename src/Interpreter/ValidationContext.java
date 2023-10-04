@@ -9,7 +9,9 @@ import java.util.*;
 
 public class ValidationContext {
     ArrayDeque<HashMap<String, Type>> variableTypes = new ArrayDeque<>();
-    ArrayList<Error> errors = new ArrayList<>();
+    public ArrayList<Error> errors = new ArrayList<>();
+
+    Type returnType;
 
     public ValidationContext() {
 
@@ -63,4 +65,12 @@ public class ValidationContext {
     public void addError(Error err) {
         errors.add(err);
     }
+
+    public Type getReturnType() {
+        return returnType;
+    }
+    public void setReturnType(Type type) {
+        returnType = type;
+    }
+
 }

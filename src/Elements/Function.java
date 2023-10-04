@@ -1,16 +1,21 @@
 package Elements;
 
+import ErrorManager.ErrorManager;
+import Interpreter.State;
+
 import java.util.Map;
-import java.util.Objects;
 
-public class BuiltinValue extends Value {
-    Type type;
+public abstract class Function extends Value {
+    FunctionType type;
 
-    public BuiltinValue(Type type) {
-        super();
-        this.type = type;
+    public abstract Value apply(ErrorManager errorManager, State state, Value... values);
+
+    @Override
+    public FunctionType getType() {
+        return type;
     }
 
+    @Override
     public String toString() {
         for (Map.Entry<String, Value> entry : ValueLibrary.builtinValues.entrySet()) {
             if (this == entry.getValue()) {
@@ -18,10 +23,5 @@ public class BuiltinValue extends Value {
             }
         }
         return super.toString();
-    }
-
-    @Override
-    public Type getType() {
-        return type;
     }
 }

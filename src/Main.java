@@ -1,5 +1,6 @@
 import Elements.Value;
 import Elements.ValueLibrary;
+import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
 import Interpreter.*;
@@ -17,9 +18,17 @@ public class Main {
         // OutputBuffer buff = sesh.testGetInterpretation();
         // System.out.println(buff);
 
-        TestSuite testSuite = new TestSuite(new File("tests"));
+        // TestSuite testSuite = new TestSuite(new File("tests"));
 
-        testSuite.getResults();
+        // testSuite.getResults();
+
+        Expression expr = new ReturnableExpressionSeries(ValueLibrary.boolType, new ArrayList<>() {{
+            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(true, ValueLibrary.universeType))));
+        }});
+
+
+        ValidationContext v = expr.validate(new ValidationContext());
+        System.out.println(v.errors.get(0));
 
 
     }

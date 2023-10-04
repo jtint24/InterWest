@@ -9,7 +9,8 @@ public class ReturnableExpressionSeries extends Expression {
 
     Type returnType;
 
-    public ReturnableExpressionSeries(ArrayList<Expression> subExpressions) {
+    public ReturnableExpressionSeries(Type returnType, ArrayList<Expression> subExpressions) {
+        this.returnType = returnType;
         this.subExpressions = subExpressions;
     }
 
@@ -36,6 +37,7 @@ public class ReturnableExpressionSeries extends Expression {
         // TODO: Ensure that there's no fallthrough; every branch has to end with a return
 
         context.addScope();
+        context.setReturnType(returnType);
         for (Expression expr : subExpressions) {
             context = expr.validate(context);
         }

@@ -2,6 +2,7 @@ package Interpreter;
 
 import Elements.Type;
 import Elements.ValueLibrary;
+import ErrorManager.Error;
 
 public class ReturnExpression extends Expression {
 
@@ -20,9 +21,12 @@ public class ReturnExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-
-        // TODO: Ensure that the return type of the expression matches the expected return type
-        return exprToReturn.validate(context);
+        Type actualReturnType = exprToReturn.getType(context);
+        if (!actualReturnType.subtypeOf(context.getReturnType())) {
+            context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Type mismatch between expected return type `"+context.getReturnType()+"` and actual return type `"+actualReturnType+"`", true));
+        }
+        context = exprToReturn.validate(context);
+        return context;
     }
 
     @Override
