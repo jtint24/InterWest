@@ -1,5 +1,7 @@
 package Interpreter;
 
+import Elements.ExpressionFunction;
+import Elements.FunctionType;
 import Elements.ValueLibrary;
 import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
@@ -11,6 +13,7 @@ import Parser.ParseTreeNode;
 import Parser.TerminalParseTreeNode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ExpressionBuilder {
     ErrorManager errorManager;
@@ -40,6 +43,7 @@ public class ExpressionBuilder {
             case "TreeKind(file)" -> buildFileExpression(ptNode);
             case "TreeKind(let)" -> buildLetExpression(ptNode);
             case "TreeKind(return)" -> buildReturnExpression(ptNode);
+            case "TreeKind(lambda)" -> buildLambdaExpression(ptNode);
             default -> {
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown nonterminal type `"+ptNode.getKind()+"`", true));
                 yield null;
@@ -93,6 +97,33 @@ public class ExpressionBuilder {
         Expression returnToExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
 
         return new ReturnExpression(returnToExpression);
+    }
+
+    public Expression buildLambdaExpression(NonterminalParseTreeNode ptNode) {
+        ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
+
+        // [{] [parameterList] [->] [expression] [}]
+
+        NonterminalParseTreeNode parameterList = (NonterminalParseTreeNode) ptNode.getChildren().get(1);
+
+        Expression resultingExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3));
+
+        ArrayList<String> paramNames = new ArrayList<>();
+        ArrayList<Expression> paramTypes = new ArrayList<>();
+
+        for (int i = 0; i<parameterList.getChildren().size(); i+=2) {
+            Expression paramType = buildExpression((NonterminalParseTreeNode) parameterList.getChildren().get(i));
+            String paramName = ((TerminalParseTreeNode)parameterList.getChildren().get(i+1)).getWrappedSymbol().getLexeme();
+
+            paramNames.add(paramName);
+            paramTypes.add(paramType);
+        }
+
+        System.out.println(Arrays.toString(paramNames.toArray()));
+        System.out.println(Arrays.toString(paramTypes.toArray()));
+
+        return null;
+        // return new IdentityExpression(new ExpressionFunction(new FunctionType(), resultingExpression));//TODO: Add func types that take type expressions that have to be resolved
     }
 
 
