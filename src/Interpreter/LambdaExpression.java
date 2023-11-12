@@ -18,4 +18,5 @@ public class LambdaExpression extends Expression {
     public Type getType(ValidationContext context) {
         return null;
     }
+
 }
