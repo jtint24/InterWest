@@ -20,6 +20,7 @@ public class DFA {
     }
 
     public Value getResultFor(Value v, ErrorManager er) {
+        // TODO: make it work for a list of T/F values, not
         DFANode currentNode = startNode;
 
         while (true) {

@@ -7,6 +7,12 @@ import java.util.*;
 
 public class DFAConverter {
     public static DFA dfaFrom(Expression ex) {
+
+        // Perform a DFS of the expression tree to search for return nodes
+        // For each return node, calculate all the predicates that need to be satisfied to visit it
+        // Create a DFA of all the intersection of all the predicates (also expressible as DFAs)
+        // Create a union of all the intersections, return that
+
         return null;
     }
 

@@ -7,15 +7,13 @@ import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
 import Interpreter.State;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class DFANode {
     Value returnValue;
     public DFANode trueNode;
     public DFANode falseNode;
-    public Function translationFunction;
+    public Function translationFunction; // TODO: Remove this
 
     String name;
 
@@ -48,18 +46,16 @@ public class DFANode {
     }
 
     public DFANodeData getData() {
-        return new DFANodeData(returnValue, translationFunction);
+        return new DFANodeData(returnValue);
     }
 
 
 
-    class DFANodeData {
+    static class DFANodeData {
         Value returnValue;
-        Function translationFunction;
 
-        public DFANodeData(Value returnValue, Function translationFunction) {
+        public DFANodeData(Value returnValue) {
             this.returnValue = returnValue;
-            this.translationFunction = translationFunction;
         }
 
         @Override
@@ -72,12 +68,12 @@ public class DFANode {
         }
 
         public boolean sameNodeTypeAs(DFANodeData otherNode) {
-            return otherNode.returnValue == returnValue && translationFunction == otherNode.translationFunction;
+            return otherNode.returnValue == returnValue;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(returnValue, translationFunction);
+            return Objects.hash(returnValue);
         }
     }
 }
