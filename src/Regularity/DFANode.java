@@ -9,6 +9,7 @@ import Interpreter.State;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class DFANode {
     Value returnValue;
@@ -44,5 +45,39 @@ public class DFANode {
 
     public String toString() {
         return "{"+name+" "+returnValue+"}";
+    }
+
+    public DFANodeData getData() {
+        return new DFANodeData(returnValue, translationFunction);
+    }
+
+
+
+    class DFANodeData {
+        Value returnValue;
+        Function translationFunction;
+
+        public DFANodeData(Value returnValue, Function translationFunction) {
+            this.returnValue = returnValue;
+            this.translationFunction = translationFunction;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof DFANodeData) {
+                return this.sameNodeTypeAs((DFANodeData) obj);
+            } else {
+                return false;
+            }
+        }
+
+        public boolean sameNodeTypeAs(DFANodeData otherNode) {
+            return otherNode.returnValue == returnValue && translationFunction == otherNode.translationFunction;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(returnValue, translationFunction);
+        }
     }
 }

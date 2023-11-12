@@ -11,12 +11,10 @@ public class DFAConverter {
     }
 
     public static boolean checkEquivalence(DFA dfa1, DFA dfa2) {
+        DFA minimalDFA1 = minimizeDFA(dfa1);
+        DFA minimalDFA2 = minimizeDFA(dfa2);
 
-        // Minimize both DFAs
-
-        //
-
-        return false;
+        return checkIdentical(minimalDFA1, minimalDFA2);
     }
 
     public static boolean checkIdentical(DFA baseDFA, DFA otherDFA) {
@@ -40,7 +38,7 @@ public class DFAConverter {
                     return false;
                 }
             } else {
-                if (baseNode.returnValue == otherNode.returnValue) {
+                if (baseNode.getData().sameNodeTypeAs(otherNode.getData())) {
                     equivalentNodes.put(baseNode, otherNode);
                 } else {
                     return false;
@@ -75,7 +73,7 @@ public class DFAConverter {
         HashSet<HashSet<DFANode>> refinementSets = new HashSet<>();
         HashSet<HashSet<DFANode>> replacementSets = new HashSet<>();
 
-        for (HashSet<DFANode> acceptStates : dfa.getAcceptStateSets().values()) {
+        for (HashSet<DFANode> acceptStates : dfa.getEquivalentNodes().values()) {
             refinementSets.add(acceptStates);
             replacementSets.add(acceptStates);
         }

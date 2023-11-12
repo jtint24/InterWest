@@ -4,9 +4,7 @@ import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.ErrorManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 public class DFA {
     DFANode startNode;
@@ -124,6 +122,25 @@ public class DFA {
                 retMap.put(state.returnValue, new HashSet<>());
             }
             retMap.get(state.returnValue).add(state);
+        }
+
+        return retMap;
+    }
+
+
+    /**
+     * getEquivalentNodes
+     *
+     * Returns a set of all sets of nodes which are equivalent to one another in terms of function and return type
+     * */
+    public HashMap<DFANode.DFANodeData, HashSet<DFANode>> getEquivalentNodes() {
+        HashSet<DFANode> allStates = getStates();
+        HashMap<DFANode.DFANodeData, HashSet<DFANode>> retMap = new HashMap<>();
+        for (DFANode state : allStates) {
+            if (!retMap.containsKey(state.getData())) {
+                retMap.put(state.getData(), new HashSet<>());
+            }
+            retMap.get(state.getData()).add(state);
         }
 
         return retMap;
