@@ -10,6 +10,14 @@ public class DFAConverter {
         return null;
     }
 
+    public static boolean checkEquivalence(DFA dfa1, DFA dfa2) {
+
+        // Minimize both DFAs
+
+        //
+
+        return false;
+    }
 
     public static boolean checkIdentical(DFA baseDFA, DFA otherDFA) {
         HashMap<DFANode, DFANode> equivalentNodes = new HashMap<>();
@@ -32,13 +40,17 @@ public class DFAConverter {
                     return false;
                 }
             } else {
-                equivalentNodes.put(baseNode, otherNode);
+                if (baseNode.returnValue == otherNode.returnValue) {
+                    equivalentNodes.put(baseNode, otherNode);
+                } else {
+                    return false;
+                }
             }
 
 
             for (Value symbol : DFA.alphabet) {
-                DFANode advancedBaseNode = baseNode.getSuccessor(symbol);
-                DFANode advancedOtherNode = otherNode.getSuccessor(symbol);
+                DFANode advancedBaseNode = baseNode.getDirectSuccessor(symbol);
+                DFANode advancedOtherNode = otherNode.getDirectSuccessor(symbol);
 
                 if ((advancedBaseNode == null) != (advancedOtherNode == null)) {
                     return false;

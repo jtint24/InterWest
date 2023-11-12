@@ -16,20 +16,20 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
-        DFANode trueNode = new DFANode("T", ValueLibrary.trueValue, null, null);
-        DFANode falseNode = new DFANode("F", ValueLibrary.falseValue, null, null);
+        DFANode trueNodeA = new DFANode("T1", ValueLibrary.trueValue, null, null);
+        trueNodeA.falseNode = trueNodeA;
 
-        DFANode collapseNode1 = new DFANode("C1", null, trueNode, falseNode);
-        DFANode collapseNode2 = new DFANode("C2", null, trueNode, falseNode);
-        DFANode collapseNode3 = new DFANode("C3", null, trueNode, falseNode);
+        DFANode falseNodeA = new DFANode("F1", ValueLibrary.falseValue, null, null);
 
-        DFANode loopNode1 = new DFANode("L1", null, collapseNode3, null);
-        DFANode loopNode2 = new DFANode("L2", null, collapseNode3, loopNode1);
-        loopNode1.falseNode = loopNode2;
+        DFANode trueNodeB = new DFANode("T2", ValueLibrary.trueValue, trueNodeA, null);
+        trueNodeB.falseNode = trueNodeB;
+        trueNodeA.trueNode = trueNodeB;
+        DFANode falseNodeB = new DFANode("F2", ValueLibrary.falseValue, null, null);
 
+        DFANode branchA = new DFANode("B1", ValueLibrary.trueValue, trueNodeA, trueNodeB);
+        DFANode branchB = new DFANode("B2", ValueLibrary.falseValue, falseNodeA, falseNodeB);
 
-
-        DFANode head = new DFANode("H", null, loopNode2, collapseNode2);
+        DFANode head = new DFANode("H", null, branchA, branchB);
 
         DFA myDFA = new DFA(head);
 
@@ -41,6 +41,7 @@ public class Main {
         for (DFANode node : minimizedDFA.getStates()) {
             System.out.println(node+" "+node.trueNode+" "+node.falseNode);
         }
+
 
 
 

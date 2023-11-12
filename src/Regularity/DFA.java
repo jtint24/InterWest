@@ -1,10 +1,8 @@
 package Regularity;
 
-import Elements.Function;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.ErrorManager;
-import Interpreter.State;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +10,6 @@ import java.util.HashSet;
 
 public class DFA {
     DFANode startNode;
-    ArrayList<Function> expectedString;
     HashSet<DFANode> states;
     static HashSet<Value> alphabet = new HashSet<>() {{
         add(ValueLibrary.trueValue);
@@ -27,11 +24,14 @@ public class DFA {
     public Value getResultFor(Value v, ErrorManager er) {
         DFANode currentNode = startNode;
 
-        for (Function translatorFunction : expectedString) {
-            State blankState = new State(er);
+        while (true) {
+            DFANode successor = currentNode.getDirectSuccessor(v);
 
-            Value translatedValue = translatorFunction.apply(er, blankState, v);
-            currentNode = currentNode.getSuccessor(translatedValue);
+            if (successor != null) {
+                currentNode = successor;
+            } else {
+                break;
+            }
         }
 
         return currentNode.returnValue;
@@ -41,7 +41,7 @@ public class DFA {
         DFANode currentNode = startNode;
 
         for (Value v : valueList) {
-            currentNode = currentNode.getSuccessor(v);
+            currentNode = currentNode.getDirectSuccessor(v);
         }
 
         return currentNode.returnValue;
@@ -67,7 +67,7 @@ public class DFA {
             exploredNodes.add(nextNode);
 
             for (Value nextSymbol : alphabet) {
-                DFANode successor = nextNode.getSuccessor(nextSymbol);
+                DFANode successor = nextNode.getDirectSuccessor(nextSymbol);
                 if (successor != null && !exploredNodes.contains(successor)) {
                     frontier.add(successor);
                     exploredNodes.add(nextNode);
@@ -98,7 +98,7 @@ public class DFA {
             exploredNodes.add(nextNode);
 
             for (Value nextSymbol : alphabet) {
-                DFANode successor = nextNode.getSuccessor(nextSymbol);
+                DFANode successor = nextNode.getDirectSuccessor(nextSymbol);
                 if (successor != null && !exploredNodes.contains(successor)) {
                     frontier.add(successor);
                     exploredNodes.add(nextNode);
