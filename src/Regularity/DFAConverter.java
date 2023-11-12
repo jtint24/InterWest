@@ -10,6 +10,52 @@ public class DFAConverter {
         return null;
     }
 
+
+    public static boolean checkIdentical(DFA baseDFA, DFA otherDFA) {
+        HashMap<DFANode, DFANode> equivalentNodes = new HashMap<>();
+
+        ArrayList<DFANode> baseFrontier = new ArrayList<>();
+        ArrayList<DFANode> otherFrontier = new ArrayList<>();
+
+        baseFrontier.add(baseDFA.startNode);
+        otherFrontier.add(otherDFA.startNode);
+
+        HashSet<DFANode> baseExploredNodes = new HashSet<>();
+        HashSet<DFANode> otherExploredNodes = new HashSet<>();
+
+        while (baseFrontier.size() != 0) {
+            DFANode baseNode = baseFrontier.remove(0);
+            DFANode otherNode = otherFrontier.remove(0);
+
+            if (equivalentNodes.containsKey(baseNode)) {
+                if (equivalentNodes.get(baseNode) != otherNode) {
+                    return false;
+                }
+            } else {
+                equivalentNodes.put(baseNode, otherNode);
+            }
+
+
+            for (Value symbol : DFA.alphabet) {
+                DFANode advancedBaseNode = baseNode.getSuccessor(symbol);
+                DFANode advancedOtherNode = otherNode.getSuccessor(symbol);
+
+                if ((advancedBaseNode == null) != (advancedOtherNode == null)) {
+                    return false;
+                }
+
+                if (advancedBaseNode != null && !otherExploredNodes.contains(otherNode) && !baseExploredNodes.contains(baseNode)) {
+                    baseFrontier.add(advancedBaseNode);
+                    otherFrontier.add(advancedOtherNode);
+                }
+            }
+
+            baseExploredNodes.add(baseNode);
+            otherExploredNodes.add(otherNode);
+        }
+
+        return true;
+    }
     public static DFA minimizeDFA(DFA dfa) {
         // Hopcroft's algorithm to remove non-distinguishable states
 
