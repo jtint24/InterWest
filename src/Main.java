@@ -38,9 +38,49 @@ public class Main {
         DFA minimizedDFA = DFAConverter.minimizeDFA(myDFA);
 
         System.out.println("Minimized states: "+minimizedDFA.getStates());
-        for (DFANode node : minimizedDFA.getStates()) {
-            System.out.println(node+" "+node.trueNode+" "+node.falseNode);
-        }
+        System.out.println(minimizedDFA);
+
+        System.out.println("\nProduct test:");
+
+        DFANode prod1Fail = new DFANode("AF", ValueLibrary.falseValue, null, null);
+        prod1Fail.trueNode = prod1Fail;
+        prod1Fail.falseNode = prod1Fail;
+
+        DFANode prod1Head = new DFANode("AH", ValueLibrary.trueValue, prod1Fail, prod1Fail);
+        prod1Head.trueNode = new DFANode("A2", ValueLibrary.falseValue, prod1Fail, prod1Head);
+
+        DFANode prod2Fail = new DFANode("BF", ValueLibrary.falseValue, null, null);
+        prod2Fail.trueNode = prod2Fail;
+        prod2Fail.falseNode = prod2Fail;
+
+        DFANode prod2Head = new DFANode("BH", ValueLibrary.trueValue, prod2Fail, prod2Fail);
+        prod2Head.trueNode = new DFANode("B2", ValueLibrary.falseValue, prod2Fail, prod2Fail);
+        prod2Head.trueNode.trueNode = new DFANode("B3", ValueLibrary.falseValue, prod2Fail, prod2Fail);
+
+
+        DFA prod1DFA = new DFA(prod1Head);
+
+        DFA prod2DFA = new DFA(prod2Head);
+
+        System.out.println(prod1DFA.getStates());
+        System.out.println(prod2DFA.getStates());
+
+
+        DFA unionDFA = prod1DFA.unionWith(prod2DFA);
+
+        System.out.println(unionDFA.getStates());
+
+        System.out.println(unionDFA);
+
+        DFA minimizedUnion = DFAConverter.minimizeDFA(unionDFA);
+
+        System.out.println("...");
+
+        System.out.println(minimizedUnion);
+
+        System.out.println(DFAConverter.minimizeDFA(minimizedUnion));
+
+
 
 
 

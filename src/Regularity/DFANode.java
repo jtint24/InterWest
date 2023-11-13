@@ -13,8 +13,6 @@ public class DFANode {
     Value returnValue;
     public DFANode trueNode;
     public DFANode falseNode;
-    public Function translationFunction; // TODO: Remove this
-
     String name;
 
     public DFANode(String name, Value returnValue, DFANode trueNode, DFANode falseNode) {
@@ -25,12 +23,6 @@ public class DFANode {
     }
 
     public DFANode getSuccessor(Value v) {
-        ErrorManager er = new ErrorManager(new OutputBuffer());
-        v = translationFunction.apply(er, new State(er), v);
-        return getDirectSuccessor(v);
-    }
-
-    public DFANode getDirectSuccessor(Value v) {
         if (v == ValueLibrary.trueValue) {
             return trueNode;
         } else if (v == ValueLibrary.falseValue) {
@@ -49,6 +41,15 @@ public class DFANode {
         return new DFANodeData(returnValue);
     }
 
+    public void setSuccessor(Value symbol, DFANode successor) {
+        if (symbol == ValueLibrary.trueValue) {
+            trueNode = successor;
+        } else if (symbol == ValueLibrary.falseValue) {
+            falseNode = successor;
+        } else {
+            // TODO: Add error handling
+        }
+    }
 
 
     static class DFANodeData {

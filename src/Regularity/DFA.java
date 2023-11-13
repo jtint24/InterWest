@@ -19,17 +19,15 @@ public class DFA {
         this.states = getStatesFromStart(startNode);
     }
 
-    public Value getResultFor(Value v, ErrorManager er) {
+    public Value getResultFor(ArrayList<Value> values, ErrorManager er) {
         // TODO: make it work for a list of T/F values, not
         DFANode currentNode = startNode;
 
-        while (true) {
-            DFANode successor = currentNode.getDirectSuccessor(v);
+        for (Value value : values) {
+            currentNode = currentNode.getSuccessor(value);
 
-            if (successor != null) {
-                currentNode = successor;
-            } else {
-                break;
+            if (currentNode == null) {
+                return null;
             }
         }
 
@@ -40,7 +38,7 @@ public class DFA {
         DFANode currentNode = startNode;
 
         for (Value v : valueList) {
-            currentNode = currentNode.getDirectSuccessor(v);
+            currentNode = currentNode.getSuccessor(v);
         }
 
         return currentNode.returnValue;
@@ -66,7 +64,7 @@ public class DFA {
             exploredNodes.add(nextNode);
 
             for (Value nextSymbol : alphabet) {
-                DFANode successor = nextNode.getDirectSuccessor(nextSymbol);
+                DFANode successor = nextNode.getSuccessor(nextSymbol);
                 if (successor != null && !exploredNodes.contains(successor)) {
                     frontier.add(successor);
                     exploredNodes.add(nextNode);
@@ -97,7 +95,7 @@ public class DFA {
             exploredNodes.add(nextNode);
 
             for (Value nextSymbol : alphabet) {
-                DFANode successor = nextNode.getDirectSuccessor(nextSymbol);
+                DFANode successor = nextNode.getSuccessor(nextSymbol);
                 if (successor != null && !exploredNodes.contains(successor)) {
                     frontier.add(successor);
                     exploredNodes.add(nextNode);
@@ -145,5 +143,81 @@ public class DFA {
         }
 
         return retMap;
+    }
+
+    // TODO: Add intersection and union
+
+
+    public DFA unionWith(DFA otherDFA) {
+        HashMap<DFANode, HashMap<DFANode, DFANode>> productMapping = new HashMap<>();
+
+        // Populate the product mapping
+
+        DFANode myFailState = new DFANode("Fail", ValueLibrary.falseValue, null, null);
+        HashSet<DFANode> myProdStates = new HashSet<>(getStates());
+        myProdStates.add(myFailState);
+
+        DFANode otherFailState = new DFANode("Fail", ValueLibrary.falseValue, null, null);
+        HashSet<DFANode> otherProdStates = new HashSet<>(otherDFA.getStates());
+        otherProdStates.add(otherFailState);
+
+        for (DFANode myState : myProdStates) {
+
+            productMapping.put(myState, new HashMap<>());
+
+            // TODO: validate return value
+
+            for (DFANode otherState : otherProdStates) {
+
+                // TODO: validate return value
+
+                Value returnValue;
+
+                if (myState.returnValue == ValueLibrary.trueValue || otherState.returnValue == ValueLibrary.trueValue) {
+                    returnValue = ValueLibrary.trueValue;
+                } else {
+                    returnValue = ValueLibrary.falseValue;
+                }
+
+                productMapping.get(myState).put(otherState, new DFANode(myState.name + "_"+otherState.name, returnValue, null, null));
+            }
+        }
+
+        // productMapping.get(myFailState).put(otherFailState, null);
+
+        // Calculate product state transitions
+
+        for (DFANode myState : myProdStates) {
+            for (DFANode otherState : otherProdStates) {
+                for (Value symbol : alphabet) {
+                    DFANode mySuccessor = myState.getSuccessor(symbol) == null ? myFailState : myState.getSuccessor(symbol);
+                    DFANode otherSuccessor = otherState.getSuccessor(symbol) == null ? otherFailState : otherState.getSuccessor(symbol);
+                    DFANode productSuccessor = productMapping.get(mySuccessor).get(otherSuccessor);
+                    DFANode currentProduct = productMapping.get(myState).get(otherState);
+
+                    if (currentProduct != null) {
+                        currentProduct.setSuccessor(symbol, productSuccessor);
+                    }
+                }
+            }
+        }
+
+        return new DFA(productMapping.get(startNode).get(otherDFA.startNode));
+    }
+
+
+    public DFA intersectionWith(DFA otherDFA) {
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder retString = new StringBuilder();
+
+        for (DFANode node : getStates()) {
+            retString.append(node).append(" ").append(node.trueNode).append(" ").append(node.falseNode).append("\n");
+        }
+
+        return retString.toString();
     }
 }

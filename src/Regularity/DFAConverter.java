@@ -8,6 +8,7 @@ import java.util.*;
 public class DFAConverter {
     public static DFA dfaFrom(Expression ex) {
 
+        // TODO:
         // Perform a DFS of the expression tree to search for return nodes
         // For each return node, calculate all the predicates that need to be satisfied to visit it
         // Create a DFA of all the intersection of all the predicates (also expressible as DFAs)
@@ -53,8 +54,8 @@ public class DFAConverter {
 
 
             for (Value symbol : DFA.alphabet) {
-                DFANode advancedBaseNode = baseNode.getDirectSuccessor(symbol);
-                DFANode advancedOtherNode = otherNode.getDirectSuccessor(symbol);
+                DFANode advancedBaseNode = baseNode.getSuccessor(symbol);
+                DFANode advancedOtherNode = otherNode.getSuccessor(symbol);
 
                 if ((advancedBaseNode == null) != (advancedOtherNode == null)) {
                     return false;
