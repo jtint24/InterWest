@@ -186,12 +186,60 @@ public class DFA {
         // productMapping.get(myFailState).put(otherFailState, null);
 
         // Calculate product state transitions
+        return DFA.fromProductMapping(productMapping, startNode, otherDFA.startNode, myFailState, otherFailState);
+    }
+
+
+    public DFA intersectionWith(DFA otherDFA) {
+
+        HashMap<DFANode, HashMap<DFANode, DFANode>> productMapping = new HashMap<>();
+
+        // Populate the product mapping
+
+        DFANode myFailState = new DFANode("Fail", ValueLibrary.falseValue, null, null);
+        HashSet<DFANode> myProdStates = new HashSet<>(getStates());
+        myProdStates.add(myFailState);
+
+        DFANode otherFailState = new DFANode("Fail", ValueLibrary.falseValue, null, null);
+        HashSet<DFANode> otherProdStates = new HashSet<>(otherDFA.getStates());
+        otherProdStates.add(otherFailState);
 
         for (DFANode myState : myProdStates) {
+
+            productMapping.put(myState, new HashMap<>());
+
+            // TODO: validate return value
+
             for (DFANode otherState : otherProdStates) {
+
+                // TODO: validate return value
+
+                Value returnValue;
+
+                if (myState.returnValue == ValueLibrary.trueValue && otherState.returnValue == ValueLibrary.trueValue) {
+                    returnValue = ValueLibrary.trueValue;
+                } else {
+                    returnValue = ValueLibrary.falseValue;
+                }
+
+                productMapping.get(myState).put(otherState, new DFANode(myState.name + "_"+otherState.name, returnValue, null, null));
+            }
+        }
+
+        // Calculate product state transitions
+
+        return DFA.fromProductMapping(productMapping, startNode, otherDFA.startNode, myFailState, otherFailState);
+    }
+
+    public static DFA fromProductMapping(HashMap<DFANode, HashMap<DFANode, DFANode>> productMapping, DFANode startNode1, DFANode startNode2, DFANode failState1, DFANode failState2) {
+        Set<DFANode> prodStates1 = productMapping.keySet();
+        Set<DFANode> prodStates2 = productMapping.get(startNode1).keySet();
+
+        for (DFANode myState : prodStates1) {
+            for (DFANode otherState : prodStates2) {
                 for (Value symbol : alphabet) {
-                    DFANode mySuccessor = myState.getSuccessor(symbol) == null ? myFailState : myState.getSuccessor(symbol);
-                    DFANode otherSuccessor = otherState.getSuccessor(symbol) == null ? otherFailState : otherState.getSuccessor(symbol);
+                    DFANode mySuccessor = myState.getSuccessor(symbol) == null ? failState1 : myState.getSuccessor(symbol);
+                    DFANode otherSuccessor = otherState.getSuccessor(symbol) == null ? failState2 : otherState.getSuccessor(symbol);
                     DFANode productSuccessor = productMapping.get(mySuccessor).get(otherSuccessor);
                     DFANode currentProduct = productMapping.get(myState).get(otherState);
 
@@ -202,12 +250,7 @@ public class DFA {
             }
         }
 
-        return new DFA(productMapping.get(startNode).get(otherDFA.startNode));
-    }
-
-
-    public DFA intersectionWith(DFA otherDFA) {
-        return null;
+        return new DFA(productMapping.get(startNode1).get(startNode2));
     }
 
     @Override
