@@ -1,7 +1,9 @@
 package Interpreter;
 
 import Elements.Type;
+import Elements.Value;
 import Elements.ValueLibrary;
+import Utils.Result;
 
 import java.util.ArrayList;
 
@@ -42,6 +44,11 @@ public class ExpressionSeries extends Expression {
     @Override
     public Type getType(ValidationContext context) {
         return ValueLibrary.boolType;
+    }
+
+    @Override
+    public Result<Value, Exception> reduceToValue() {
+        return Result.error(new Exception("This expression contains an expression series, which is to complex to be evaluated yet"));
     }
 
     @Override

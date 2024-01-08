@@ -4,6 +4,7 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import Utils.Result;
 
 public class LetExpression extends Expression {
     String identifierName;
@@ -40,6 +41,12 @@ public class LetExpression extends Expression {
     public Type getType(ValidationContext context) {
         return ValueLibrary.boolType;
     }
+
+    @Override
+    public Result<Value, Exception> reduceToValue() {
+        return Result.ok(ValueLibrary.trueValue);
+    }
+
 
     @Override
     public String toString() {

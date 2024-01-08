@@ -1,7 +1,9 @@
 package Interpreter;
 
 import Elements.Type;
+import Elements.Value;
 import ErrorManager.Error;
+import Utils.Result;
 
 public class VariableExpression extends Expression {
     String identifier;
@@ -26,6 +28,13 @@ public class VariableExpression extends Expression {
     @Override
     public Type getType(ValidationContext context) {
         return context.getVariableType(identifier);
+    }
+
+    @Override
+    public Result<Value, Exception> reduceToValue() {
+        // TODO: Track the variable to its definition to see if it's statically checkable
+
+        return Result.error(new Exception("Variables can't be reduced to static values yet"));
     }
 
     @Override

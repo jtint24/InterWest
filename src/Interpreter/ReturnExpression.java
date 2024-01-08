@@ -1,8 +1,10 @@
 package Interpreter;
 
 import Elements.Type;
+import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import Utils.Result;
 
 public class ReturnExpression extends Expression {
 
@@ -10,6 +12,10 @@ public class ReturnExpression extends Expression {
 
     public ReturnExpression(Expression exprToReturn) {
         this.exprToReturn = exprToReturn;
+    }
+
+    public Expression getExprToReturn() {
+        return exprToReturn;
     }
 
     @Override
@@ -34,6 +40,10 @@ public class ReturnExpression extends Expression {
         return ValueLibrary.boolType;
     }
 
+    @Override
+    public Result<Value, Exception> reduceToValue() {
+        return Result.ok(ValueLibrary.trueValue);
+    }
     @Override
     public String toString() {
         String line = "return "+exprToReturn;

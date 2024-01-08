@@ -1,6 +1,8 @@
 package Interpreter;
 
 import Elements.Type;
+import Elements.Value;
+import Utils.Result;
 
 public abstract class Expression {
     public abstract ExpressionResult evaluate(State situatedState);
@@ -13,4 +15,6 @@ public abstract class Expression {
      * expression may not match this type
      * */
     public abstract Type getType(ValidationContext context);
+
+    public abstract Result<Value, Exception> reduceToValue();
 }

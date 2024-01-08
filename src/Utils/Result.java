@@ -1,4 +1,4 @@
-package Uitls;
+package Utils;
 
 public class Result<T, U> {
     private T okValue;

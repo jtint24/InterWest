@@ -1,6 +1,8 @@
 package Interpreter;
 
 import Elements.Type;
+import Elements.Value;
+import Utils.Result;
 
 public class LambdaExpression extends Expression {
 
@@ -16,6 +18,11 @@ public class LambdaExpression extends Expression {
 
     @Override
     public Type getType(ValidationContext context) {
+        return null;
+    }
+
+    @Override
+    public Result<Value, Exception> reduceToValue() {
         return null;
     }
 

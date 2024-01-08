@@ -3,6 +3,7 @@ package Interpreter;
 import Elements.BuiltinValue;
 import Elements.Type;
 import Elements.Value;
+import Utils.Result;
 
 public class IdentityExpression extends Expression {
     Value wrappedValue;
@@ -24,6 +25,11 @@ public class IdentityExpression extends Expression {
     @Override
     public Type getType(ValidationContext context) {
         return wrappedValue.getType();
+    }
+
+    @Override
+    public Result<Value, Exception> reduceToValue() {
+        return Result.ok(wrappedValue);
     }
 
     @Override

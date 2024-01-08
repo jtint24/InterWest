@@ -2,6 +2,7 @@ package Regularity;
 
 import Elements.Value;
 import Elements.ValueLibrary;
+import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
 
 import java.util.*;
@@ -262,5 +263,20 @@ public class DFA {
         }
 
         return retString.toString();
+    }
+
+
+    /**
+     * replaceValue
+     *
+     * Replaces all instances of value1 with value2 in the DFA's nodes' return values
+     * */
+
+    public void replaceValue(Value value1, Value value2) {
+        for (DFANode node : getStates()) {
+            if (node.returnValue == value1) {
+                node.returnValue = value2;
+            }
+        }
     }
 }

@@ -1,20 +1,77 @@
 package Regularity;
 
 import Elements.Value;
+import Elements.ValueLibrary;
 import Interpreter.Expression;
+import Interpreter.ReturnExpression;
+import Utils.Result;
 
 import java.util.*;
 
 public class DFAConverter {
     public static DFA dfaFrom(Expression ex) {
 
-        // TODO:
-        // Perform a DFS of the expression tree to search for return nodes
-        // For each return node, calculate all the predicates that need to be satisfied to visit it
-        // Create a DFA of all the intersection of all the predicates (also expressible as DFAs)
-        // Create a union of all the intersections, return that
+        // TODO: Figure out where to simplify
 
-        return null;
+        HashMap<ReturnExpression, ArrayList<DFA>> returnClauses = new HashMap<>();
+
+
+        /*
+        TODO:
+         Perform a DFS of the expression tree to search for return nodes
+         For each node, record the path of conditions (expressed as DFAs) required to return that value
+        */
+
+        ArrayList<DFA> intersectedDFAs = new ArrayList<>();
+
+        for (Map.Entry<ReturnExpression, ArrayList<DFA>> returnConditions : returnClauses.entrySet()) {
+
+            ReturnExpression retExpression = returnConditions.getKey();
+            ArrayList<DFA> conditions = returnConditions.getValue();
+
+            DFA retDFA = conditions.remove(0);
+
+            // Intersect all the relevant conditions
+            for (DFA condition : conditions) {
+                retDFA = retDFA.intersectionWith(condition);
+
+                // Simplify at this step?
+            }
+
+            // Get return expression
+            Expression returnedExpression = retExpression.getExprToReturn();
+
+            // Check if ret expression can be reduced to value statically
+
+            Result<Value, Exception> result = returnedExpression.reduceToValue();
+
+            if (result.isOK()) {
+                Value returnValue = result.getOkValue();
+
+                // Replace 'trues' with the actual return value
+
+                retDFA.replaceValue(ValueLibrary.trueValue, returnValue);
+
+                intersectedDFAs.add(retDFA);
+            } else {
+
+                // Return some kind of error that it DFA conversion is not possible, with details
+            }
+        }
+
+        // Unionize all the return values
+
+        DFA unionizedDFA = intersectedDFAs.remove(0);
+
+        for (DFA condition : intersectedDFAs) {
+            unionizedDFA = unionizedDFA.unionWith(condition);
+
+            // Simplify at this step?
+        }
+
+        // Simplify after everything's been done?
+
+        return unionizedDFA;
     }
 
     public static boolean checkEquivalence(DFA dfa1, DFA dfa2) {

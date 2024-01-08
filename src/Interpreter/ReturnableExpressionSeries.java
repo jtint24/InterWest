@@ -1,6 +1,9 @@
 package Interpreter;
 
 import Elements.Type;
+import Elements.Value;
+import Elements.ValueLibrary;
+import Utils.Result;
 
 import java.util.ArrayList;
 
@@ -48,6 +51,11 @@ public class ReturnableExpressionSeries extends Expression {
     @Override
     public Type getType(ValidationContext context) {
         return returnType;
+    }
+
+    @Override
+    public Result<Value, Exception> reduceToValue() {
+        return Result.error(new Exception("This expression contains a returnable expression series, which can't be statically reduced to a value"));
     }
 
     @Override
