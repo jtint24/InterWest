@@ -22,6 +22,12 @@ public class DFANode {
         this.name = name;
     }
 
+    public DFANode(String name, Value returnValue) {
+        this(name, returnValue, null, null);
+        this.trueNode = this;
+        this.falseNode = this;
+    }
+
     public DFANode getSuccessor(Value v) {
         if (v == ValueLibrary.trueValue) {
             return trueNode;
@@ -30,6 +36,14 @@ public class DFANode {
         } else {
             return null;
             // TODO: Add error handling
+        }
+    }
+
+    public DFANode getSuccessor(boolean b) {
+        if (b) {
+            return trueNode;
+        } else {
+            return falseNode;
         }
     }
 

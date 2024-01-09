@@ -35,11 +35,15 @@ public class DFA {
         return currentNode.returnValue;
     }
 
-    public Value getResultForValueString(ArrayList<Value> valueList, ErrorManager er) {
+    public Value getResult(BitSet values, ErrorManager er) {
         DFANode currentNode = startNode;
 
-        for (Value v : valueList) {
-            currentNode = currentNode.getSuccessor(v);
+        for (int i = 0; i<values.size(); i++) {
+            currentNode = currentNode.getSuccessor(values.get(i));
+
+            if (currentNode == null) {
+                return null;
+            }
         }
 
         return currentNode.returnValue;

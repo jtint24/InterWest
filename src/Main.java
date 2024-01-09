@@ -5,16 +5,32 @@ import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
 import Interpreter.*;
 import Regularity.DFA;
+import Regularity.DFAConditions;
 import Regularity.DFAConverter;
 import Regularity.DFANode;
 import Testing.TestSuite;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.BitSet;
 
 
 public class Main {
     public static void main(String[] args) {
+        Value five = new ValueWrapper<>(5, ValueLibrary.intType);
+        Value otherFive = new ValueWrapper<>(5, ValueLibrary.boolType);
+        Value seven = new ValueWrapper<>(7, ValueLibrary.intType);
+        Value two = new ValueWrapper<>(2, ValueLibrary.intType);
+
+        DFA simpleDFA = DFAConditions.dfaEqualTo(five);
+        System.out.println(simpleDFA);
+        System.out.println(simpleDFA.getResult(five.toBoolString(), new ErrorManager(new OutputBuffer())));
+        System.out.println(simpleDFA.getResult(otherFive.toBoolString(), new ErrorManager(new OutputBuffer())));
+        System.out.println(simpleDFA.getResult(seven.toBoolString(), new ErrorManager(new OutputBuffer())));
+        System.out.println(simpleDFA.getResult(two.toBoolString(), new ErrorManager(new OutputBuffer())));
+
+
+
 
         // Program that just returns true
         ExpressionSeries program = new ExpressionSeries(new ArrayList<>() {{

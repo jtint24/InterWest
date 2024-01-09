@@ -12,15 +12,7 @@ import java.util.*;
 
 public class DFAConverter {
     // A DFA that returns true, always
-    static DFA trueDFA;
-
-    static {
-        DFANode trueNode = new DFANode("accept", ValueLibrary.trueValue, null, null);
-        trueNode.falseNode = trueNode;
-        trueNode.trueNode = trueNode;
-
-        trueDFA = new DFA(trueNode);
-    }
+    static DFA trueDFA = new DFA(new DFANode("accept", ValueLibrary.trueValue));
 
     public static DFA dfaFrom(Expression ex) {
 
