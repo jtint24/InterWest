@@ -7,7 +7,7 @@ import Utils.Result;
 
 import java.util.ArrayList;
 
-public class ExpressionSeries extends Expression {
+public class ExpressionSeries extends ExpressionContainer {
     ArrayList<Expression> subExpressions;
 
     public ExpressionSeries(ArrayList<Expression> subExpressions) {
@@ -58,5 +58,10 @@ public class ExpressionSeries extends Expression {
             retString.append(subExpression);
         }
         return retString.toString();
+    }
+
+    @Override
+    public ArrayList<Expression> getContainedExpressions() {
+        return subExpressions;
     }
 }

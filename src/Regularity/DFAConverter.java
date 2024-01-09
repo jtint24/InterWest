@@ -3,24 +3,37 @@ package Regularity;
 import Elements.Value;
 import Elements.ValueLibrary;
 import Interpreter.Expression;
+import Interpreter.ExpressionContainer;
+import Interpreter.ExpressionSeries;
 import Interpreter.ReturnExpression;
 import Utils.Result;
 
 import java.util.*;
 
 public class DFAConverter {
+    // A DFA that returns true, always
+    static DFA trueDFA;
+
+    static {
+        DFANode trueNode = new DFANode("accept", ValueLibrary.trueValue, null, null);
+        trueNode.falseNode = trueNode;
+        trueNode.trueNode = trueNode;
+
+        trueDFA = new DFA(trueNode);
+    }
+
     public static DFA dfaFrom(Expression ex) {
 
         // TODO: Figure out where to simplify
 
         HashMap<ReturnExpression, ArrayList<DFA>> returnClauses = new HashMap<>();
 
-
         /*
-        TODO:
          Perform a DFS of the expression tree to search for return nodes
          For each node, record the path of conditions (expressed as DFAs) required to return that value
         */
+
+        returnClauses = getReturnClauses(ex);
 
         ArrayList<DFA> intersectedDFAs = new ArrayList<>();
 
@@ -29,7 +42,7 @@ public class DFAConverter {
             ReturnExpression retExpression = returnConditions.getKey();
             ArrayList<DFA> conditions = returnConditions.getValue();
 
-            DFA retDFA = conditions.remove(0);
+            DFA retDFA = trueDFA;
 
             // Intersect all the relevant conditions
             for (DFA condition : conditions) {
@@ -54,8 +67,7 @@ public class DFAConverter {
 
                 intersectedDFAs.add(retDFA);
             } else {
-
-                // Return some kind of error that it DFA conversion is not possible, with details
+                // TODO: Return some kind of error that it DFA conversion is not possible, with details
             }
         }
 
@@ -72,6 +84,68 @@ public class DFAConverter {
         // Simplify after everything's been done?
 
         return unionizedDFA;
+    }
+
+    private static HashMap<ReturnExpression, ArrayList<DFA>> getReturnClauses(Expression root) {
+        // Start with the expression as root
+
+        // Create set of previously discovered nodes
+        HashSet<Expression> discovered = new HashSet<>();
+
+        HashMap<ReturnExpression, ArrayList<DFA>> retMap = new HashMap<>();
+
+        // Make root the first observed node
+        ArrayList<ExpressionDFSNode> frontier = new ArrayList<>() {{
+            add(new ExpressionDFSNode(root, new ArrayList<>()));
+        }};
+
+        while (frontier.size() > 0) {
+            // For each observed node:
+            ExpressionDFSNode currentNode = frontier.remove(0);
+            Expression observed = currentNode.expression;
+            ArrayList<DFA> conditions = new ArrayList<>();
+
+            // TODO: Check if the observed node is an invalid type of expression, ie. a loop
+
+            // Add to the frontier any internal expressions that satisfy any of the following:
+            //  - They are conditionals
+            //  - They are returnExpressions
+            //  - They could contain returnExpressions that dictate the return value of this expression
+            if (observed instanceof ExpressionContainer) {
+                ArrayList<Expression> containedExpressions = ((ExpressionContainer) observed).getContainedExpressions();
+
+                for (Expression containedExpression : containedExpressions) {
+                    if (!discovered.contains(containedExpression) && containedExpression instanceof ReturnExpression) {
+                        frontier.add(0, new ExpressionDFSNode(containedExpression, conditions));
+                    }
+                    if (!discovered.contains(containedExpression) && containedExpression instanceof ExpressionSeries) {
+                        frontier.add(0, new ExpressionDFSNode(containedExpression, conditions));
+                    }
+                    // TODO: check for conditionals
+                }
+
+                discovered.addAll(containedExpressions);
+            }
+
+            // Check if it is a returnExpression
+            if (observed instanceof ReturnExpression) {
+                // If so, trace the list of conditionals that lead to it being run
+                // Append this to the return hashmap
+
+                retMap.put((ReturnExpression) observed, conditions);
+            }
+        }
+
+        return retMap;
+    }
+
+    static class ExpressionDFSNode {
+        Expression expression;
+        ArrayList<DFA> conditions;
+        public ExpressionDFSNode(Expression expression, ArrayList<DFA> conditions) {
+            this.expression = expression;
+            this.conditions = conditions;
+        }
     }
 
     public static boolean checkEquivalence(DFA dfa1, DFA dfa2) {
@@ -188,7 +262,7 @@ public class DFAConverter {
                 }
             }
         }
-        System.out.println(replacementSets);
+        // System.out.println(replacementSets);
 
         // Create a HashMap for that maps every node to its replacement, based on the replacement set
 

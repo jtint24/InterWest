@@ -16,6 +16,19 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String[] args) {
 
+        // Program that just returns true
+        ExpressionSeries program = new ExpressionSeries(new ArrayList<>() {{
+            add(new ReturnExpression(new IdentityExpression(ValueLibrary.falseValue)));
+        }});
+
+
+        DFA convertedDFA = DFAConverter.dfaFrom(program);
+
+        System.out.println(convertedDFA);
+    }
+
+
+    public static void testDFAs(String[] args) {
         DFANode trueNodeA = new DFANode("T1", ValueLibrary.trueValue, null, null);
         trueNodeA.falseNode = trueNodeA;
 
