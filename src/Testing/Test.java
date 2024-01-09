@@ -118,6 +118,9 @@ public class Test implements Testable {
                 case "=" -> {
                     dfa = DFAConditions.dfaEqualTo(val);
                 }
+                case "!=" -> {
+                    dfa = DFAConditions.dfaInequalTo(val);
+                }
                 default -> {
                     throw new IllegalArgumentException(conditionStr+" is not a valid condition");
                 }

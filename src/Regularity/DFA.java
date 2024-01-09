@@ -2,7 +2,6 @@ package Regularity;
 
 import Elements.Value;
 import Elements.ValueLibrary;
-import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
 
 import java.util.*;
@@ -281,6 +280,16 @@ public class DFA {
         for (DFANode node : getStates()) {
             if (node.returnValue == value1) {
                 node.returnValue = value2;
+            }
+        }
+    }
+
+    public void invert() {
+        for (DFANode state : getStates()) {
+            if (state.returnValue == ValueLibrary.falseValue) {
+                state.returnValue = ValueLibrary.trueValue;
+            } else if (state.returnValue == ValueLibrary.trueValue) {
+                state.returnValue = ValueLibrary.falseValue;
             }
         }
     }

@@ -3,10 +3,15 @@ package Regularity;
 import Elements.Value;
 import Elements.ValueLibrary;
 
-import java.util.ArrayList;
 import java.util.BitSet;
 
 public class DFAConditions {
+
+    public static DFA dfaInequalTo(Value v) {
+        DFA equalDFA = dfaEqualTo(v);
+        equalDFA.invert();
+        return equalDFA;
+    }
 
     /**
      * Returns on a DFA that accepts on an input that's equal to v
