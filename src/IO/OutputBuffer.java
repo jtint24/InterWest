@@ -4,14 +4,21 @@ import java.io.PrintWriter;
 
 public class OutputBuffer {
     boolean silence = false;
+    public boolean terse = false; // If true, won't print error stack traces
     String output = "";
 
     public OutputBuffer() {}
 
+    public OutputBuffer(boolean terse) {
+        this.terse = terse;
+    }
+
     public void printStackTrace() {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        new Exception().printStackTrace(pw);
+        if (!terse) {
+            new Exception().printStackTrace(pw);
+        }
         output += sw.toString();
 
         if (!silence) {

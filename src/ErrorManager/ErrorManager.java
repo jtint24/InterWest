@@ -47,13 +47,21 @@ public class ErrorManager {
     }
 
     public void printErrors() {
+        printErrors(false);
+    }
+
+    public void printErrors(boolean terse) {
+        // If terse is set to true, the stack traces won't be printed
+
         if (suppress) {
             return;
         }
         for (Error error : errors) {
             outputBuffer.println(error);
-            outputBuffer.printStackTrace();
-            outputBuffer.println();
+            if (!terse) {
+                outputBuffer.printStackTrace();
+            }
+            // outputBuffer.println();
         }
     }
 }

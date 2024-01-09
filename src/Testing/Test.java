@@ -1,7 +1,13 @@
 package Testing;
 
-import Interpreter.InterpretationSession;
+import Elements.Value;
+import Elements.ValueLibrary;
+import Elements.ValueWrapper;
+import ErrorManager.ErrorManager;
+import IO.OutputBuffer;
 import Interpreter.TestInterpretationSession;
+import Regularity.DFA;
+import Regularity.DFAConditions;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,6 +51,9 @@ public class Test implements Testable {
             case "interpreter" -> {
                 this.function = TestFunction.interpreter;
             }
+            case "regularity" -> {
+                this.function = TestFunction.conditionDFA;
+            }
         }
 
         while(sc.hasNextLine()) {
@@ -78,6 +87,45 @@ public class Test implements Testable {
         TestFunction interpreter = (String inputCode) -> {
             TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
             return sesh.testGetInterpretation();
+        };
+        TestFunction conditionDFA = (String inputCode) -> {
+            String[] args = inputCode.trim().split(" ");
+            String rawValue = args[0];
+            String typeStr = args[1];
+            String conditionStr = args[2];
+            String compare = args[3];
+
+            Value val;
+            Value compVal;
+            switch (typeStr) {
+                case "int" -> {
+                    val = new ValueWrapper<>(Integer.parseInt(rawValue), ValueLibrary.intType);
+                    compVal = new ValueWrapper<>(Integer.parseInt(compare), ValueLibrary.intType);
+                }
+                case "bool" -> {
+                    val = new ValueWrapper<>(Boolean.valueOf(rawValue), ValueLibrary.boolType);
+                    compVal = new ValueWrapper<>(Boolean.valueOf(compare), ValueLibrary.boolType);
+                }
+                default -> {
+                    throw new IllegalArgumentException(typeStr+" is not a valid type");
+                }
+            }
+
+
+            DFA dfa;
+
+            switch (conditionStr) {
+                case "=" -> {
+                    dfa = DFAConditions.dfaEqualTo(val);
+                }
+                default -> {
+                    throw new IllegalArgumentException(conditionStr+" is not a valid condition");
+                }
+            }
+
+            boolean result = dfa.getResult(compVal.toBoolString(), new ErrorManager(new OutputBuffer())) == ValueLibrary.trueValue;
+
+            return dfa+"Did "+compare+" pass "+conditionStr+rawValue+"? "+result+"\n";
         };
     }
 

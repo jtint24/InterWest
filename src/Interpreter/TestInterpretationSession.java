@@ -18,6 +18,7 @@ public class TestInterpretationSession extends InterpretationSession {
     public TestInterpretationSession(String body) {
         super(body);
         this.outputBuffer.silence();
+        this.outputBuffer.terse = true;
     }
 
     public OutputBuffer testGetParseTree() {
@@ -43,7 +44,6 @@ public class TestInterpretationSession extends InterpretationSession {
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
 
-
             Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
             ValidationContext startContext = new ValidationContext();
             ValidationContext endContext = expr.validate(startContext);
@@ -51,8 +51,8 @@ public class TestInterpretationSession extends InterpretationSession {
 
             outputBuffer.println(expr);
         } catch (RuntimeException exception) {
-            outputBuffer.println(exception);
-            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
+            // outputBuffer.println(exception);
+            // outputBuffer.println(Arrays.toString(exception.getStackTrace()));
         }
 
         return outputBuffer;

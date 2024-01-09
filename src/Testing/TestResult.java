@@ -5,7 +5,6 @@ public class TestResult {
     String result;
     String origin;
 
-
     public TestResult(String expected, String result, String origin) {
         this.expected = expected;
         this.result = result;

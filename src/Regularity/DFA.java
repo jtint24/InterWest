@@ -9,7 +9,7 @@ import java.util.*;
 
 public class DFA {
     DFANode startNode;
-    HashSet<DFANode> states;
+    LinkedHashSet<DFANode> states;
     static HashSet<Value> alphabet = new HashSet<>() {{
         add(ValueLibrary.trueValue);
         add(ValueLibrary.falseValue);
@@ -89,10 +89,10 @@ public class DFA {
         return states;
     }
 
-    private static HashSet<DFANode> getStatesFromStart(DFANode startNode) {
-        HashSet<DFANode> frontier = new HashSet<>();
+    private static LinkedHashSet<DFANode> getStatesFromStart(DFANode startNode) {
+        LinkedHashSet<DFANode> frontier = new LinkedHashSet<>();
         frontier.add(startNode);
-        HashSet<DFANode> exploredNodes = new HashSet<>();
+        LinkedHashSet<DFANode> exploredNodes = new LinkedHashSet<>();
 
         while (!frontier.isEmpty()) {
             DFANode nextNode = frontier.iterator().next();
@@ -261,6 +261,7 @@ public class DFA {
     @Override
     public String toString() {
         StringBuilder retString = new StringBuilder();
+
 
         for (DFANode node : getStates()) {
             retString.append(node).append(" ").append(node.trueNode).append(" ").append(node.falseNode).append("\n");

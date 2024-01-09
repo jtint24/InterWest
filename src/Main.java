@@ -17,29 +17,9 @@ import java.util.BitSet;
 
 public class Main {
     public static void main(String[] args) {
-        Value five = new ValueWrapper<>(5, ValueLibrary.intType);
-        Value otherFive = new ValueWrapper<>(5, ValueLibrary.boolType);
-        Value seven = new ValueWrapper<>(7, ValueLibrary.intType);
-        Value two = new ValueWrapper<>(2, ValueLibrary.intType);
+        TestSuite testSuite = new TestSuite(new File("tests"));
 
-        DFA simpleDFA = DFAConditions.dfaEqualTo(five);
-        System.out.println(simpleDFA);
-        System.out.println(simpleDFA.getResult(five.toBoolString(), new ErrorManager(new OutputBuffer())));
-        System.out.println(simpleDFA.getResult(otherFive.toBoolString(), new ErrorManager(new OutputBuffer())));
-        System.out.println(simpleDFA.getResult(seven.toBoolString(), new ErrorManager(new OutputBuffer())));
-        System.out.println(simpleDFA.getResult(two.toBoolString(), new ErrorManager(new OutputBuffer())));
-
-
-
-
-        // Program that just returns true
-        ExpressionSeries program = new ExpressionSeries(new ArrayList<>() {{
-            add(new ReturnExpression(new IdentityExpression(ValueLibrary.falseValue)));
-        }});
-
-        DFA convertedDFA = DFAConverter.dfaFrom(program);
-
-        System.out.println(convertedDFA);
+        testSuite.getResults();
     }
 
 
