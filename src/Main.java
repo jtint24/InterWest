@@ -21,7 +21,6 @@ public class Main {
             add(new ReturnExpression(new IdentityExpression(ValueLibrary.falseValue)));
         }});
 
-
         DFA convertedDFA = DFAConverter.dfaFrom(program);
 
         System.out.println(convertedDFA);
