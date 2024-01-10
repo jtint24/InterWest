@@ -22,7 +22,7 @@ public class DFAConverter {
 
         // TODO: Figure out where to simplify
 
-        HashMap<ReturnExpression, ArrayList<DFA>> returnClauses = new HashMap<>();
+        HashMap<ReturnExpression, ArrayList<DFA>> returnClauses;
 
         /*
          Perform a DFS of the expression tree to search for return nodes
@@ -76,6 +76,8 @@ public class DFAConverter {
 
             // Simplify at this step?
         }
+
+        // TODO: Intersect with the conditions of the type
 
         // Simplify after everything's been done?
 

@@ -31,6 +31,13 @@ public class FunctionType extends Type {
         return true;
     }
 
+    public Type getResultType() {
+        return resultType;
+    }
+    public Type[] getParameterTypes() {
+        return parameterTypes;
+    }
+
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
         if (!(v instanceof Function)) {

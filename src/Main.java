@@ -1,3 +1,4 @@
+import Elements.Operations;
 import Elements.Value;
 import Elements.ValueLibrary;
 import Elements.ValueWrapper;
@@ -17,9 +18,20 @@ import java.util.BitSet;
 
 public class Main {
     public static void main(String[] args) {
-        TestSuite testSuite = new TestSuite(new File("tests"));
+        // TestSuite testSuite = new TestSuite(new File("tests"));
 
-        testSuite.getResults();
+        // testSuite.getResults();
+        /*
+        Expression conditionBody = new ReturnExpression(new IdentityExpression(ValueLibrary.trueValue));
+
+        Expression condition = new ConditionalExpression(conditionBody,
+                new FunctionExpression(Operations.equalsValue(ValueLibrary.falseValue), new Expression)
+        );
+        */
+
+
+        // Expression program = new ReturnableExpressionSeries(condition);
+
     }
 
 

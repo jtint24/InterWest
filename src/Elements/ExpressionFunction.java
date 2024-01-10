@@ -7,6 +7,14 @@ import Interpreter.ExpressionResult;
 import Interpreter.State;
 
 public class ExpressionFunction extends Function {
+    /**
+     * THIS CLASS MAY NEED TO BE DELETED!
+     *
+     * Frankly, I'm not entirely sure that functions need to be able to wrap expressions, especially if expressions
+     * can wrap functions. If you delete this, MAKE SURE to delete the 'state' parameter from the apply function in
+     * the base Function class. I don't think there's anywhere else it's needed. 
+     * */
+
     FunctionType type;
     Expression wrappedExpression;
     String[] parameterNames;

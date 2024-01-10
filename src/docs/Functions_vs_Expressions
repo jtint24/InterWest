@@ -16,6 +16,8 @@ unable to do this, and in fact cannot read the context that they exist in at all
 deterministic from its inputs, not its context. Expressions can read the context as much as they like (don't confuse
 modification of context with side-effects: adding an immutable variable to a stack frame, entering a new stack frame,
 or the other limited ways that the context cannot be modified, do not constitute side effects in a meaningful way).
+NOTE: the Function::apply method currently takes a state, but only because of the ExpressionFunction class which might
+not be needed. See the note there for details.
 
 3. Functions are values, Expressions are not
 
