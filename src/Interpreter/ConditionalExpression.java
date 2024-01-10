@@ -12,6 +12,11 @@ public class ConditionalExpression extends ExpressionContainer {
     ExpressionSeries expressionSeries;
     Expression condition;
 
+    public ConditionalExpression(ExpressionSeries expressionSeries, Expression condition) {
+        this.expressionSeries = expressionSeries;
+        this.condition = condition;
+    }
+
     @Override
     public ExpressionResult evaluate(State situatedState) {
         ExpressionResult conditionResult = condition.evaluate(situatedState);

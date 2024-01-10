@@ -115,15 +115,9 @@ public class Test implements Testable {
             DFA dfa;
 
             switch (conditionStr) {
-                case "=" -> {
-                    dfa = DFAConditions.dfaEqualTo(val);
-                }
-                case "!=" -> {
-                    dfa = DFAConditions.dfaInequalTo(val);
-                }
-                default -> {
-                    throw new IllegalArgumentException(conditionStr+" is not a valid condition");
-                }
+                case "=" -> dfa = DFAConditions.dfaEqualTo(val);
+                case "!=" -> dfa = DFAConditions.dfaInequalTo(val);
+                default -> throw new IllegalArgumentException(conditionStr+" is not a valid condition");
             }
 
             boolean result = dfa.getResult(compVal.toBoolString(), new ErrorManager(new OutputBuffer())) == ValueLibrary.trueValue;

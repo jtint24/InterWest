@@ -16,6 +16,10 @@ public class DFAConverter {
 
     public static DFA dfaFrom(Expression ex) {
 
+        // if (ex instanceof StaticExpression) {
+        //    return ((StaticExpression) ex).toDFA();
+        // }
+
         // TODO: Figure out where to simplify
 
         HashMap<ReturnExpression, ArrayList<DFA>> returnClauses = new HashMap<>();
