@@ -18,9 +18,9 @@ import java.util.BitSet;
 
 public class Main {
     public static void main(String[] args) {
-        // TestSuite testSuite = new TestSuite(new File("tests"));
+        TestSuite testSuite = new TestSuite(new File("tests"));
 
-        // testSuite.getResults();
+        testSuite.getResults();
         /*
         Expression conditionBody = new ReturnExpression(new IdentityExpression(ValueLibrary.trueValue));
 

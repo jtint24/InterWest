@@ -80,58 +80,52 @@ EXPECTED_RESULT:
 |	|	|	|	| { lexeme = `=` tokenType = = }
 |	|	|	|	| { lexeme = ` ` tokenType = whitespace }
 |	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	| TreeKind(func call expression)
+|	|	|	|	|	| TreeKind(expression call)
+|	|	|	|	|	|	| TreeKind(expression call)
 |	|	|	|	|	|	|	| TreeKind(expression call)
 |	|	|	|	|	|	|	|	| TreeKind(expression call)
-|	|	|	|	|	|	|	|	|	| TreeKind(expression call)
-|	|	|	|	|	|	|	|	|	|	| TreeKind(expression call)
-|	|	|	|	|	|	|	|	|	|	|	| TreeKind(expression call)
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
-|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(argument list)
-|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `then` tokenType = identifier }
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
-|	|	|	|	|	|	|	|	|	|	|	| TreeKind(argument list)
-|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `I` tokenType = identifier }
-|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
-|	|	|	|	|	|	|	|	|	|	| TreeKind(argument list)
-|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `broke` tokenType = identifier }
+|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `then` tokenType = identifier }
 |	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
 |	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
 |	|	|	|	|	|	|	|	|	| TreeKind(argument list)
 |	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `my` tokenType = identifier }
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `I` tokenType = identifier }
 |	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
 |	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
 |	|	|	|	|	|	|	|	| TreeKind(argument list)
 |	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `eggshell` tokenType = identifier }
+|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `broke` tokenType = identifier }
 |	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
+|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	| TreeKind(argument list)
+|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `my` tokenType = identifier }
+|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	| TreeKind(argument list)
+|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	| { lexeme = `eggshell` tokenType = identifier }
+|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	| { lexeme = `\n` tokenType = whitespace }
 |	| TreeKind(full expression)
-|	|	| TreeKind(delimited expression)
-|	|	|	| { lexeme = `and` tokenType = identifier }
-|	| TreeKind(full expression)
-|	|	| TreeKind(delimited expression)
-|	|	|	| TreeKind(func call expression)
-|	|	|	|	| TreeKind(expression call)
-|	|	|	|	|	| { lexeme = `(` tokenType = ( }
-|	|	|	|	|	| TreeKind(argument list)
-|	|	|	|	|	|	| TreeKind(full expression)
-|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	| { lexeme = `entered` tokenType = identifier }
-|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
+|	|	| TreeKind(expression call)
+|	|	|	| TreeKind(delimited expression)
+|	|	|	|	| { lexeme = `and` tokenType = identifier }
+|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	| TreeKind(argument list)
+|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	| { lexeme = `entered` tokenType = identifier }
+|	|	|	| { lexeme = `)` tokenType = ) }
+|	| { lexeme = `\n` tokenType = whitespace }
 |	| TreeKind(full expression)
 |	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)

@@ -104,14 +104,16 @@ public class NonterminalLibrary {
     public static Nonterminal delimitedExpression = new Nonterminal("delimited expression") {
         @Override
         public void parse(Parser parser) {
-            if (parser.at(TokenLibrary.lParen)) {
-                // parser.eat(TokenLibrary.lParen);
-                funcCallExpression.apply(parser);
-                // parser.expect(TokenLibrary.rParen);
-            } else if (parser.at(TokenLibrary.intToken)) {
+            parser.eat(TokenLibrary.whitespace);
+
+            if (parser.at(TokenLibrary.intToken)) {
                 parser.eat(TokenLibrary.intToken);
             } else if (parser.at(TokenLibrary.stringLiteral)) {
                 parser.eat(TokenLibrary.stringLiteral);
+            } else if (parser.at(TokenLibrary.lParen)) {
+                parser.eat(TokenLibrary.lParen);
+                fullExpression.apply(parser);
+                parser.expect(TokenLibrary.rParen);
             } else if (parser.at(TokenLibrary.identifier)) {
                 parser.eat(TokenLibrary.identifier);
             } else if (parser.at(TokenLibrary.lBrace)) {
@@ -129,29 +131,7 @@ public class NonterminalLibrary {
     // Argument list in parentheses constituting a function call
     public static Nonterminal expressionCall = new Nonterminal("expression call") {
         @Override
-        public void parse(Parser parser) {
-            parser.expect(TokenLibrary.lParen);
-
-            argumentList.apply(parser);
-
-            parser.expect(TokenLibrary.rParen);
-            parser.eat(TokenLibrary.whitespace);
-        }
-    };
-
-    // Complex expressions, including function calls
-    public static Nonterminal funcCallExpression = new Nonterminal("func call expression") {
-        @Override
-        public void parse(Parser parser) {
-            MarkClosed leftSide = expressionCall.apply(parser);
-
-            if (parser.at(TokenLibrary.lParen)) {
-                // Parses function calls
-                while (parser.at(TokenLibrary.lParen)) {
-                    expressionCall.apply(parser, leftSide);
-                }
-            }
-        }
+        public void parse(Parser parser) {}
     };
 
     public static Nonterminal fullExpression = new Nonterminal("full expression") {
@@ -162,6 +142,15 @@ public class NonterminalLibrary {
 
         public void recursiveExpression(Parser parser, Token leftToken) {
             MarkClosed lefthandSide = delimitedExpression.apply(parser);
+
+            while (parser.at(TokenLibrary.lParen)) {
+                MarkOpened opener = parser.openBefore(lefthandSide);
+                parser.expect(TokenLibrary.lParen);
+                argumentList.apply(parser);
+                parser.expect(TokenLibrary.rParen);
+                lefthandSide = parser.close(opener, TreeKind.valid(expressionCall));
+            }
+
             // System.out.println("Recursively parsing with left "+leftToken);
 
             // while (parser.at(TokenLibrary.lParen)) {

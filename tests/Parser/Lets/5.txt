@@ -1,0 +1,50 @@
+parser
+let a = ((((((((1))))))))
+
+EXPECTED_RESULT:
+| TreeKind(file)
+|	| TreeKind(full expression)
+|	|	| TreeKind(delimited expression)
+|	|	|	| TreeKind(let)
+|	|	|	|	| { lexeme = `let` tokenType = let }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `a` tokenType = identifier }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `=` tokenType = = }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `1` tokenType = int }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
+|	|	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace }
