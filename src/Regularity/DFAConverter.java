@@ -2,10 +2,7 @@ package Regularity;
 
 import Elements.Value;
 import Elements.ValueLibrary;
-import Interpreter.Expression;
-import Interpreter.ExpressionContainer;
-import Interpreter.ExpressionSeries;
-import Interpreter.ReturnExpression;
+import Interpreter.*;
 import Utils.Result;
 
 import java.util.*;
@@ -22,30 +19,21 @@ public class DFAConverter {
 
         // TODO: Figure out where to simplify
 
-        HashMap<ReturnExpression, ArrayList<DFA>> returnClauses;
+        HashMap<ReturnExpression, DFA> returnClauses;
 
         /*
          Perform a DFS of the expression tree to search for return nodes
          For each node, record the path of conditions (expressed as DFAs) required to return that value
         */
 
-        returnClauses = getReturnClauses(ex);
+        returnClauses = getReturnClauseConditions(ex).returnClauses;
 
         ArrayList<DFA> intersectedDFAs = new ArrayList<>();
 
-        for (Map.Entry<ReturnExpression, ArrayList<DFA>> returnConditions : returnClauses.entrySet()) {
+        for (Map.Entry<ReturnExpression, DFA> returnConditions : returnClauses.entrySet()) {
 
             ReturnExpression retExpression = returnConditions.getKey();
-            ArrayList<DFA> conditions = returnConditions.getValue();
-
-            DFA retDFA = trueDFA;
-
-            // Intersect all the relevant conditions
-            for (DFA condition : conditions) {
-                retDFA = retDFA.intersectionWith(condition);
-
-                // Simplify at this step?
-            }
+            DFA conditions = returnConditions.getValue();
 
             // Get return expression
             Expression returnedExpression = retExpression.getExprToReturn();
@@ -59,9 +47,9 @@ public class DFAConverter {
 
                 // Replace 'trues' with the actual return value
 
-                retDFA.replaceValue(ValueLibrary.trueValue, returnValue);
+                conditions.replaceValue(ValueLibrary.trueValue, returnValue);
 
-                intersectedDFAs.add(retDFA);
+                intersectedDFAs.add(conditions);
             } else {
                 // TODO: Return some kind of error that it DFA conversion is not possible, with details
             }
@@ -84,6 +72,107 @@ public class DFAConverter {
         return unionizedDFA;
     }
 
+
+    static class ReturnClauseConditionResult {
+        public HashMap<ReturnExpression, DFA> returnClauses;
+        // ARRAY LISTS OF INTERSECTED DSAS AREN'T SUFFICIENT TO REPRESENT EVERY POSSIBLE CONDITION TO GET TO A CERTAIN POINT BECAUSE UNIONS MAY BE INVOLVED TOO:
+
+        // if a {
+        //  if b {
+        //   return
+        //  }
+        // }
+        // return <<< (A AND NOT B) OR NOT A
+        //
+
+        // if a {
+        //  if b {
+        //   return
+        //  }
+        // }
+        // if b {
+        //  if c {
+        //   return
+        //  }
+        // }
+        // return <<< ((A & !B) | !A) & ((B & !C) | !B) = !B | (!A & !C)
+        //
+
+
+        public DFA passConditions; // The series of conditions that need to be met to get to this point
+        // public boolean terminates = false;
+
+        public ReturnClauseConditionResult(HashMap<ReturnExpression, DFA> returnClauses, DFA conditions) {
+            this.returnClauses = returnClauses;
+            this.passConditions = conditions;
+        }
+/*
+        public ReturnClauseConditionResult(HashMap<ReturnExpression, ArrayList<DFA>> returnClauses, ArrayList<DFA> conditions, boolean terminates) {
+            this.returnClauses = returnClauses;
+            this.conditions = conditions;
+            this.terminates = terminates;
+        }
+ */
+    }
+
+    private static ReturnClauseConditionResult getReturnClauseConditions(Expression root) {
+        return getReturnClauseConditions(root,  DFA.alwaysTrue());
+    }
+
+    private static ReturnClauseConditionResult getReturnClauseConditions(Expression root, DFA conditions) {
+        HashMap<ReturnExpression, DFA> returnClauses = new HashMap<>();
+        DFA passConditions = conditions;
+
+        if (root instanceof ExpressionContainer) {
+
+            for (Expression ex : ((ExpressionContainer) root).getContainedExpressions()) {
+                ReturnClauseConditionResult outResult;
+                if (ex instanceof ConditionalExpression) {
+                    DFA ifCondition = dfaFrom(((ConditionalExpression) ex).getCondition());
+
+                    ExpressionSeries body = ((ConditionalExpression) ex).getBody();
+
+                    DFA inConditions = passConditions.intersectionWith(ifCondition);
+
+                    outResult = getReturnClauseConditions(body, inConditions);
+
+                    // We can get to the other side of the if statement if EITHER
+                    //  - We met the previous pass condition to get to the top of the if statement and didn't meet the if statement's condition
+                    //  - We met the if statement's escape condition
+                    // C = if statement condition P = previous pass condition E = escape if statement pass condition
+                    // Our pass condition is: (P and not C) or E
+                    // Which expression is faster? Probably the first one
+
+                    ifCondition.invert();
+
+                    DFA pAndNotC = passConditions.intersectionWith(ifCondition);
+
+
+                    passConditions = pAndNotC.unionWith(outResult.passConditions);
+
+                    // Add any collected return clauses:
+
+                    returnClauses.putAll(outResult.returnClauses);
+
+                } else {
+                    outResult = getReturnClauseConditions(ex, passConditions);
+                    passConditions = outResult.passConditions;
+                }
+            }
+
+        } else if (root instanceof ReturnExpression) {
+            returnClauses.put((ReturnExpression) root, conditions);
+
+            return new ReturnClauseConditionResult(returnClauses, DFA.alwaysFalse());
+        }
+
+        return new ReturnClauseConditionResult(returnClauses, passConditions);
+    }
+
+    /*
+
+    DEPRECATED:
+     */
     private static HashMap<ReturnExpression, ArrayList<DFA>> getReturnClauses(Expression root) {
         // Start with the expression as root
 

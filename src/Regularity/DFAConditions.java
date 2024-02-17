@@ -7,6 +7,9 @@ import java.util.BitSet;
 
 public class DFAConditions {
 
+    /**
+     * Returns a DFA that accepts on an input that's inequal to v
+     */
     public static DFA dfaInequalTo(Value v) {
         DFA equalDFA = dfaEqualTo(v);
         equalDFA.invert();

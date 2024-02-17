@@ -8,13 +8,21 @@ import Utils.Result;
 import java.util.ArrayList;
 
 
-public class ConditionalExpression extends ExpressionContainer {
+public class ConditionalExpression extends Expression {
     ExpressionSeries expressionSeries;
     Expression condition;
 
     public ConditionalExpression(ExpressionSeries expressionSeries, Expression condition) {
         this.expressionSeries = expressionSeries;
         this.condition = condition;
+    }
+
+    public Expression getCondition() {
+        return condition;
+    }
+
+    public ExpressionSeries getBody() {
+        return expressionSeries;
     }
 
     @Override
@@ -45,10 +53,14 @@ public class ConditionalExpression extends ExpressionContainer {
         return Result.ok(ValueLibrary.trueValue);
     }
 
+    /*
+
     @Override
     public ArrayList<Expression> getContainedExpressions() {
         return new ArrayList<>() {{
             add(expressionSeries);
         }};
     }
+
+     */
 }

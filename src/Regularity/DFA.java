@@ -149,8 +149,6 @@ public class DFA {
         return retMap;
     }
 
-    // TODO: Add intersection and union
-
 
     public DFA unionWith(DFA otherDFA) {
         HashMap<DFANode, HashMap<DFANode, DFANode>> productMapping = new HashMap<>();
@@ -292,5 +290,23 @@ public class DFA {
                 state.returnValue = ValueLibrary.falseValue;
             }
         }
+    }
+
+    /**
+     * Returns a DFA that always accepts
+     * */
+
+    public static DFA alwaysTrue() {
+        DFANode accept = new DFANode("accept", ValueLibrary.trueValue);
+        accept.trueNode = accept;
+        accept.falseNode = accept;
+        return new DFA(accept);
+    }
+
+    public static DFA alwaysFalse() {
+        DFANode accept = new DFANode("reject", ValueLibrary.falseValue);
+        accept.trueNode = accept;
+        accept.falseNode = accept;
+        return new DFA(accept);
     }
 }
