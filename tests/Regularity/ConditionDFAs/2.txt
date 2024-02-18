@@ -3,17 +3,8 @@ regularity
 
 EXPECTED_RESULT:
 {head false} {node_0 false} {reject false}
-{reject false} {reject false} {reject false}
 {node_0 false} {node_1 false} {reject false}
 {node_1 false} {reject false} {node_2 false}
-{node_2 false} {reject false} {node_3 false}
-{node_3 false} {node_4 false} {reject false}
-{node_4 false} {node_5 false} {reject false}
-{node_5 false} {reject false} {node_6 false}
-{node_6 false} {reject false} {node_7 false}
-{node_7 false} {reject false} {node_8 false}
-{node_8 false} {reject false} {node_9 false}
-{node_9 false} {reject false} {node_10 false}
 {node_10 false} {reject false} {node_11 false}
 {node_11 false} {reject false} {node_12 false}
 {node_12 false} {reject false} {node_13 false}
@@ -24,6 +15,7 @@ EXPECTED_RESULT:
 {node_17 false} {reject false} {node_18 false}
 {node_18 false} {reject false} {node_19 false}
 {node_19 false} {reject false} {node_20 false}
+{node_2 false} {reject false} {node_3 false}
 {node_20 false} {reject false} {node_21 false}
 {node_21 false} {reject false} {node_22 false}
 {node_22 false} {reject false} {node_23 false}
@@ -34,6 +26,7 @@ EXPECTED_RESULT:
 {node_27 false} {reject false} {node_28 false}
 {node_28 false} {reject false} {node_29 false}
 {node_29 false} {reject false} {node_30 false}
+{node_3 false} {node_4 false} {reject false}
 {node_30 false} {reject false} {node_31 false}
 {node_31 false} {reject false} {node_32 false}
 {node_32 false} {reject false} {node_33 false}
@@ -44,6 +37,7 @@ EXPECTED_RESULT:
 {node_37 false} {reject false} {node_38 false}
 {node_38 false} {reject false} {node_39 false}
 {node_39 false} {reject false} {node_40 false}
+{node_4 false} {node_5 false} {reject false}
 {node_40 false} {reject false} {node_41 false}
 {node_41 false} {reject false} {node_42 false}
 {node_42 false} {reject false} {node_43 false}
@@ -54,6 +48,7 @@ EXPECTED_RESULT:
 {node_47 false} {reject false} {node_48 false}
 {node_48 false} {reject false} {node_49 false}
 {node_49 false} {reject false} {node_50 false}
+{node_5 false} {reject false} {node_6 false}
 {node_50 false} {reject false} {node_51 false}
 {node_51 false} {reject false} {node_52 false}
 {node_52 false} {reject false} {node_53 false}
@@ -64,8 +59,13 @@ EXPECTED_RESULT:
 {node_57 false} {reject false} {node_58 false}
 {node_58 false} {reject false} {node_59 false}
 {node_59 false} {reject false} {node_60 false}
+{node_6 false} {reject false} {node_7 false}
 {node_60 false} {reject false} {node_61 false}
 {node_61 false} {reject false} {node_62 false}
 {node_62 false} {reject false} {node_63 true}
 {node_63 true} {reject false} {reject false}
+{node_7 false} {reject false} {node_8 false}
+{node_8 false} {reject false} {node_9 false}
+{node_9 false} {reject false} {node_10 false}
+{reject false} {reject false} {reject false}
 Did 4 pass =3? false

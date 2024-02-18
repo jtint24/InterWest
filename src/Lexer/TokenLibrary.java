@@ -21,7 +21,8 @@ public class TokenLibrary {
                 lBracket,
                 rBracket,
                 comma,
-                arrow
+                arrow,
+                ifToken
         };
     }
 
@@ -44,8 +45,8 @@ public class TokenLibrary {
     public static final Token lBracket = fromString("[");
     public static final Token rBracket = fromString("]");
     public static final Token arrow = fromString("->");
-
     public static final Token comma = fromString(",");
+    public static final Token ifToken = fromString("if");
 
     public static final Token stringLiteral = new Token(
             "String",

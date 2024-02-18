@@ -289,8 +289,9 @@ public class DFA {
     public String toString() {
         StringBuilder retString = new StringBuilder();
 
-
-        for (DFANode node : getStates()) {
+        ArrayList<DFANode> orderedNodes = new ArrayList<>(getStates());
+        orderedNodes.sort(Comparator.comparing((DFANode n) -> n.name));
+        for (DFANode node : orderedNodes) {
             retString.append(node).append(" ").append(node.trueNode).append(" ").append(node.falseNode).append("\n");
         }
 

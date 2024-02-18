@@ -1,0 +1,11 @@
+interpreter
+let a = true
+if a {
+    return 3
+}
+
+EXPECTED_RESULT:
+let a = true
+if a {
+return 3
+}

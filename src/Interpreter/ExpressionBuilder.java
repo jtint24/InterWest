@@ -23,6 +23,7 @@ public class ExpressionBuilder {
     }
 
     public Expression buildExpression(NonterminalParseTreeNode ptNode) {
+        ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
 
         // System.out.println(ptNode.getKind());
 
@@ -44,6 +45,7 @@ public class ExpressionBuilder {
             case "TreeKind(let)" -> buildLetExpression(ptNode);
             case "TreeKind(return)" -> buildReturnExpression(ptNode);
             case "TreeKind(lambda)" -> buildLambdaExpression(ptNode);
+            case "TreeKind(if statement)" -> buildIfExpression(ptNode);
             default -> {
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown nonterminal type `"+ptNode.getKind()+"`", true));
                 yield null;
@@ -57,12 +59,34 @@ public class ExpressionBuilder {
 
         return switch (tokenName) {
             case "identifier" -> new VariableExpression(lexeme);
-            case "int" -> new IdentityExpression(new ValueWrapper<Integer>(Integer.parseInt(lexeme), ValueLibrary.intType));
+            case "int" -> new IdentityExpression(new ValueWrapper<>(Integer.parseInt(lexeme), ValueLibrary.intType));
             default -> {
+                (new RuntimeException()).printStackTrace();
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown terminal type `"+tokenName+"`", true));
                 yield null;
             }
         };
+    }
+
+    public Expression buildIfExpression(NonterminalParseTreeNode ptNode) {
+        ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
+
+        // [if] [condition] [{] [statements...] [}]
+
+        Expression condition = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
+
+        ArrayList<Expression> childExpressions = new ArrayList<>();
+
+        for (int i = 3; i<ptNode.getChildren().size()-1; i++) {
+            if (ptNode.getChildren().get(i) instanceof NonterminalParseTreeNode) {
+                childExpressions.add(buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i)));
+            }
+        }
+
+        ExpressionSeries internalSeries = new ExpressionSeries(childExpressions);
+
+
+        return new ConditionalExpression(internalSeries, condition);
     }
 
     public Expression buildFileExpression(NonterminalParseTreeNode ptNode) {

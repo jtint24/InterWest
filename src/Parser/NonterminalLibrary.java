@@ -100,6 +100,22 @@ public class NonterminalLibrary {
         }
     };
 
+    public static Nonterminal ifStatement = new Nonterminal("if statement") {
+        @Override
+        public void parse(Parser parser) {
+            parser.expect(TokenLibrary.ifToken);
+            parser.expect(TokenLibrary.whitespace);
+            fullExpression.apply(parser);
+            parser.eat(TokenLibrary.whitespace);
+            parser.expect(TokenLibrary.lBrace);
+            while (!parser.at(TokenLibrary.rBrace)) {
+                parser.eat(TokenLibrary.whitespace);
+                fullExpression.apply(parser);
+            }
+            parser.expect(TokenLibrary.rBrace);
+        }
+    };
+
     // Basic expressions: including expressions in parentheses, literals, identifiers, lambdas
     public static Nonterminal delimitedExpression = new Nonterminal("delimited expression") {
         @Override
@@ -120,6 +136,8 @@ public class NonterminalLibrary {
                 lambda.apply(parser);
             } else if (parser.at(TokenLibrary.let)) {
                 letStatement.apply(parser);
+            } else if (parser.at(TokenLibrary.ifToken)) {
+                ifStatement.apply(parser);
             } else if (parser.at(TokenLibrary.returnToken)) {
                 returnStatement.apply(parser);
             }

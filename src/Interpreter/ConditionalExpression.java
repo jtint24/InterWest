@@ -53,6 +53,11 @@ public class ConditionalExpression extends Expression {
         return Result.ok(ValueLibrary.trueValue);
     }
 
+    @Override
+    public String toString() {
+        return "if "+condition+" {\n"+expressionSeries+"}";
+    }
+
     /*
 
     @Override

@@ -3,17 +3,8 @@ regularity
 
 EXPECTED_RESULT:
 {head true} {node_0 true} {reject true}
-{reject true} {reject true} {reject true}
 {node_0 true} {node_1 true} {reject true}
 {node_1 true} {reject true} {node_2 true}
-{node_2 true} {reject true} {node_3 true}
-{node_3 true} {node_4 true} {reject true}
-{node_4 true} {node_5 true} {reject true}
-{node_5 true} {reject true} {node_6 true}
-{node_6 true} {reject true} {node_7 true}
-{node_7 true} {reject true} {node_8 true}
-{node_8 true} {reject true} {node_9 true}
-{node_9 true} {reject true} {node_10 true}
 {node_10 true} {reject true} {node_11 true}
 {node_11 true} {reject true} {node_12 true}
 {node_12 true} {reject true} {node_13 true}
@@ -24,6 +15,7 @@ EXPECTED_RESULT:
 {node_17 true} {reject true} {node_18 true}
 {node_18 true} {reject true} {node_19 true}
 {node_19 true} {reject true} {node_20 true}
+{node_2 true} {reject true} {node_3 true}
 {node_20 true} {reject true} {node_21 true}
 {node_21 true} {reject true} {node_22 true}
 {node_22 true} {reject true} {node_23 true}
@@ -34,6 +26,7 @@ EXPECTED_RESULT:
 {node_27 true} {reject true} {node_28 true}
 {node_28 true} {reject true} {node_29 true}
 {node_29 true} {reject true} {node_30 true}
+{node_3 true} {node_4 true} {reject true}
 {node_30 true} {reject true} {node_31 true}
 {node_31 true} {reject true} {node_32 true}
 {node_32 true} {reject true} {node_33 true}
@@ -44,6 +37,7 @@ EXPECTED_RESULT:
 {node_37 true} {reject true} {node_38 true}
 {node_38 true} {reject true} {node_39 true}
 {node_39 true} {reject true} {node_40 true}
+{node_4 true} {node_5 true} {reject true}
 {node_40 true} {reject true} {node_41 true}
 {node_41 true} {reject true} {node_42 true}
 {node_42 true} {reject true} {node_43 true}
@@ -54,6 +48,7 @@ EXPECTED_RESULT:
 {node_47 true} {reject true} {node_48 true}
 {node_48 true} {reject true} {node_49 true}
 {node_49 true} {reject true} {node_50 true}
+{node_5 true} {reject true} {node_6 true}
 {node_50 true} {reject true} {node_51 true}
 {node_51 true} {reject true} {node_52 true}
 {node_52 true} {reject true} {node_53 true}
@@ -64,8 +59,13 @@ EXPECTED_RESULT:
 {node_57 true} {reject true} {node_58 true}
 {node_58 true} {reject true} {node_59 true}
 {node_59 true} {reject true} {node_60 true}
+{node_6 true} {reject true} {node_7 true}
 {node_60 true} {reject true} {node_61 true}
 {node_61 true} {reject true} {node_62 true}
 {node_62 true} {reject true} {node_63 false}
 {node_63 false} {reject true} {reject true}
+{node_7 true} {reject true} {node_8 true}
+{node_8 true} {reject true} {node_9 true}
+{node_9 true} {reject true} {node_10 true}
+{reject true} {reject true} {reject true}
 Did 4 pass !=3? true

@@ -18,10 +18,10 @@ import java.util.BitSet;
 
 public class Main {
     public static void main(String[] args) {
-        testDFAConversion();
-        // TestSuite testSuite = new TestSuite(new File("tests"));
+        // testDFAConversion();
+        TestSuite testSuite = new TestSuite(new File("tests"));
 
-        // testSuite.getResults();
+        testSuite.getResults();
         /*
         Expression conditionBody = new ReturnExpression(new IdentityExpression(ValueLibrary.trueValue));
 
