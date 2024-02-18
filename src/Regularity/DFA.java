@@ -175,11 +175,28 @@ public class DFA {
 
                 Value returnValue;
 
-                if (myState.returnValue == ValueLibrary.trueValue || otherState.returnValue == ValueLibrary.trueValue) {
-                    returnValue = ValueLibrary.trueValue;
+
+                // Truth table: False is falsy, EVERY OTHER VALUE (even non-booleans) is truthy
+                // So for any non-false value X, some nonfalse value Y that !=X, and F:
+                // myState | otherState | returnValue
+                //    X          X            X
+                //    X          Y        conflict!
+                //    X          F            X
+                //    F          X            X
+                //    F          F            F
+                // System.out.println("Return values: "+myState.returnValue+" "+otherState.returnValue);
+                if (myState.returnValue == ValueLibrary.falseValue) {
+                    returnValue = otherState.returnValue;
+                } else if (otherState.returnValue == ValueLibrary.falseValue) {
+                    returnValue = myState.returnValue;
+                } else if (otherState.returnValue == myState.returnValue) {
+                    returnValue = otherState.returnValue;
                 } else {
+                    // CONFLICT!!!
+                    // TODO: Check errors
                     returnValue = ValueLibrary.falseValue;
                 }
+                // System.out.println("return: "+returnValue);
 
                 productMapping.get(myState).put(otherState, new DFANode(myState.name + "_"+otherState.name, returnValue, null, null));
             }
@@ -210,17 +227,30 @@ public class DFA {
 
             productMapping.put(myState, new HashMap<>());
 
-            // TODO: validate return value
-
             for (DFANode otherState : otherProdStates) {
-
-                // TODO: validate return value
 
                 Value returnValue;
 
-                if (myState.returnValue == ValueLibrary.trueValue && otherState.returnValue == ValueLibrary.trueValue) {
-                    returnValue = ValueLibrary.trueValue;
+                // Truth table: False is falsy, EVERY OTHER VALUE (even non-booleans) is truthy
+                // So for any non-false value X, some nonfalse value Y that !=X, and F:
+                // myState | otherState | returnValue
+                //    X          X            X
+                //    X          Y        conflict!
+                //    X          F            F
+                //    F          X            F
+                //    F          F            F
+
+                if (myState.returnValue != otherState.returnValue && myState.returnValue != ValueLibrary.falseValue && otherState.returnValue != ValueLibrary.falseValue) {
+                    // CONFLICT!!!
+                    // TODO: Check errors
+                    returnValue = otherState.returnValue;
+                } else if (myState.returnValue != ValueLibrary.falseValue) {
+                    returnValue = otherState.returnValue;
+                } else if (otherState.returnValue != ValueLibrary.falseValue) {
+                    returnValue = myState.returnValue;
                 } else {
+                    // Both are false:
+
                     returnValue = ValueLibrary.falseValue;
                 }
 

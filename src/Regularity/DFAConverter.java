@@ -27,6 +27,7 @@ public class DFAConverter {
         */
 
         returnClauses = getReturnClauseConditions(ex).returnClauses;
+        // System.out.println("Return clauses: "+returnClauses);
 
         ArrayList<DFA> intersectedDFAs = new ArrayList<>();
 
@@ -47,10 +48,15 @@ public class DFAConverter {
 
                 // Replace 'trues' with the actual return value
 
+                System.out.print(conditions);
+                System.out.println(returnValue);
+
                 conditions.replaceValue(ValueLibrary.trueValue, returnValue);
+                System.out.print(conditions);
 
                 intersectedDFAs.add(conditions);
             } else {
+                System.out.println("ERROR! DFA Conversion not possible");
                 // TODO: Return some kind of error that it DFA conversion is not possible, with details
             }
         }
@@ -58,9 +64,13 @@ public class DFAConverter {
         // Unionize all the return values
 
         DFA unionizedDFA = intersectedDFAs.remove(0);
+        System.out.println("Unionized: ");
+        System.out.print(unionizedDFA);
 
         for (DFA condition : intersectedDFAs) {
             unionizedDFA = unionizedDFA.unionWith(condition);
+            System.out.println("Unionized: ");
+            System.out.print(unionizedDFA);
 
             // Simplify at this step?
         }
@@ -75,30 +85,6 @@ public class DFAConverter {
 
     static class ReturnClauseConditionResult {
         public HashMap<ReturnExpression, DFA> returnClauses;
-        // ARRAY LISTS OF INTERSECTED DSAS AREN'T SUFFICIENT TO REPRESENT EVERY POSSIBLE CONDITION TO GET TO A CERTAIN POINT BECAUSE UNIONS MAY BE INVOLVED TOO:
-
-        // if a {
-        //  if b {
-        //   return
-        //  }
-        // }
-        // return <<< (A AND NOT B) OR NOT A
-        //
-
-        // if a {
-        //  if b {
-        //   return
-        //  }
-        // }
-        // if b {
-        //  if c {
-        //   return
-        //  }
-        // }
-        // return <<< ((A & !B) | !A) & ((B & !C) | !B) = !B | (!A & !C)
-        //
-
-
         public DFA passConditions; // The series of conditions that need to be met to get to this point
         // public boolean terminates = false;
 
@@ -120,10 +106,12 @@ public class DFAConverter {
     }
 
     private static ReturnClauseConditionResult getReturnClauseConditions(Expression root, DFA conditions) {
+        // System.out.println("Getting returns from \n"+root);
         HashMap<ReturnExpression, DFA> returnClauses = new HashMap<>();
         DFA passConditions = conditions;
 
         if (root instanceof ExpressionContainer) {
+            // System.out.println("Expression container:");
 
             for (Expression ex : ((ExpressionContainer) root).getContainedExpressions()) {
                 ReturnClauseConditionResult outResult;
@@ -157,10 +145,13 @@ public class DFAConverter {
                 } else {
                     outResult = getReturnClauseConditions(ex, passConditions);
                     passConditions = outResult.passConditions;
+                    returnClauses.putAll(outResult.returnClauses);
                 }
             }
 
         } else if (root instanceof ReturnExpression) {
+            // System.out.println("Return expression:");
+
             returnClauses.put((ReturnExpression) root, conditions);
 
             return new ReturnClauseConditionResult(returnClauses, DFA.alwaysFalse());

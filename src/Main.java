@@ -18,9 +18,10 @@ import java.util.BitSet;
 
 public class Main {
     public static void main(String[] args) {
-        TestSuite testSuite = new TestSuite(new File("tests"));
+        testDFAConversion();
+        // TestSuite testSuite = new TestSuite(new File("tests"));
 
-        testSuite.getResults();
+        // testSuite.getResults();
         /*
         Expression conditionBody = new ReturnExpression(new IdentityExpression(ValueLibrary.trueValue));
 
@@ -32,6 +33,15 @@ public class Main {
 
         // Expression program = new ReturnableExpressionSeries(condition);
 
+    }
+
+    public static void testDFAConversion() {
+        Expression retExpression = new ExpressionSeries(new ArrayList<>() {{
+            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(1, ValueLibrary.intType))));
+            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(7, ValueLibrary.intType))));
+        }});
+        DFA retDFA = DFAConverter.dfaFrom(retExpression);
+        System.out.println(retDFA);
     }
 
 
