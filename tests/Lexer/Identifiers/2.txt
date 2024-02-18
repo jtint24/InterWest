@@ -1,0 +1,6 @@
+lexer
+return if let
+reeturrn iff ltt
+
+EXPECTED_RESULT:
+{ lexeme = `return` tokenType = return }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `if` tokenType = if }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `let` tokenType = let }{ lexeme = `\n` tokenType = whitespace }{ lexeme = `reeturrn` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `iff` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `ltt` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }

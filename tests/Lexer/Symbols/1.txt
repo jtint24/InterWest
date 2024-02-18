@@ -1,0 +1,5 @@
+lexer
+.,-;-><>->>+/\
+
+EXPECTED_RESULT:
+{ lexeme = `.` tokenType = . }{ lexeme = `,` tokenType = , }{ lexeme = `-` tokenType = - }{ lexeme = `;` tokenType = ; }{ lexeme = `->` tokenType = -> }{ lexeme = `<` tokenType = < }{ lexeme = `>` tokenType = > }{ lexeme = `->` tokenType = -> }{ lexeme = `>` tokenType = > }{ lexeme = `+` tokenType = plus }{ lexeme = `/` tokenType = / }{ lexeme = `\` tokenType = \ }{ lexeme = `\n\n` tokenType = whitespace }

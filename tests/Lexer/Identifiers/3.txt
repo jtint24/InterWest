@@ -1,0 +1,5 @@
+lexer
+HELLO.WoW.H-LP+mM12
+
+EXPECTED_RESULT:
+{ lexeme = `HELLO` tokenType = identifier }{ lexeme = `.` tokenType = . }{ lexeme = `WoW` tokenType = identifier }{ lexeme = `.` tokenType = . }{ lexeme = `H` tokenType = identifier }{ lexeme = `-` tokenType = - }{ lexeme = `LP` tokenType = identifier }{ lexeme = `+` tokenType = plus }{ lexeme = `mM12` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }

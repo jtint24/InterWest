@@ -22,7 +22,15 @@ public class TokenLibrary {
                 rBracket,
                 comma,
                 arrow,
-                ifToken
+                dot,
+                ifToken,
+                dash,
+                semicolon,
+                colon,
+                lAngleBracket,
+                rAngleBracket,
+                slash,
+                backslash
         };
     }
 
@@ -36,16 +44,22 @@ public class TokenLibrary {
                 return allIn(lexeme, " \t\n");
             }
     );
-
+    public static final Token backslash = fromString("\\");
+    public static final Token slash = fromString("/");
+    public static final Token colon = fromString(":");
+    public static final Token semicolon = fromString(";");
+    public static final Token dash = fromString("-");
     public static final Token lParen = fromString("(");
     public static final Token rParen = fromString(")");
-
     public static final Token lBrace = fromString("{");
     public static final Token rBrace = fromString("}");
+    public static final Token lAngleBracket = fromString("<");
+    public static final Token rAngleBracket = fromString(">");
     public static final Token lBracket = fromString("[");
     public static final Token rBracket = fromString("]");
     public static final Token arrow = fromString("->");
     public static final Token comma = fromString(",");
+    public static final Token dot = fromString(".");
     public static final Token ifToken = fromString("if");
 
     public static final Token stringLiteral = new Token(
@@ -103,7 +117,7 @@ public class TokenLibrary {
     private static final Token floatToken = new Token(
             "float",
             (String lexeme) -> {
-                return allIn(lexeme, "1234567890.") && 1 == countOf(lexeme, '.');
+                return allIn(lexeme, "1234567890.") && 1 == countOf(lexeme, '.') && lexeme.length() > 1;
             },
             (String lexeme) -> {
                 return allIn(lexeme, "1234567890.") && 2 > countOf(lexeme, '.');
@@ -116,7 +130,7 @@ public class TokenLibrary {
                 if (lexeme.length() == 0) {
                     return false;
                 }
-                return (lexeme.charAt(0) == '-' || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
+                return ((lexeme.charAt(0) == '-' && lexeme.length() > 1) || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
             },
             (String lexeme) -> {
                 if (lexeme.length() == 0) {

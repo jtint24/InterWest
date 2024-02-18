@@ -1,0 +1,5 @@
+lexer
+. 1.1 1. 1.0 .12329124009 812312312412 234.234.234.2355 0 ..123141abc
+
+EXPECTED_RESULT:
+{ lexeme = `.` tokenType = . }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `1.1` tokenType = float }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `1.` tokenType = float }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `1.0` tokenType = float }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `.12329124009` tokenType = float }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `812312312412` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `234.234` tokenType = float }{ lexeme = `.234` tokenType = float }{ lexeme = `.2355` tokenType = float }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `0` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `.` tokenType = . }{ lexeme = `.123141` tokenType = float }{ lexeme = `abc` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }
