@@ -1,0 +1,6 @@
+dfa conversion
+{-> Int
+ return 3
+ }
+
+EXPECTED_RESULT:

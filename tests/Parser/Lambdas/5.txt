@@ -1,0 +1,21 @@
+parser
+{-> return western}
+
+EXPECTED_RESULT:
+| TreeKind(file)
+|	| TreeKind(full expression)
+|	|	| TreeKind(delimited expression)
+|	|	|	| TreeKind(lambda)
+|	|	|	|	| { lexeme = `{` tokenType = { }
+|	|	|	|	| { lexeme = `->` tokenType = -> }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	| TreeKind(return)
+|	|	|	|	|	|	|	| { lexeme = `return` tokenType = return }
+|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	|	|	|	| TreeKind(full expression)
+|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
+|	|	|	|	|	|	|	|	|	| { lexeme = `western` tokenType = identifier }
+|	|	|	|	| { lexeme = `}` tokenType = } }
+|	|	|	| { lexeme = `\n\n` tokenType = whitespace }

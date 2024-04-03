@@ -1,4 +1,4 @@
-regularity
+condition dfa
 false bool != true
 
 EXPECTED_RESULT:

@@ -54,10 +54,13 @@ public class NonterminalLibrary {
         public void parse(Parser parser) {
 
             parser.expect(TokenLibrary.lBrace);
-
-            parameterList.apply(parser);
-
             parser.eat(TokenLibrary.whitespace);
+
+            if (!parser.at(TokenLibrary.arrow)) {
+                parameterList.apply(parser);
+
+                parser.eat(TokenLibrary.whitespace);
+            }
 
             parser.expect(TokenLibrary.arrow);
 

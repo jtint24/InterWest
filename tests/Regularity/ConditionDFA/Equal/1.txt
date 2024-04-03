@@ -1,4 +1,4 @@
-regularity
+condition dfa
 5 int = 5
 
 EXPECTED_RESULT:

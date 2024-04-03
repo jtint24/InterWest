@@ -1,4 +1,4 @@
-regularity
+condition dfa
 3 int != 4
 
 EXPECTED_RESULT:

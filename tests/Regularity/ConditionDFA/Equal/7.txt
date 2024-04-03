@@ -1,31 +1,31 @@
-regularity
-3 int = 4
+condition dfa
+true bool = true
 
 EXPECTED_RESULT:
-{head false} {node_0 false} {reject false}
-{node_0 false} {node_1 false} {reject false}
-{node_1 false} {reject false} {node_2 false}
+{head false} {reject false} {node_0 false}
+{node_0 false} {reject false} {node_1 false}
+{node_1 false} {node_2 false} {reject false}
 {node_10 false} {reject false} {node_11 false}
-{node_11 false} {reject false} {node_12 false}
-{node_12 false} {reject false} {node_13 false}
-{node_13 false} {reject false} {node_14 false}
+{node_11 false} {node_12 false} {reject false}
+{node_12 false} {node_13 false} {reject false}
+{node_13 false} {node_14 false} {reject false}
 {node_14 false} {reject false} {node_15 false}
-{node_15 false} {reject false} {node_16 false}
+{node_15 false} {node_16 false} {reject false}
 {node_16 false} {reject false} {node_17 false}
-{node_17 false} {reject false} {node_18 false}
+{node_17 false} {node_18 false} {reject false}
 {node_18 false} {reject false} {node_19 false}
-{node_19 false} {reject false} {node_20 false}
+{node_19 false} {node_20 false} {reject false}
 {node_2 false} {reject false} {node_3 false}
-{node_20 false} {reject false} {node_21 false}
-{node_21 false} {reject false} {node_22 false}
+{node_20 false} {node_21 false} {reject false}
+{node_21 false} {node_22 false} {reject false}
 {node_22 false} {reject false} {node_23 false}
-{node_23 false} {reject false} {node_24 false}
+{node_23 false} {node_24 false} {reject false}
 {node_24 false} {reject false} {node_25 false}
-{node_25 false} {reject false} {node_26 false}
+{node_25 false} {node_26 false} {reject false}
 {node_26 false} {reject false} {node_27 false}
 {node_27 false} {reject false} {node_28 false}
-{node_28 false} {reject false} {node_29 false}
-{node_29 false} {reject false} {node_30 false}
+{node_28 false} {node_29 false} {reject false}
+{node_29 false} {node_30 false} {reject false}
 {node_3 false} {node_4 false} {reject false}
 {node_30 false} {reject false} {node_31 false}
 {node_31 false} {reject false} {node_32 false}
@@ -48,7 +48,7 @@ EXPECTED_RESULT:
 {node_47 false} {reject false} {node_48 false}
 {node_48 false} {reject false} {node_49 false}
 {node_49 false} {reject false} {node_50 false}
-{node_5 false} {reject false} {node_6 false}
+{node_5 false} {node_6 false} {reject false}
 {node_50 false} {reject false} {node_51 false}
 {node_51 false} {reject false} {node_52 false}
 {node_52 false} {reject false} {node_53 false}
@@ -65,7 +65,7 @@ EXPECTED_RESULT:
 {node_62 false} {reject false} {node_63 true}
 {node_63 true} {reject false} {reject false}
 {node_7 false} {reject false} {node_8 false}
-{node_8 false} {reject false} {node_9 false}
+{node_8 false} {node_9 false} {reject false}
 {node_9 false} {reject false} {node_10 false}
 {reject false} {reject false} {reject false}
-Did 4 pass =3? false
+Did true pass =true? true

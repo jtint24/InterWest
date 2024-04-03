@@ -7,10 +7,7 @@ import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
 import ErrorManager.Error;
 import Lexer.TokenLibrary;
-import Parser.NonterminalLibrary;
-import Parser.NonterminalParseTreeNode;
-import Parser.ParseTreeNode;
-import Parser.TerminalParseTreeNode;
+import Parser.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -126,9 +123,15 @@ public class ExpressionBuilder {
     public Expression buildLambdaExpression(NonterminalParseTreeNode ptNode) {
         ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
 
-        // [{] [parameterList] [->] [expression] [}]
+        // [{] [parameterList?] [->] [expression] [}]
 
-        NonterminalParseTreeNode parameterList = (NonterminalParseTreeNode) ptNode.getChildren().get(1);
+        NonterminalParseTreeNode parameterList;
+
+        if (ptNode.getChildren().get(1) instanceof NonterminalParseTreeNode) {
+            parameterList = (NonterminalParseTreeNode) ptNode.getChildren().get(1);
+        } else {
+            parameterList = new NonterminalParseTreeNode(TreeKind.valid(NonterminalLibrary.parameterList));
+        }
 
         Expression resultingExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3));
 
@@ -147,7 +150,8 @@ public class ExpressionBuilder {
         System.out.println(Arrays.toString(paramTypes.toArray()));
 
         return null;
-        // return new IdentityExpression(new ExpressionFunction(new FunctionType(), resultingExpression));//TODO: Add func types that take type expressions that have to be resolved
+        // return new IdentityExpression(new ExpressionFunction(new FunctionType(), resultingExpression));
+        // TODO: Add func types that take type expressions that have to be resolved
     }
 
 

@@ -30,7 +30,8 @@ public class TokenLibrary {
                 lAngleBracket,
                 rAngleBracket,
                 slash,
-                backslash
+                backslash,
+                doubleEquals
         };
     }
 
@@ -61,6 +62,7 @@ public class TokenLibrary {
     public static final Token comma = fromString(",");
     public static final Token dot = fromString(".");
     public static final Token ifToken = fromString("if");
+    public static final Token doubleEquals = fromString("==").toBinder(new BindingPowers(PrecedenceLevel.COMPARISON, Associativity.LEFT));
 
     public static final Token stringLiteral = new Token(
             "String",

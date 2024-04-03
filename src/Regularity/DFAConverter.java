@@ -48,15 +48,15 @@ public class DFAConverter {
 
                 // Replace 'trues' with the actual return value
 
-                System.out.print(conditions);
-                System.out.println(returnValue);
+                // System.out.print(conditions);
+                // System.out.println(returnValue);
 
                 conditions.replaceValue(ValueLibrary.trueValue, returnValue);
-                System.out.print(conditions);
+                // System.out.print(conditions);
 
                 intersectedDFAs.add(conditions);
             } else {
-                System.out.println("ERROR! DFA Conversion not possible");
+                // System.out.println("ERROR! DFA Conversion not possible");
                 // TODO: Return some kind of error that it DFA conversion is not possible, with details
             }
         }
@@ -64,13 +64,13 @@ public class DFAConverter {
         // Unionize all the return values
 
         DFA unionizedDFA = intersectedDFAs.remove(0);
-        System.out.println("Unionized: ");
-        System.out.print(unionizedDFA);
+        // "Unionized: ");
+        // System.out.print(unionizedDFA);
 
         for (DFA condition : intersectedDFAs) {
             unionizedDFA = unionizedDFA.unionWith(condition);
-            System.out.println("Unionized: ");
-            System.out.print(unionizedDFA);
+            // System.out.println("Unionized: ");
+            // System.out.print(unionizedDFA);
 
             // Simplify at this step?
         }

@@ -1,4 +1,4 @@
-regularity
+condition dfa
 2147483647 int = 2147483647
 
 EXPECTED_RESULT:

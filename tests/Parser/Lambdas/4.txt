@@ -12,8 +12,8 @@ EXPECTED_RESULT:
 |	|	|	| TreeKind(delimited expression)
 |	|	|	|	| TreeKind(lambda)
 |	|	|	|	|	| { lexeme = `{` tokenType = { }
+|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
 |	|	|	|	|	| TreeKind(parameter list)
-|	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
 |	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	| TreeKind(expression call)
 |	|	|	|	|	|	|	|	| TreeKind(delimited expression)

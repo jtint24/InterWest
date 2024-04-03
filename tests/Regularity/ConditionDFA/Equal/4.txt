@@ -1,5 +1,5 @@
-regularity
-false bool = true
+condition dfa
+false bool = false
 
 EXPECTED_RESULT:
 {head false} {reject false} {node_0 false}
@@ -68,4 +68,4 @@ EXPECTED_RESULT:
 {node_8 false} {reject false} {node_9 false}
 {node_9 false} {reject false} {node_10 false}
 {reject false} {reject false} {reject false}
-Did true pass =false? false
+Did false pass =false? true

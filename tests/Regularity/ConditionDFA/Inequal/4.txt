@@ -1,4 +1,4 @@
-regularity
+condition dfa
 -2147483648 int != -2147483648
 
 EXPECTED_RESULT:
