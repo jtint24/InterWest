@@ -66,4 +66,12 @@ public class ExpressionFunction extends Function {
             }
         }
     }
+
+    public Expression getWrappedExpression() {
+        return wrappedExpression;
+    }
+
+    public String toString() {
+        return "{->\n"+wrappedExpression.toString()+"}";
+    }
 }

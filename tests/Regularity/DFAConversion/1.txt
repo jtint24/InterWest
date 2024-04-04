@@ -4,3 +4,4 @@ dfa conversion
  }
 
 EXPECTED_RESULT:
+{accept 3} {accept 3} {accept 3}

@@ -1,0 +1,7 @@
+dfa conversion
+{-> Int
+ return 123212
+ }
+
+EXPECTED_RESULT:
+{accept 123212} {accept 123212} {accept 123212}

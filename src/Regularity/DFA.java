@@ -295,7 +295,7 @@ public class DFA {
             retString.append(node).append(" ").append(node.trueNode).append(" ").append(node.falseNode).append("\n");
         }
 
-        return retString.toString();
+        return retString.substring(0, retString.length()-1); // Removes trailing newline
     }
 
 

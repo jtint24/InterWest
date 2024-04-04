@@ -1,5 +1,6 @@
 package Interpreter;
 
+import Elements.ExpressionFunction;
 import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 import IO.InputBuffer;
@@ -52,9 +53,18 @@ public class TestInterpretationSession extends InterpretationSession {
             ValidationContext endContext = programExpr.validate(startContext);
 
             errorManager.logErrors(endContext.errors);
-            if (programExpr instanceof FunctionExpression) {
-                return DFAConverter.dfaFrom(programExpr);
+
+            while (programExpr instanceof ExpressionContainer) {
+                programExpr = ((ExpressionContainer) programExpr).getContainedExpressions().get(0);
+            }
+
+
+            if (programExpr instanceof IdentityExpression && ((IdentityExpression) programExpr).wrappedValue instanceof ExpressionFunction) {
+
+                Expression innerExpression = ((ExpressionFunction) ((IdentityExpression) programExpr).wrappedValue).getWrappedExpression();
+                return DFAConverter.dfaFrom(innerExpression);
             } else {
+                outputBuffer.println("Expected a lambda!");
 
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Expected a lambda expression", false));
                 return null;
