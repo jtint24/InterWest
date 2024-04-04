@@ -1,0 +1,7 @@
+dfa conversion
+{-> Bool
+ return true
+ }
+
+EXPECTED_RESULT:
+{accept true} {accept true} {accept true}

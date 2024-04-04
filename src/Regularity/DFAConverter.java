@@ -17,6 +17,8 @@ public class DFAConverter {
         //    return ((StaticExpression) ex).toDFA();
         // }
 
+        System.out.println(ex);
+
         // TODO: Figure out where to simplify
 
         HashMap<ReturnExpression, DFA> returnClauses;
@@ -27,7 +29,8 @@ public class DFAConverter {
         */
 
         returnClauses = getReturnClauseConditions(ex).returnClauses;
-        // System.out.println("Return clauses: "+returnClauses);
+        System.out.println("Return clauses: "+returnClauses);
+
 
         ArrayList<DFA> intersectedDFAs = new ArrayList<>();
 

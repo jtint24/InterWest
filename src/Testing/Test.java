@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Test implements Testable {
@@ -41,20 +42,14 @@ public class Test implements Testable {
 
         String funcLine = sc.nextLine();
 
-        switch (funcLine) {
-            case "lexer" -> {
-                this.function = TestFunction.lexer;
-            }
-            case "parser" -> {
-                this.function = TestFunction.parser;
-            }
-            case "interpreter" -> {
-                this.function = TestFunction.interpreter;
-            }
-            case "regularity" -> {
-                this.function = TestFunction.conditionDFA;
-            }
-        }
+        this.function = switch (funcLine) {
+            case "lexer" -> TestFunction.lexer;
+            case "parser" -> TestFunction.parser;
+            case "interpreter" -> TestFunction.interpreter;
+            case "condition dfa" ->  TestFunction.conditionDFA;
+            case "dfa conversion" -> TestFunction.dfaConversion;
+            default -> null;
+        };
 
         while(sc.hasNextLine()) {
             String line = sc.nextLine();
@@ -63,9 +58,9 @@ public class Test implements Testable {
                 continue;
             }
             if (onInput) {
-                inputCode.append(line+"\n");
+                inputCode.append(line).append("\n");
             } else {
-                expectedResult.append(line+"\n");
+                expectedResult.append(line).append("\n");
             }
         }
 
@@ -87,6 +82,10 @@ public class Test implements Testable {
         TestFunction interpreter = (String inputCode) -> {
             TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
             return sesh.testGetInterpretation();
+        };
+        TestFunction dfaConversion = (String inputCode) -> {
+            TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
+            return sesh.testDFAConversion();
         };
         TestFunction conditionDFA = (String inputCode) -> {
             String[] args = inputCode.trim().split(" ");
@@ -122,7 +121,7 @@ public class Test implements Testable {
 
             boolean result = dfa.getResult(compVal.toBoolString(), new ErrorManager(new OutputBuffer())) == ValueLibrary.trueValue;
 
-            return dfa+"Did "+compare+" pass "+conditionStr+rawValue+"? "+result+"\n";
+            return dfa+"\nDid "+compare+" pass "+conditionStr+rawValue+"? "+result+"\n";
         };
     }
 

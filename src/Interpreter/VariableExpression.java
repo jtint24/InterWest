@@ -2,6 +2,7 @@ package Interpreter;
 
 import Elements.Type;
 import Elements.Value;
+import Elements.ValueLibrary;
 import ErrorManager.Error;
 import Utils.Result;
 
@@ -33,6 +34,10 @@ public class VariableExpression extends Expression {
     @Override
     public Result<Value, Exception> reduceToValue() {
         // TODO: Track the variable to its definition to see if it's statically checkable
+
+        if (ValueLibrary.builtinValues.containsKey(identifier)) {
+            return Result.ok(ValueLibrary.builtinValues.get(identifier));
+        }
 
         return Result.error(new Exception("Variables can't be reduced to static values yet"));
     }

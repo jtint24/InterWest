@@ -40,7 +40,7 @@ public class TestInterpretationSession extends InterpretationSession {
         return outputBuffer;
     }
 
-    public DFA testDFAConversion() {
+    public OutputBuffer testDFAConversion() {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();
 
@@ -62,20 +62,20 @@ public class TestInterpretationSession extends InterpretationSession {
             if (programExpr instanceof IdentityExpression && ((IdentityExpression) programExpr).wrappedValue instanceof ExpressionFunction) {
 
                 Expression innerExpression = ((ExpressionFunction) ((IdentityExpression) programExpr).wrappedValue).getWrappedExpression();
-                return DFAConverter.dfaFrom(innerExpression);
+                DFA convertedDFA = DFAConverter.dfaFrom(innerExpression);
+                outputBuffer.println(convertedDFA);
             } else {
-                outputBuffer.println("Expected a lambda!");
-
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Expected a lambda expression", false));
-                return null;
             }
 
-            // outputBuffer.println(dfa);
+
+            return outputBuffer;
+
 
         } catch (RuntimeException exception) {
             outputBuffer.println(exception);
             outputBuffer.println(Arrays.toString(exception.getStackTrace()));
-            return null;
+            return outputBuffer;
         }
     }
 
