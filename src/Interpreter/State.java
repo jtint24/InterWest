@@ -54,18 +54,18 @@ public class State {
     }
 
     public String toString() {
-        String retString = "";
+        StringBuilder retString = new StringBuilder();
 
         Iterator<HashMap<String, Value>> iterator = scopes.descendingIterator();
         while (iterator.hasNext()) {
             HashMap<String, Value> scope = iterator.next();
-            retString += "------\n";
+            retString.append("------\n");
             for (Map.Entry<String, Value> variable : scope.entrySet()) {
-                retString += variable.getKey()+": "+variable.getValue() + "\n";
+                retString.append(variable.getKey()).append(": ").append(variable.getValue()).append("\n");
             }
         }
 
-        return retString;
+        return retString.toString();
     }
 
 

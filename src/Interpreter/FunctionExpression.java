@@ -26,7 +26,7 @@ public class FunctionExpression extends Expression {
             situatedState = result.resultingState;
         }
 
-        Value functionResult = wrappedFunction.apply(situatedState.errorManager, situatedState, results.toArray(new Value[0]));
+        Value functionResult = wrappedFunction.apply(situatedState.errorManager, results.toArray(new Value[0]));
 
         return new ExpressionResult(situatedState, functionResult);
     }

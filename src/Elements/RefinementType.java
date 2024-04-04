@@ -25,7 +25,7 @@ public class RefinementType extends Type {
 
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
-        Value result = condition.apply(errorManager, new State(errorManager), v);
+        Value result = condition.apply(errorManager, v);
         return result==ValueLibrary.trueValue && superType.matchesValue(v, errorManager);
     }
 }

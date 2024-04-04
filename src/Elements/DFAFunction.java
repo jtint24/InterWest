@@ -16,8 +16,8 @@ public abstract class DFAFunction extends Function {
     }
 
     @Override
-    public Value apply(ErrorManager errorManager, State state, Value... values) {
-        return wrappedFunction.apply(errorManager, state, values);
+    public Value apply(ErrorManager errorManager, Value... values) {
+        return wrappedFunction.apply(errorManager, values);
     }
 
     public abstract DFA getDFA(Value... inputs);

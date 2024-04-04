@@ -9,16 +9,8 @@ public abstract class BuiltinFunction extends Function {
         this.type = type;
     }
     @Override
-    public Value apply(ErrorManager errorManager, State state, Value... values) {
-        if (values.length != type.parameterTypes.length) {
-            errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Expected `"+type.parameterTypes.length+"` arguments, got `"+values.length+"`", true));
-        }
-
-        for (int i = 0; i<values.length; i++) {
-            if (!type.parameterTypes[i].matchesValue(values[i].getType(), errorManager)) {
-                errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Type mismatch in parameter "+(i+1)+". Expected "+type.parameterTypes[i]+" got "+values[i].getType()+".", true));
-            }
-        }
+    public Value apply(ErrorManager errorManager, Value... values) {
+        ExpressionFunction.validateArguments(errorManager, type, values);
 
         return prevalidatedApply(errorManager, values);
     }

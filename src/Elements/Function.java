@@ -8,7 +8,7 @@ import java.util.Map;
 public abstract class Function extends Value {
     FunctionType type;
 
-    public abstract Value apply(ErrorManager errorManager, State state, Value... values);
+    public abstract Value apply(ErrorManager errorManager, Value... values);
 
     @Override
     public FunctionType getType() {
