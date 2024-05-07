@@ -1,10 +1,8 @@
 package Elements;
 
-import Interpreter.Expression;
+import Interpreter.*;
 import ErrorManager.ErrorManager;
 import ErrorManager.Error;
-import Interpreter.ExpressionResult;
-import Interpreter.State;
 
 public class ExpressionFunction extends Function {
     /**
@@ -25,7 +23,18 @@ public class ExpressionFunction extends Function {
      * That being said, I'm eliminating the 'state' parameter from apply anyways. This way, lambdas WILL NOT inherit
      * scope from their context, making them true lambdas and not closures. This will make them referentially
      * transparent and will probably make DFA conversion easier too. It'll make it more of a pain for coders writing
-     * in it, but honestly it's a tradeoff I'm willing to make
+     * in it, but honestly it's a tradeoff I'm willing to make.
+     *
+     * Update Apr. 4, 2024
+     *
+     * Here's a problem: Expressions need to be statically checked and validated. Functions don't. But now, since
+     * functions can contain expressions, I need to make sure that IdentityExpressions are checking their held values
+     * in case they're ExpressionFunctions. This honestly might not be the worst thing since some values might need to
+     * be validated statically in the future for other stuff. Anyways, this necessitates adding some kind of validation
+     * method. I HATE that this requires using ValidationContext from the Interpreter module, because I'd love to keep
+     * the relationship between these two modules unidirectional and not circular, but hey, this already uses
+     * Expression, so that's circular.
+     *
      * */
 
     FunctionType type;
@@ -65,6 +74,14 @@ public class ExpressionFunction extends Function {
                 errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Type mismatch in parameter "+(i+1)+". Expected "+ type.parameterTypes[i]+" got "+values[i].getType()+".", true));
             }
         }
+    }
+
+    public ValidationContext validate() {
+        return wrappedExpression.validate(new ValidationContext());
+    }
+
+    public StaticReductionContext initializeStaticValues() {
+        return wrappedExpression.initializeStaticValues(new StaticReductionContext());
     }
 
     public Expression getWrappedExpression() {

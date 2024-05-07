@@ -3,7 +3,9 @@ package Interpreter;
 import Elements.Function;
 import Elements.Type;
 import Elements.Value;
+import Elements.ValueLibrary;
 import Utils.Result;
+import ErrorManager.Error;
 
 import java.util.ArrayList;
 
@@ -47,7 +49,8 @@ public class FunctionExpression extends Expression {
     }
 
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.error(new IllegalArgumentException("This expression contains a FunctionExpression, which is can't be statically reduced"));
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        staticValue = Result.error(Error.runtimeWarning("Function expressions cannot be statically reduced"));
+        return context;
     }
 }

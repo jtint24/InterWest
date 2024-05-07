@@ -54,9 +54,19 @@ public class ReturnableExpressionSeries extends ExpressionContainer {
     }
 
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.error(new Exception("This expression contains a returnable expression series, which can't be statically reduced to a value"));
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        StaticReductionContext oldContext = context;
+
+        for (Expression subExpression : subExpressions) {
+            context = subExpression.initializeStaticValues(context);
+            if (context.returnedValue != null) {
+                staticValue = context.returnedValue;
+            }
+        }
+
+        return oldContext;
     }
+
 
     @Override
     public String toString() {

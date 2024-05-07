@@ -47,8 +47,14 @@ public class ExpressionSeries extends ExpressionContainer {
     }
 
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.error(new Exception("This expression contains an expression series, which is to complex to be evaluated yet"));
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        staticValue = Result.ok(ValueLibrary.trueValue);
+        StaticReductionContext oldContext = context;
+        for (Expression subExpression : subExpressions) {
+            context = subExpression.initializeStaticValues(context);
+        }
+        oldContext.addErrors(context.errors);
+        return oldContext;
     }
 
     @Override

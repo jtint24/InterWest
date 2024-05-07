@@ -1,5 +1,6 @@
 package Elements;
 
+import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 import Interpreter.Expression;
 import Utils.Result;
@@ -9,7 +10,7 @@ public class TypeExpression extends Type {
     // An that resolves to a type
 
     Expression definition;
-    Result<Value, Exception> staticValue;
+    Result<Value, Error> staticValue;
 
     public TypeExpression(Expression definition) {
         this.definition = definition;

@@ -3,6 +3,7 @@ package Interpreter;
 import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
+import ErrorManager.Error;
 import Utils.Result;
 
 import java.util.ArrayList;
@@ -49,9 +50,11 @@ public class ConditionalExpression extends Expression {
     }
 
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.ok(ValueLibrary.trueValue);
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        staticValue = Result.ok(ValueLibrary.trueValue);
+        return context;
     }
+
 
     @Override
     public String toString() {

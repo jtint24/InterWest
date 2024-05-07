@@ -43,10 +43,24 @@ public class LetExpression extends Expression {
     }
 
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.ok(ValueLibrary.trueValue);
-    }
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        staticValue = Result.ok(ValueLibrary.trueValue);
 
+        StaticReductionContext discardedContext = exprToSet.initializeStaticValues(context);
+
+
+        // NOTE: We could build some mechanism to chain other errors to this one
+        // Like, if this constant is used later, and the static value of it isn't available, then we could link it to
+        // the error in the let statement instead of the error in the reference
+
+        if (exprToSet.staticValue.isOK()) {
+            context.declaredConstants.put(identifierName, exprToSet.staticValue.getOkValue());
+        }
+
+
+
+        return context;
+    }
 
     @Override
     public String toString() {

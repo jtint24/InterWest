@@ -20,6 +20,10 @@ public class Error {
         this.isFatal = isFatal;
     }
 
+    public static Error runtimeWarning(String annotation) {
+        return new Error(ErrorType.INTERPRETER_ERROR, annotation, false);
+    }
+
     public boolean getIsFatal() {
         return isFatal;
     }

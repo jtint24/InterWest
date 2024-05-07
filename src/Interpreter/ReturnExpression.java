@@ -40,10 +40,17 @@ public class ReturnExpression extends Expression {
         return ValueLibrary.boolType;
     }
 
+
+
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.ok(ValueLibrary.trueValue);
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        StaticReductionContext discardedContext = exprToReturn.initializeStaticValues(context);
+
+        context.returnedValue = exprToReturn.staticValue;
+
+        return context;
     }
+
     @Override
     public String toString() {
         String line = "return "+exprToReturn;

@@ -2,9 +2,11 @@ package Interpreter;
 
 import Elements.Type;
 import Elements.Value;
+import ErrorManager.Error;
 import Utils.Result;
 
 public abstract class Expression {
+    Result<Value, Error> staticValue;
     public abstract ExpressionResult evaluate(State situatedState);
     public abstract ValidationContext validate(ValidationContext context);
 
@@ -16,5 +18,9 @@ public abstract class Expression {
      * */
     public abstract Type getType(ValidationContext context);
 
-    public abstract Result<Value, Exception> reduceToValue();
+    public Result<Value, Error> reduceToValue() {
+        return staticValue;
+    }
+
+    public abstract StaticReductionContext initializeStaticValues(StaticReductionContext context);
 }

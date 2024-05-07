@@ -31,15 +31,18 @@ public class VariableExpression extends Expression {
         return context.getVariableType(identifier);
     }
 
-    @Override
-    public Result<Value, Exception> reduceToValue() {
-        // TODO: Track the variable to its definition to see if it's statically checkable
 
+    @Override
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         if (ValueLibrary.builtinValues.containsKey(identifier)) {
-            return Result.ok(ValueLibrary.builtinValues.get(identifier));
+            staticValue = Result.ok(ValueLibrary.builtinValues.get(identifier));
         }
 
-        return Result.error(new Exception("Variables can't be reduced to static values yet"));
+        if (context.declaredConstants.containsKey(identifier)) {
+            staticValue = Result.ok(context.declaredConstants.get(identifier));
+        }
+
+        return context;
     }
 
     @Override

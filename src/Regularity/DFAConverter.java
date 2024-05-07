@@ -1,5 +1,6 @@
 package Regularity;
 
+import ErrorManager.Error;
 import Elements.Value;
 import Elements.ValueLibrary;
 import Interpreter.*;
@@ -17,7 +18,7 @@ public class DFAConverter {
         //    return ((StaticExpression) ex).toDFA();
         // }
 
-        System.out.println(ex);
+        // System.out.println(ex);
 
         // TODO: Figure out where to simplify
 
@@ -29,7 +30,7 @@ public class DFAConverter {
         */
 
         returnClauses = getReturnClauseConditions(ex).returnClauses;
-        System.out.println("Return clauses: "+returnClauses);
+        // System.out.println("Return clauses: "+returnClauses);
 
 
         ArrayList<DFA> intersectedDFAs = new ArrayList<>();
@@ -44,7 +45,7 @@ public class DFAConverter {
 
             // Check if ret expression can be reduced to value statically
 
-            Result<Value, Exception> result = returnedExpression.reduceToValue();
+            Result<Value, Error> result = returnedExpression.reduceToValue();
 
             if (result.isOK()) {
                 Value returnValue = result.getOkValue();

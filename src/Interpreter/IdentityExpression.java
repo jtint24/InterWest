@@ -1,8 +1,10 @@
 package Interpreter;
 
 import Elements.BuiltinValue;
+import Elements.ExpressionFunction;
 import Elements.Type;
 import Elements.Value;
+import ErrorManager.Error;
 import Utils.Result;
 
 public class IdentityExpression extends Expression {
@@ -28,8 +30,12 @@ public class IdentityExpression extends Expression {
     }
 
     @Override
-    public Result<Value, Exception> reduceToValue() {
-        return Result.ok(wrappedValue);
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        staticValue = Result.error(Error.runtimeWarning("Function expressions cannot be statically reduced"));
+        if (wrappedValue instanceof ExpressionFunction) {
+            ((ExpressionFunction) wrappedValue).initializeStaticValues();
+        }
+        return context;
     }
 
     @Override
