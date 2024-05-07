@@ -20,6 +20,8 @@ public class DFAConverter {
 
         // System.out.println(ex);
 
+        ex.initializeStaticValues(new StaticReductionContext());
+
         // TODO: Figure out where to simplify
 
         HashMap<ReturnExpression, DFA> returnClauses;

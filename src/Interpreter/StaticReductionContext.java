@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class StaticReductionContext {
-    HashMap<String, Value> declaredConstants;
-    ArrayList<Error> errors;
-    Result<Value, Error> returnedValue;
+    HashMap<String, Value> declaredConstants = new HashMap<>();
+    ArrayList<Error> errors = new ArrayList<>();
+    Result<Value, Error> returnedValue = null;
 
     public void addErrors(ArrayList<Error> newErrors) {
         errors.addAll(newErrors);

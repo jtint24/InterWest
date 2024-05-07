@@ -31,7 +31,7 @@ public class IdentityExpression extends Expression {
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
-        staticValue = Result.error(Error.runtimeWarning("Function expressions cannot be statically reduced"));
+        staticValue = Result.ok(wrappedValue);
         if (wrappedValue instanceof ExpressionFunction) {
             ((ExpressionFunction) wrappedValue).initializeStaticValues();
         }
