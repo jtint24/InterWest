@@ -5,6 +5,7 @@ import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
 import Utils.Result;
+import Utils.TriValue;
 
 public class ReturnExpression extends Expression {
 
@@ -28,8 +29,11 @@ public class ReturnExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
         Type actualReturnType = exprToReturn.getType(context);
-        if (!actualReturnType.subtypeOf(context.getReturnType())) {
+        TriValue subtypeStatus = actualReturnType.subtypeOf(context.getReturnType());
+        if (subtypeStatus == TriValue.FALSE) {
             context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Type mismatch between expected return type `"+context.getReturnType()+"` and actual return type `"+actualReturnType+"`", true));
+        } else if (subtypeStatus == TriValue.UNKNOWN) {
+            context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove match between expected return type `"+context.getReturnType()+"` and actual return type `"+actualReturnType+"`", false));
         }
         context = exprToReturn.validate(context);
         return context;

@@ -1,6 +1,7 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import Utils.TriValue;
 
 public class FunctionType extends Type {
     Type[] parameterTypes;
@@ -12,23 +13,28 @@ public class FunctionType extends Type {
     }
 
     @Override
-    public boolean subtypeOf(Type superType) {
+    public TriValue subtypeOf(Type superType) {
         if (!(superType instanceof FunctionType)) {
-            return false;
+            return TriValue.FALSE;
         }
+
         FunctionType fSuperType = (FunctionType) superType;
         if (fSuperType.parameterTypes.length != parameterTypes.length) {
-            return false;
+            return TriValue.FALSE;
         }
-        if (!resultType.subtypeOf(fSuperType.resultType)) {
-            return false;
+
+        if (resultType.subtypeOf(fSuperType.resultType) != TriValue.TRUE) {
+            return resultType.subtypeOf(fSuperType.resultType);
         }
+
         for (int i = 0; i<fSuperType.parameterTypes.length; i++) {
-            if (!parameterTypes[i].subtypeOf(fSuperType.parameterTypes[i])) {
-                return false;
+            TriValue subTypeStatus = parameterTypes[i].subtypeOf(fSuperType.parameterTypes[i]);
+            if (subTypeStatus != TriValue.TRUE) {
+                return subTypeStatus;
             }
         }
-        return true;
+
+        return TriValue.TRUE;
     }
 
     public Type getResultType() {
@@ -44,17 +50,6 @@ public class FunctionType extends Type {
             return false;
         }
         Function func = (Function) v;
-        if (func.type.parameterTypes.length != parameterTypes.length) {
-            return false;
-        }
-        if (!resultType.subtypeOf(func.type.resultType)) {
-            return false;
-        }
-        for (int i = 0; i<func.type.parameterTypes.length; i++) {
-            if (!parameterTypes[i].subtypeOf(func.type.parameterTypes[i])) {
-                return false;
-            }
-        }
-        return true;
+        return this.subtypeOf(func.getType()).unknownIsFalse();
     }
 }

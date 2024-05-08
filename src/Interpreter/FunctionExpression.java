@@ -3,6 +3,7 @@ package Interpreter;
 import Elements.*;
 import Utils.Result;
 import ErrorManager.Error;
+import Utils.TriValue;
 
 import java.util.ArrayList;
 
@@ -55,10 +56,14 @@ public class FunctionExpression extends Expression {
         for (int i = 0; i<parameterTypes.length; i++) {
             Type parameterType = parameterTypes[i];
             Type argumentType = inputExpressions.get(i).getType(context);
-
-            if (!argumentType.subtypeOf(parameterType)) {
+            TriValue subtypeStatus = argumentType.subtypeOf(parameterType);
+            if (subtypeStatus == TriValue.FALSE) {
                 context.addError(
-                        new Error(Error.ErrorType.INTERPRETER_ERROR,  "Expected type "+argumentType+" doesn't match received type "+parameterType+" in argument"+(i+1)+".", false)
+                        new Error(Error.ErrorType.INTERPRETER_ERROR,  "Expected type "+argumentType+" doesn't match received type "+parameterType+" in argument "+(i+1)+".", true)
+                );
+            } else if (subtypeStatus == TriValue.UNKNOWN) {
+                context.addError(
+                        new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type "+argumentType+" matches received type "+parameterType+" in argument "+(i+1)+".", false)
                 );
             }
         }

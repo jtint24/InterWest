@@ -4,6 +4,7 @@ import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 import Interpreter.Expression;
 import Utils.Result;
+import Utils.TriValue;
 
 public class TypeExpression extends Type {
 
@@ -18,9 +19,9 @@ public class TypeExpression extends Type {
     }
 
     @Override
-    public boolean subtypeOf(Type superType) {
+    public TriValue subtypeOf(Type superType) {
 
-        return false;
+        return TriValue.UNKNOWN;
     }
 
     @Override

@@ -3,6 +3,7 @@ package Elements;
 import ErrorManager.ErrorManager;
 import Interpreter.ExpressionResult;
 import Interpreter.State;
+import Utils.TriValue;
 
 public class RefinementType extends Type {
     Type superType;
@@ -15,11 +16,30 @@ public class RefinementType extends Type {
     }
 
     @Override
-    public boolean subtypeOf(Type superType) {
-        if (superType instanceof UniverseType || superType==this) {
-            return true;
+    public TriValue subtypeOf(Type superType) {
+
+        if (superType instanceof UniverseType) {
+            return TriValue.TRUE;
+        }
+
+        TriValue parentIsSubtype = this.superType.subtypeOf(superType);
+
+        if (parentIsSubtype == TriValue.TRUE) {
+            return TriValue.TRUE;
+        }
+
+        if (condition instanceof DFAFunction && superType instanceof RefinementType && ((RefinementType) superType).condition instanceof DFAFunction) {
+            // TODO: Implement:
+            // IF I can turn superType into a DFA and I can turn MYSELF into a DFA, then do that
+            // Then compare superType's DFA to mine and see if it's a superset language
+
+            // If it's not a superset, then I'm NOT a subtype
+
+            return TriValue.UNKNOWN;
         } else {
-            return this.superType.subtypeOf(superType);
+            // If I can't do the conversion, then I don't know if I'm a subtype at all!
+
+            return TriValue.UNKNOWN;
         }
     }
 

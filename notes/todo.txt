@@ -1,5 +1,0 @@
-
-TO DO:
-
- - [ ] Input Buffer
-    - [ ] Make it read from a file

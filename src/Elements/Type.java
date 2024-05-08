@@ -1,11 +1,12 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import Utils.TriValue;
 
 import java.util.Map;
 
 public abstract class Type extends Value {
-    public abstract boolean subtypeOf(Type superType);
+    public abstract TriValue subtypeOf(Type superType);
 
     public abstract boolean matchesValue(Value v, ErrorManager errorManager);
 

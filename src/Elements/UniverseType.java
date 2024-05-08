@@ -1,11 +1,16 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import Utils.TriValue;
 
 public class UniverseType extends Type {
     @Override
-    public boolean subtypeOf(Type superType) {
-        return superType instanceof UniverseType;
+    public TriValue subtypeOf(Type superType) {
+        if (superType instanceof UniverseType) {
+            return TriValue.TRUE;
+        } else {
+            return TriValue.FALSE;
+        }
     }
 
     @Override
