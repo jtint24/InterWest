@@ -7,7 +7,7 @@ import Utils.Result;
 
 public class TypeExpression extends Type {
 
-    // An that resolves to a type
+    // An expression that resolves to a type
 
     Expression definition;
     Result<Value, Error> staticValue;

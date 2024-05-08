@@ -40,6 +40,7 @@ public class ExpressionBuilder {
             case "TreeKind(return)" -> buildReturnExpression(ptNode);
             case "TreeKind(lambda)" -> buildLambdaExpression(ptNode);
             case "TreeKind(if statement)" -> buildIfExpression(ptNode);
+            case "TreeKind(expression call)" -> buildExpressionCall(ptNode);
             default -> {
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown nonterminal type `"+ptNode.getKind()+"`", true));
                 yield null;
@@ -60,6 +61,23 @@ public class ExpressionBuilder {
                 yield null;
             }
         };
+    }
+
+    private Expression buildExpressionCall(NonterminalParseTreeNode ptNode) {
+        ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
+
+        // [called-expr] [(] [arg list] [)]
+
+        Expression calledExpr = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(0));
+
+        NonterminalParseTreeNode argList = (NonterminalParseTreeNode) ptNode.getChildren().get(2);
+        ArrayList<Expression> argumentExpressions = new ArrayList<>();
+
+        for (ParseTreeNode argument : argList.getChildren()) {
+            argumentExpressions.add(buildExpression((NonterminalParseTreeNode) argument));
+        }
+
+        return new FunctionExpression(calledExpr, argumentExpressions);
     }
 
     public Expression buildIfExpression(NonterminalParseTreeNode ptNode) {

@@ -15,10 +15,17 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.BitSet;
 
+import static Elements.ValueLibrary.intType;
+
 
 public class Main {
     public static void main(String[] args) {
         // testDFAConversion();
+
+        System.out.println(
+                intType.matchesValue(new ValueWrapper<>(5, intType), new ErrorManager(new OutputBuffer()))
+        );
+
         TestSuite testSuite = new TestSuite(new File("tests"));
 
         testSuite.getResults();
@@ -37,8 +44,8 @@ public class Main {
 
     public static void testDFAConversion() {
         Expression retExpression = new ExpressionSeries(new ArrayList<>() {{
-            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(1, ValueLibrary.intType))));
-            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(7, ValueLibrary.intType))));
+            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(1, intType))));
+            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(7, intType))));
         }});
         DFA retDFA = DFAConverter.dfaFrom(retExpression);
         System.out.println(retDFA);

@@ -16,6 +16,14 @@ public class ValueLibrary {
     public static ValueWrapper<Boolean> trueValue = new ValueWrapper<>(true, boolType);
     public static ValueWrapper<Boolean> falseValue = new ValueWrapper<>(false, boolType);
 
+    public static Function printInt = new BuiltinFunction(new FunctionType(boolType, intType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            System.out.println(values[0]);
+            return trueValue;
+        }
+    };
+
     public static Function equalsFunc = new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
         @Override
         public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
@@ -29,6 +37,7 @@ public class ValueLibrary {
         put("Bool", boolType);
         put("Int", intType);
         put("Universe", universeType);
+        put("printInt", printInt);
     }};
 
     static {
@@ -44,6 +53,13 @@ public class ValueLibrary {
             public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
                 Value inputVal = values[0];
                 return new ValueWrapper<>(inputVal instanceof Type, boolType);
+            }
+        };
+        intType.condition = new BuiltinFunction(new FunctionType(boolType, universeType)) {
+            @Override
+            public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+                Value inputVal = values[0];
+                return new ValueWrapper<>(inputVal instanceof ValueWrapper && ((ValueWrapper<?>) inputVal).wrappedValue instanceof Integer, boolType);
             }
         };
 

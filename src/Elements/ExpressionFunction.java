@@ -70,7 +70,7 @@ public class ExpressionFunction extends Function {
         }
 
         for (int i = 0; i<values.length; i++) {
-            if (!type.parameterTypes[i].matchesValue(values[i].getType(), errorManager)) {
+            if (!type.parameterTypes[i].matchesValue(values[i], errorManager)) {
                 errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Type mismatch in parameter "+(i+1)+". Expected "+ type.parameterTypes[i]+" got "+values[i].getType()+".", true));
             }
         }
