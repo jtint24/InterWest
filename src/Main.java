@@ -22,9 +22,11 @@ public class Main {
     public static void main(String[] args) {
         // testDFAConversion();
 
-        System.out.println(
-                intType.matchesValue(new ValueWrapper<>(5, intType), new ErrorManager(new OutputBuffer()))
+        // TODO: THIS THROWS A RUNTIME ERROR. GET IT TO THROW A STATIC ERROR.
+        InterpretationSession sesh = new InterpretationSession(
+                "let a = if true { printInt(true) }"
         );
+        sesh.runSession();
 
         TestSuite testSuite = new TestSuite(new File("tests"));
 

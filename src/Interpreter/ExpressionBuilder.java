@@ -26,6 +26,9 @@ public class ExpressionBuilder {
         }
 
         if (ptNode.getKind().toString().equals("TreeKind(delimited expression)")) {
+            if (ptNode.getChildren().size() == 0) {
+                return null;
+            }
             ParseTreeNode childNode = ptNode.getChildren().get(0);
             if (childNode instanceof NonterminalParseTreeNode) {
                 ptNode = (NonterminalParseTreeNode) childNode;
@@ -91,7 +94,10 @@ public class ExpressionBuilder {
 
         for (int i = 3; i<ptNode.getChildren().size()-1; i++) {
             if (ptNode.getChildren().get(i) instanceof NonterminalParseTreeNode) {
-                childExpressions.add(buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i)));
+                Expression builtExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i));
+                if (builtExpression != null) {
+                    childExpressions.add(builtExpression);
+                }
             }
         }
 

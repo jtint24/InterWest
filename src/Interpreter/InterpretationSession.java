@@ -65,6 +65,12 @@ public class InterpretationSession {
 
         outputBuffer.println(expr);
 
+        ValidationContext validationContext = expr.validate(new ValidationContext());
+        errorManager.logErrors(validationContext.errors);
+
+        System.out.println("ValidationContext: ");
+        System.out.println(validationContext.errors);
+
         State newState = new State(errorManager);
         ExpressionResult result = expr.evaluate(newState);
 

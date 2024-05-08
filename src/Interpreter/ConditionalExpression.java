@@ -40,7 +40,14 @@ public class ConditionalExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-        // TODO
+        context = condition.validate(context);
+
+        context.addScope();
+        for (Expression innerExpression : expressionSeries.getContainedExpressions()) {
+            context = innerExpression.validate(context);
+        }
+        context.killScope();
+
         return context;
     }
 
