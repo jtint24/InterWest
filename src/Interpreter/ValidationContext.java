@@ -73,4 +73,7 @@ public class ValidationContext {
         returnType = type;
     }
 
+    public void addErrors(List<Error> newErrors) {
+        errors.addAll(newErrors);
+    }
 }

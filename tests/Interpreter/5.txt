@@ -1,11 +1,11 @@
 interpreter
 let a = true
 if a {
-    return 3
+    let b = false
 }
 
 EXPECTED_RESULT:
 let a = true
 if a {
-return 3
+let b = false
 }

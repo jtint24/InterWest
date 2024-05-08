@@ -24,7 +24,7 @@ public class Main {
 
         // TODO: THIS THROWS A RUNTIME ERROR. GET IT TO THROW A STATIC ERROR.
         InterpretationSession sesh = new InterpretationSession(
-                "let a = if true { printInt(true) }"
+                "let a = if true { printNonzero(12) }"
         );
         sesh.runSession();
 

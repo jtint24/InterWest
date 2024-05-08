@@ -36,6 +36,10 @@ public class ErrorManager {
         }
     }
 
+    public ArrayList<Error> getErrors() {
+        return errors;
+    }
+
     public boolean hasErrors() {
         return errors.size() > 0;
     }

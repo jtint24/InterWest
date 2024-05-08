@@ -23,7 +23,14 @@ public class ValueLibrary {
             return trueValue;
         }
     };
-
+    public static RefinementType nonzeroType = new RefinementType(intType, null);
+    public static Function printNonzero = new BuiltinFunction(new FunctionType(boolType, nonzeroType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            System.out.println(values[0]);
+            return trueValue;
+        }
+    };
     public static Function equalsFunc = new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
         @Override
         public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
@@ -38,6 +45,8 @@ public class ValueLibrary {
         put("Int", intType);
         put("Universe", universeType);
         put("printInt", printInt);
+        put("printNonzero", printNonzero);
+        put("Nonzero", nonzeroType);
     }};
 
     static {
@@ -60,6 +69,23 @@ public class ValueLibrary {
             public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
                 Value inputVal = values[0];
                 return new ValueWrapper<>(inputVal instanceof ValueWrapper && ((ValueWrapper<?>) inputVal).wrappedValue instanceof Integer, boolType);
+            }
+        };
+
+        nonzeroType.condition = new DFAFunction(
+                new BuiltinFunction(new FunctionType(boolType, intType)) {
+                    @Override
+                    public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+                        Value inputVal = values[0];
+                        System.out.println("Testing nonzero of "+inputVal);
+                        boolean result = !(inputVal instanceof ValueWrapper && ((ValueWrapper<?>) inputVal).wrappedValue.equals(0));
+                        return new ValueWrapper<>(result, boolType);
+                    }
+                }
+        ) {
+            @Override
+            public DFA getDFA(Value... inputs) {
+                return DFAConditions.dfaInequalTo(new ValueWrapper<>(0, intType));
             }
         };
 

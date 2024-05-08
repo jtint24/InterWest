@@ -323,6 +323,11 @@ public class DFA {
         }
     }
 
+    public boolean subsetLanguageOf(DFA superDFA) {
+        DFA union = this.unionWith(superDFA);
+        return DFAConverter.checkIdentical(union, superDFA);
+    }
+
     /**
      * Returns a DFA that always accepts
      * */

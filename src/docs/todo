@@ -10,7 +10,7 @@ Things to do:
         - [ ] Improve Type System
             - [ ] Allow Type::subtypeOf to handle regular types
                 - [x] Build a TriValue logic enum to handle the trivalued logic of this method
-                - [ ] Handle the trivalue logic wherever this function is used
+                - [x] Handle the trivalue logic wherever this function is used
         - [ ] Improve Error Messages
             - [ ] Add line numbers to error messages
                 - [ ] Add line numbers to expressions

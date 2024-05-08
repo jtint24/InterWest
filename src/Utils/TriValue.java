@@ -10,4 +10,8 @@ public enum TriValue {
     public boolean unknownIsFalse() {
         return this == TriValue.TRUE;
     }
+
+    public static TriValue fromBool(boolean b) {
+        return b ? TRUE : FALSE;
+    }
 }

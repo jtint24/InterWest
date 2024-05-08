@@ -1,6 +1,8 @@
 package Interpreter;
 
 import Elements.*;
+import ErrorManager.ErrorManager;
+import IO.OutputBuffer;
 import Utils.Result;
 import ErrorManager.Error;
 import Utils.TriValue;
@@ -57,13 +59,21 @@ public class FunctionExpression extends Expression {
             Type parameterType = parameterTypes[i];
             Type argumentType = inputExpressions.get(i).getType(context);
             TriValue subtypeStatus = argumentType.subtypeOf(parameterType);
+
+            if (subtypeStatus == TriValue.UNKNOWN && inputExpressions.get(i).staticValue.isOK()) {
+                Value inputValue = inputExpressions.get(i).staticValue.getOkValue();
+                ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
+                subtypeStatus = TriValue.fromBool(parameterType.matchesValue(inputValue, testErrorManager));
+                context.addErrors(testErrorManager.getErrors());
+            }
+
             if (subtypeStatus == TriValue.FALSE) {
                 context.addError(
                         new Error(Error.ErrorType.INTERPRETER_ERROR,  "Expected type "+argumentType+" doesn't match received type "+parameterType+" in argument "+(i+1)+".", true)
                 );
             } else if (subtypeStatus == TriValue.UNKNOWN) {
                 context.addError(
-                        new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type "+argumentType+" matches received type "+parameterType+" in argument "+(i+1)+".", false)
+                            new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type " + argumentType + " matches received type " + parameterType + " in argument " + (i + 1) + ".", false)
                 );
             }
         }
@@ -85,6 +95,9 @@ public class FunctionExpression extends Expression {
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.error(Error.runtimeWarning("Function expressions cannot be statically reduced"));
+        for (Expression inputExpression : inputExpressions) {
+            context = inputExpression.initializeStaticValues(context);
+        }
         return context;
     }
 }
