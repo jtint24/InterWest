@@ -18,7 +18,7 @@ public class RefinementType extends Type {
 
     @Override
     public TriValue subtypeOf(Type superType) {
-
+        // System.out.println("Checking if "+this+" is a subtype of "+superType);
 
         if (superType instanceof UniverseType || this == superType) {
             return TriValue.TRUE;
@@ -34,13 +34,22 @@ public class RefinementType extends Type {
 
             // IF I can turn superType into a DFA and I can turn MYSELF into a DFA, then do that
             DFA myDFA = ((DFAFunction) condition).getDFA();
-            DFA superDFA = ((DFAFunction) condition).getDFA();
+            // System.out.println("myDFA:");
+            // System.out.println(myDFA);
+
+            DFA superDFA = ((DFAFunction) ((RefinementType) superType).condition).getDFA();
+            // System.out.println("SuperDFA:");
+            // System.out.println(superDFA);
 
             // Then compare superType's DFA to mine and see if it's a superset language
 
-            return TriValue.fromBool(
+            TriValue dfaIsSubset = TriValue.fromBool(
                     myDFA.subsetLanguageOf(superDFA)
             );
+
+            // System.out.println(dfaIsSubset);
+
+            return dfaIsSubset;
         } else {
             // If I can't do the conversion, then I don't know if I'm a subtype at all!
 

@@ -23,7 +23,7 @@ public class ValueLibrary {
             return trueValue;
         }
     };
-    public static RefinementType nonzeroType = new RefinementType(intType, null);
+    public static RefinementType nonzeroType = new RefinementType(universeType, null);
     public static Function printNonzero = new BuiltinFunction(new FunctionType(boolType, nonzeroType)) {
         @Override
         public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
@@ -64,16 +64,22 @@ public class ValueLibrary {
                 return new ValueWrapper<>(inputVal instanceof Type, boolType);
             }
         };
-        intType.condition = new BuiltinFunction(new FunctionType(boolType, universeType)) {
+        intType.condition = new DFAFunction(new BuiltinFunction(new FunctionType(boolType, universeType)) {
             @Override
             public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
                 Value inputVal = values[0];
                 return new ValueWrapper<>(inputVal instanceof ValueWrapper && ((ValueWrapper<?>) inputVal).wrappedValue instanceof Integer, boolType);
             }
+        }) {
+            @Override
+            public DFA getDFA(Value... inputs) {
+                return DFA.alwaysTrue();
+            }
         };
 
         nonzeroType.condition = new DFAFunction(
-                new BuiltinFunction(new FunctionType(boolType, intType)) {
+                new BuiltinFunction(new FunctionType(boolType, intType)
+                ) {
                     @Override
                     public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
                         Value inputVal = values[0];
@@ -85,6 +91,7 @@ public class ValueLibrary {
         ) {
             @Override
             public DFA getDFA(Value... inputs) {
+                // return DFA.alwaysFalse();
                 return DFAConditions.dfaInequalTo(new ValueWrapper<>(0, intType));
             }
         };

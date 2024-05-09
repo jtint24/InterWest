@@ -11,6 +11,7 @@ Things to do:
             - [ ] Allow Type::subtypeOf to handle regular types
                 - [x] Build a TriValue logic enum to handle the trivalued logic of this method
                 - [x] Handle the trivalue logic wherever this function is used
+                - [ ] Make a function to check an expression against a type, either by static value or by the expression's type
         - [ ] Improve Error Messages
             - [ ] Add line numbers to error messages
                 - [ ] Add line numbers to expressions

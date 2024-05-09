@@ -325,7 +325,10 @@ public class DFA {
 
     public boolean subsetLanguageOf(DFA superDFA) {
         DFA union = this.unionWith(superDFA);
-        return DFAConverter.checkIdentical(union, superDFA);
+        // System.out.println("Large Union DFA: \n" + union);
+        // System.out.println("Compare against: \n" + superDFA);
+        // System.out.println("Are equal? " + DFAConverter.checkEquivalence(union, superDFA));
+        return DFAConverter.checkEquivalence(union, superDFA);
     }
 
     /**
@@ -340,9 +343,9 @@ public class DFA {
     }
 
     public static DFA alwaysFalse() {
-        DFANode accept = new DFANode("reject", ValueLibrary.falseValue);
-        accept.trueNode = accept;
-        accept.falseNode = accept;
-        return new DFA(accept);
+        DFANode reject = new DFANode("reject", ValueLibrary.falseValue);
+        reject.trueNode = reject;
+        reject.falseNode = reject;
+        return new DFA(reject);
     }
 }

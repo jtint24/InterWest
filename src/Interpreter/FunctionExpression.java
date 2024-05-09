@@ -58,9 +58,11 @@ public class FunctionExpression extends Expression {
         for (int i = 0; i<parameterTypes.length; i++) {
             Type parameterType = parameterTypes[i];
             Type argumentType = inputExpressions.get(i).getType(context);
+
+            // TODO: EXTRACT THIS LOGIC INTO ITS OWN FUNCTION THAT CAN MATCH AN EXPRESSION AGAINST A TYPE EITHER BY GIVEN TYPE OR BY STATIC VALUE
             TriValue subtypeStatus = argumentType.subtypeOf(parameterType);
 
-            if (subtypeStatus == TriValue.UNKNOWN && inputExpressions.get(i).staticValue.isOK()) {
+            if (subtypeStatus != TriValue.TRUE && inputExpressions.get(i).staticValue.isOK()) {
                 Value inputValue = inputExpressions.get(i).staticValue.getOkValue();
                 ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
                 subtypeStatus = TriValue.fromBool(parameterType.matchesValue(inputValue, testErrorManager));
@@ -69,11 +71,11 @@ public class FunctionExpression extends Expression {
 
             if (subtypeStatus == TriValue.FALSE) {
                 context.addError(
-                        new Error(Error.ErrorType.INTERPRETER_ERROR,  "Expected type "+argumentType+" doesn't match received type "+parameterType+" in argument "+(i+1)+".", true)
+                        new Error(Error.ErrorType.INTERPRETER_ERROR,  "Expected type "+parameterType+" doesn't match received type "+argumentType+" in argument "+(i+1)+".", true)
                 );
             } else if (subtypeStatus == TriValue.UNKNOWN) {
                 context.addError(
-                            new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type " + argumentType + " matches received type " + parameterType + " in argument " + (i + 1) + ".", false)
+                            new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type " + parameterType + " matches received type " + argumentType + " in argument " + (i + 1) + ".", false)
                 );
             }
         }
