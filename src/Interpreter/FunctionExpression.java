@@ -59,15 +59,7 @@ public class FunctionExpression extends Expression {
             Type parameterType = parameterTypes[i];
             Type argumentType = inputExpressions.get(i).getType(context);
 
-            // TODO: EXTRACT THIS LOGIC INTO ITS OWN FUNCTION THAT CAN MATCH AN EXPRESSION AGAINST A TYPE EITHER BY GIVEN TYPE OR BY STATIC VALUE
-            TriValue subtypeStatus = argumentType.subtypeOf(parameterType);
-
-            if (subtypeStatus != TriValue.TRUE && inputExpressions.get(i).staticValue.isOK()) {
-                Value inputValue = inputExpressions.get(i).staticValue.getOkValue();
-                ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
-                subtypeStatus = TriValue.fromBool(parameterType.matchesValue(inputValue, testErrorManager));
-                context.addErrors(testErrorManager.getErrors());
-            }
+            TriValue subtypeStatus = inputExpressions.get(i).matchesType(parameterType, context);
 
             if (subtypeStatus == TriValue.FALSE) {
                 context.addError(
