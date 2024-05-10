@@ -3,6 +3,7 @@ import Elements.Value;
 import Elements.ValueLibrary;
 import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
+import ErrorManager.AnsiCodes;
 import ErrorManager.Annotator;
 import IO.OutputBuffer;
 import Interpreter.*;
@@ -22,14 +23,13 @@ import static Elements.ValueLibrary.intType;
 public class Main {
     public static void main(String[] args) {
         InterpretationSession sesh = new InterpretationSession(
-                "let a = if true { printNonzero(12) }"
+                "if true   {     printNonzero(12)}"
         );
         Expression expr = sesh.getAST();
 
-        System.out.println(expr);
-        System.out.println(expr.underlyingParseTree);
-
         Annotator annotator = new Annotator(expr.underlyingParseTree);
+        System.out.println(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getBody().getContainedExpressions().get(0).underlyingParseTree);
+        annotator.applyStyle(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getBody().getContainedExpressions().get(0).underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '*'));
 
         System.out.println(annotator.getAnnotatedString());
     }
@@ -56,15 +56,6 @@ public class Main {
 
         // Expression program = new ReturnableExpressionSeries(condition);
 
-    }
-
-    public static void testDFAConversion() {
-        Expression retExpression = new ExpressionSeries(new ArrayList<>() {{
-            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(1, intType))));
-            add(new ReturnExpression(new IdentityExpression(new ValueWrapper<>(7, intType))));
-        }});
-        DFA retDFA = DFAConverter.dfaFrom(retExpression);
-        System.out.println(retDFA);
     }
 
 

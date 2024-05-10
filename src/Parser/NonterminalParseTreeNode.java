@@ -46,6 +46,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
 
     @Override
     public void removeSymbolsOfType(Token t) {
+        // TODO: DELETE (or remove references)
         /*
         ArrayList<ParseTreeNode> newChildren = new ArrayList<>();
 
@@ -114,5 +115,12 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
             }
         }
         return retString+"])";
+    }
+
+    /**
+     * Gets all children including whitespace (Generally this is unwanted)
+     * */
+    public List<ParseTreeNode> getAllChildren() {
+        return children;
     }
 }

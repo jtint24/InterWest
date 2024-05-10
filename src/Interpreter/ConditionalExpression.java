@@ -4,6 +4,7 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import Parser.ParseTreeNode;
 import Utils.Result;
 import Utils.TriValue;
 
@@ -14,9 +15,10 @@ public class ConditionalExpression extends Expression {
     ExpressionSeries expressionSeries;
     Expression condition;
 
-    public ConditionalExpression(ExpressionSeries expressionSeries, Expression condition) {
+    public ConditionalExpression(ExpressionSeries expressionSeries, Expression condition, ParseTreeNode underlyingParseTree) {
         this.expressionSeries = expressionSeries;
         this.condition = condition;
+        this.underlyingParseTree = underlyingParseTree;
     }
 
     public Expression getCondition() {

@@ -4,13 +4,15 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import Parser.ParseTreeNode;
 import Utils.Result;
 
 public class VariableExpression extends Expression {
     String identifier;
 
-    public VariableExpression(String identifier) {
+    public VariableExpression(String identifier, ParseTreeNode underlyingParseTree) {
         this.identifier = identifier;
+        this.underlyingParseTree = underlyingParseTree;
     }
 
     @Override

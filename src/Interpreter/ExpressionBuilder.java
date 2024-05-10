@@ -65,8 +65,8 @@ public class ExpressionBuilder {
         String lexeme = ptNode.getWrappedSymbol().getLexeme();
 
         return switch (tokenName) {
-            case "identifier" -> new VariableExpression(lexeme);
-            case "int" -> new IdentityExpression(new ValueWrapper<>(Integer.parseInt(lexeme), ValueLibrary.intType));
+            case "identifier" -> new VariableExpression(lexeme, ptNode);
+            case "int" -> new IdentityExpression(new ValueWrapper<>(Integer.parseInt(lexeme), ValueLibrary.intType), ptNode);
             default -> {
                 (new RuntimeException()).printStackTrace();
                 errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown terminal type `"+tokenName+"`", true));
@@ -89,7 +89,7 @@ public class ExpressionBuilder {
             argumentExpressions.add(buildExpression((NonterminalParseTreeNode) argument));
         }
 
-        return new FunctionExpression(calledExpr, argumentExpressions);
+        return new FunctionExpression(calledExpr, argumentExpressions, ptNode);
     }
 
     public Expression buildIfExpression(NonterminalParseTreeNode ptNode) {
@@ -113,7 +113,7 @@ public class ExpressionBuilder {
         ExpressionSeries internalSeries = new ExpressionSeries(childExpressions);
 
 
-        return new ConditionalExpression(internalSeries, condition);
+        return new ConditionalExpression(internalSeries, condition, ptNode);
     }
 
     public Expression buildFileExpression(NonterminalParseTreeNode ptNode) {
@@ -147,7 +147,7 @@ public class ExpressionBuilder {
 
         Expression returnToExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
 
-        return new ReturnExpression(returnToExpression);
+        return new ReturnExpression(returnToExpression, ptNode);
     }
 
     public Expression buildLambdaExpression(NonterminalParseTreeNode ptNode) {
@@ -193,7 +193,7 @@ public class ExpressionBuilder {
 
         Function lambdaFunc = new ExpressionFunction(type, new ReturnableExpressionSeries(returnType, subExpressions),  paramNames.toArray(new String[0]));
 
-        return new IdentityExpression(lambdaFunc);
+        return new IdentityExpression(lambdaFunc, ptNode);
 
         // TODO: Add func types that take type expressions that have to be resolved
     }

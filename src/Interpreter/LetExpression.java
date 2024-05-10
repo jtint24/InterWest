@@ -8,11 +8,12 @@ import Utils.Result;
 
 public class LetExpression extends Expression {
     String identifierName;
-    Expression exprToSet;
+    public Expression exprToSet;
 
     public LetExpression(String identifierName, Expression exprToSet) {
         this.identifierName = identifierName;
         this.exprToSet = exprToSet;
+        this.underlyingParseTree = underlyingParseTree;
     }
 
     @Override

@@ -3,6 +3,7 @@ package Interpreter;
 import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
+import Parser.ParseTreeNode;
 import Utils.Result;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ReturnableExpressionSeries extends ExpressionContainer {
     public ReturnableExpressionSeries(Type returnType, ArrayList<Expression> subExpressions) {
         this.returnType = returnType;
         this.subExpressions = subExpressions;
+        this.underlyingParseTree = null; // A SINGLE PARSE NODE CAN'T REPRESENT A SERIES OF EXPRESSIONS
     }
 
     @Override

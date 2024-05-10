@@ -3,6 +3,7 @@ package Interpreter;
 import Elements.*;
 import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
+import Parser.ParseTreeNode;
 import Utils.Result;
 import ErrorManager.Error;
 import Utils.TriValue;
@@ -16,9 +17,10 @@ public class FunctionExpression extends Expression {
 
     ArrayList<Expression> inputExpressions;
 
-    public FunctionExpression(Expression funcExpression, ArrayList<Expression> inputExpressions) {
+    public FunctionExpression(Expression funcExpression, ArrayList<Expression> inputExpressions, ParseTreeNode underlyingParseTree) {
         this.funcExpression = funcExpression;
         this.inputExpressions = inputExpressions;
+        this.underlyingParseTree = underlyingParseTree;
     }
 
     @Override

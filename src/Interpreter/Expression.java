@@ -9,6 +9,8 @@ import Parser.ParseTreeNode;
 import Utils.Result;
 import Utils.TriValue;
 
+import java.util.ArrayList;
+
 public abstract class Expression {
     Result<Value, Error> staticValue;
     public ParseTreeNode underlyingParseTree;

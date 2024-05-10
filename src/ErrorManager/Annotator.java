@@ -34,7 +34,7 @@ public class Annotator {
         } else {
             ArrayList<Style> styles = new ArrayList<>();
 
-            for (ParseTreeNode child : ((NonterminalParseTreeNode) ptNode).getChildren()) {
+            for (ParseTreeNode child : ((NonterminalParseTreeNode) ptNode).getAllChildren()) {
                 styles.addAll(getStyleList(child, defaultStyle));
             }
 
@@ -42,11 +42,19 @@ public class Annotator {
         }
     }
 
+    int printedLength(String str) {
+        return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "").length();
+    }
+
     public String getAnnotatedString() {
         // Get a sequence of applied Styles matching the SymbolString
 
         ArrayList<Style> styles = getStyleList(ptNode);
         SymbolString symbols = ptNode.getSymbols();
+
+        System.out.println("Starting get annotated string");
+        System.out.println(styles);
+        System.out.println(symbols);
 
         // Render each Symbol with each Style to make an ArrayList of lines
         ArrayList<ArrayList<String>> lineBlocks = new ArrayList<>();
@@ -73,8 +81,8 @@ public class Annotator {
             }
             for (int i = block.size(); i<tallestBlockHeight; i++) {
                 int neededLength = 0;
-                if (lines.get(i).length() < block.get(0).length()) {
-                    neededLength += block.get(0).length() - block.get(i).length();
+                if (printedLength(lines.get(i)) < printedLength(lines.get(0))) {
+                    neededLength = printedLength(lines.get(0)) - printedLength(lines.get(i));
                 }
                 lines.set(i, lines.get(i) + " ".repeat(neededLength));
             }
@@ -97,6 +105,9 @@ public class Annotator {
         public Style(String ansiColor, Character underline) {
             this.ansiColor = ansiColor;
             this.underline = underline;
+//            if (this.underline == null) {
+//                this.underline = '.';
+//            }
         }
 
         public ArrayList<String> renderOn(String s, int tallestBlockHeight) {

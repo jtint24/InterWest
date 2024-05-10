@@ -4,6 +4,7 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import Parser.ParseTreeNode;
 import Utils.Result;
 import Utils.TriValue;
 
@@ -11,8 +12,9 @@ public class ReturnExpression extends Expression {
 
     Expression exprToReturn;
 
-    public ReturnExpression(Expression exprToReturn) {
+    public ReturnExpression(Expression exprToReturn, ParseTreeNode underlyingParseTree) {
         this.exprToReturn = exprToReturn;
+        this.underlyingParseTree = underlyingParseTree;
     }
 
     public Expression getExprToReturn() {

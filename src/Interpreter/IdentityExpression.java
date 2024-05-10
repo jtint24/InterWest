@@ -5,13 +5,15 @@ import Elements.ExpressionFunction;
 import Elements.Type;
 import Elements.Value;
 import ErrorManager.Error;
+import Parser.ParseTreeNode;
 import Utils.Result;
 
 public class IdentityExpression extends Expression {
     Value wrappedValue;
 
-    public IdentityExpression(Value wrappedValue) {
+    public IdentityExpression(Value wrappedValue, ParseTreeNode underlyingParseTree) {
         this.wrappedValue = wrappedValue;
+        this.underlyingParseTree = underlyingParseTree;
     }
 
     @Override
