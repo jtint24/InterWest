@@ -33,11 +33,13 @@ public class ExpressionBuilder {
             if (childNode instanceof NonterminalParseTreeNode) {
                 ptNode = (NonterminalParseTreeNode) childNode;
             } else {
-                return buildTerminalExpression((TerminalParseTreeNode) childNode);
+                Expression expr = buildTerminalExpression((TerminalParseTreeNode) childNode);
+                expr.underlyingParseTree = ptNode;
+                return expr;
             }
         }
 
-        return switch (ptNode.getKind().toString()) {
+        Expression expr = switch (ptNode.getKind().toString()) {
             case "TreeKind(file)" -> buildFileExpression(ptNode);
             case "TreeKind(let)" -> buildLetExpression(ptNode);
             case "TreeKind(return)" -> buildReturnExpression(ptNode);
@@ -49,6 +51,13 @@ public class ExpressionBuilder {
                 yield null;
             }
         };
+
+        if (expr == null) {
+            return null;
+        }
+
+        expr.underlyingParseTree = ptNode;
+        return expr;
     }
 
     public Expression buildTerminalExpression(TerminalParseTreeNode ptNode) {

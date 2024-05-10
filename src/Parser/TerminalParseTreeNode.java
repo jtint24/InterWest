@@ -3,6 +3,7 @@ package Parser;
 import ErrorManager.Error;
 
 import Lexer.Symbol;
+import Lexer.SymbolString;
 import Lexer.Token;
 
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ public class TerminalParseTreeNode extends ParseTreeNode {
     @Override
     String getSimplifiedHierarchyString(int tabLevel) {
         return "|\t".repeat(tabLevel)+"| "+wrappedSymbol+"\n";
+    }
+
+    @Override
+    public SymbolString getSymbols() {
+        return new SymbolString(wrappedSymbol);
     }
 
     @Override

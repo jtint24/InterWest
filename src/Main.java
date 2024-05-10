@@ -3,6 +3,7 @@ import Elements.Value;
 import Elements.ValueLibrary;
 import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
+import ErrorManager.Annotator;
 import IO.OutputBuffer;
 import Interpreter.*;
 import Regularity.DFA;
@@ -20,9 +21,22 @@ import static Elements.ValueLibrary.intType;
 
 public class Main {
     public static void main(String[] args) {
+        InterpretationSession sesh = new InterpretationSession(
+                "let a = if true { printNonzero(12) }"
+        );
+        Expression expr = sesh.getAST();
+
+        System.out.println(expr);
+        System.out.println(expr.underlyingParseTree);
+
+        Annotator annotator = new Annotator(expr.underlyingParseTree);
+
+        System.out.println(annotator.getAnnotatedString());
+    }
+
+    public static void runTests() {
         // testDFAConversion();
 
-        // TODO: THIS THROWS A RUNTIME ERROR. GET IT TO THROW A STATIC ERROR.
         InterpretationSession sesh = new InterpretationSession(
                 "let a = if true { printNonzero(12) }"
         );

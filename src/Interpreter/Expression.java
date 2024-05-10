@@ -5,11 +5,13 @@ import Elements.Value;
 import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
+import Parser.ParseTreeNode;
 import Utils.Result;
 import Utils.TriValue;
 
 public abstract class Expression {
     Result<Value, Error> staticValue;
+    public ParseTreeNode underlyingParseTree;
     public abstract ExpressionResult evaluate(State situatedState);
     public abstract ValidationContext validate(ValidationContext context);
 

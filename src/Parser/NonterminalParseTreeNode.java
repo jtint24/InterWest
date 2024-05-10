@@ -1,14 +1,17 @@
 package Parser;
 
 import ErrorManager.Error;
+import Lexer.SymbolString;
 import Lexer.Token;
+import Lexer.TokenLibrary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NonterminalParseTreeNode extends ParseTreeNode {
     TreeKind kind;
-    ArrayList<ParseTreeNode> children = new ArrayList<>();
+    private final ArrayList<ParseTreeNode> children = new ArrayList<>();
     public NonterminalParseTreeNode(TreeKind kind) {
         this.kind = kind;
     }
@@ -21,8 +24,10 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         return kind;
     }
 
-    public ArrayList<ParseTreeNode> getChildren() {
-        return children;
+    public List<ParseTreeNode> getChildren() {
+        return children.stream().filter(
+                (child) -> (child instanceof NonterminalParseTreeNode) || !((TerminalParseTreeNode) child).wrappedSymbol.getTokenType().equals(TokenLibrary.whitespace)
+        ).collect(Collectors.toList());
     }
 
     @Override
@@ -41,6 +46,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
 
     @Override
     public void removeSymbolsOfType(Token t) {
+        /*
         ArrayList<ParseTreeNode> newChildren = new ArrayList<>();
 
         for (ParseTreeNode child : children) {
@@ -55,6 +61,16 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         }
 
         children = newChildren;
+
+         */
+    }
+
+    public SymbolString getSymbols() {
+        SymbolString str = new SymbolString();
+        for (ParseTreeNode child : children) {
+            str.append(child.getSymbols());
+        }
+        return str;
     }
 
     @Override

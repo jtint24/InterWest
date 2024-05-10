@@ -32,7 +32,25 @@ public class InterpretationSession {
 
     public void runSession() {
 
+        Expression expr = getAST();
 
+        outputBuffer.println(expr);
+        expr.initializeStaticValues(new StaticReductionContext());
+        ValidationContext validationContext = expr.validate(new ValidationContext());
+        errorManager.logErrors(validationContext.errors);
+
+        System.out.println("ValidationContext: ");
+        System.out.println(validationContext.errors);
+
+        State newState = new State(errorManager);
+        ExpressionResult result = expr.evaluate(newState);
+
+        outputBuffer.println(result.resultingValue);
+        outputBuffer.println(result.resultingState);
+
+    }
+
+    public Expression getAST() {
         SymbolString symbolString = tokenizer.extractAllSymbols();
         outputBuffer.println(symbolString);
         llParser.setSymbols( symbolString.toList());
@@ -62,21 +80,7 @@ public class InterpretationSession {
         outputBuffer.println(parseTree);
 
         Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
-
-        outputBuffer.println(expr);
-        expr.initializeStaticValues(new StaticReductionContext());
-        ValidationContext validationContext = expr.validate(new ValidationContext());
-        errorManager.logErrors(validationContext.errors);
-
-        System.out.println("ValidationContext: ");
-        System.out.println(validationContext.errors);
-
-        State newState = new State(errorManager);
-        ExpressionResult result = expr.evaluate(newState);
-
-        outputBuffer.println(result.resultingValue);
-        outputBuffer.println(result.resultingState);
-
+        return expr;
     }
 
 }

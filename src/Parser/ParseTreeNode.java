@@ -2,6 +2,7 @@ package Parser;
 
 import ErrorManager.Error;
 
+import Lexer.SymbolString;
 import Lexer.Token;
 
 
@@ -16,5 +17,5 @@ public abstract class ParseTreeNode {
     public String getSimplifiedHierarchyString() { return getSimplifiedHierarchyString(0); }
     public abstract void removeSymbolsOfType(Token token);
     public abstract List<Error> getMalformedNodeErrors();
-
+    public abstract SymbolString getSymbols();
 }

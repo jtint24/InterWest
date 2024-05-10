@@ -8,6 +8,8 @@ import ErrorManager.Error;
 import Utils.TriValue;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunctionExpression extends Expression {
     Expression funcExpression; // Expression to evaluate to get the function
@@ -93,5 +95,11 @@ public class FunctionExpression extends Expression {
             context = inputExpression.initializeStaticValues(context);
         }
         return context;
+    }
+
+    @Override
+    public String toString() {
+        List<String> inputExprStrings = inputExpressions.stream().map(Expression::toString).collect(Collectors.toList());
+        return funcExpression+"("+String.join(", ", inputExprStrings)+")";
     }
 }
