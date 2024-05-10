@@ -5,6 +5,7 @@ import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
 import Utils.Result;
+import Utils.TriValue;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,18 @@ public class ConditionalExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
         context = condition.validate(context);
+
+        TriValue matchesType = condition.matchesType(ValueLibrary.boolType, context);
+
+        if (matchesType == TriValue.FALSE) {
+            context.addError(
+                    new Error(Error.ErrorType.INTERPRETER_ERROR, "Condition of type "+condition.getType(context)+" doesn't match Bool", true)
+            );
+        } else if (matchesType == TriValue.UNKNOWN) {
+            context.addError(
+                    new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't verify that condition of type "+condition.getType(context)+" matches Bool", false)
+            );
+        }
 
         context.addScope();
         for (Expression innerExpression : expressionSeries.getContainedExpressions()) {

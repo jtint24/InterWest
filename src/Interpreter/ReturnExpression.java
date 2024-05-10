@@ -28,18 +28,20 @@ public class ReturnExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-        Type actualReturnType = exprToReturn.getType(context);
+        context = exprToReturn.validate(context);
+
         if (context.getReturnType() == null) {
             context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "No return type detected in this scope. Are you sure it can be returned from?", true));
         } else {
-            TriValue subtypeStatus = actualReturnType.subtypeOf(context.getReturnType());
+            Type actualReturnType = exprToReturn.getType(context);
+
+            TriValue subtypeStatus = exprToReturn.matchesType(context.getReturnType(), context);
             if (subtypeStatus == TriValue.FALSE) {
                 context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Type mismatch between expected return type `" + context.getReturnType() + "` and actual return type `" + actualReturnType + "`", true));
             } else if (subtypeStatus == TriValue.UNKNOWN) {
                 context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove match between expected return type `" + context.getReturnType() + "` and actual return type `" + actualReturnType + "`", false));
             }
         }
-        context = exprToReturn.validate(context);
         return context;
     }
 
@@ -47,7 +49,6 @@ public class ReturnExpression extends Expression {
     public Type getType(ValidationContext context) {
         return ValueLibrary.boolType;
     }
-
 
 
     @Override

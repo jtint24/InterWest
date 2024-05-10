@@ -1,11 +1,12 @@
-
-
 Things to do:
 
     - [ ] Lexer
         - [ ] Revise identifier definition to be actual (accept a-Z, 0-9 after first char, and _)
     - [ ] Parser
         - [x] Add Pratt parsing / parse binary operators
+    - [ ] Main Interface
+        - [ ] Make an interface that can read in an InterWest file
+        - [ ] Add a faux-"compile" option that serializes the AST
     - [ ] Interpreter
         - [ ] Improve Type System
             - [ ] Allow Type::subtypeOf to handle regular types
@@ -18,6 +19,10 @@ Things to do:
                 - [ ] Add line numbers to expressions
                 - [ ] Add line numbers to parse nodes
                 - [ ] Add line numbers to lexemes
+            - [ ] Make error messages more descriptive and consistent
+                - [ ] Add an error message factory/library to put all the error messages in one place
+                - [ ] Add suggestions to error messages
+                - [ ] Study what makes a good error message
             - [ ] Add highlights to error messages
                 - [ ] Give parse tree nodes their internal lexemes
                 - [ ] Give expressions their parse tree nodes
@@ -34,5 +39,8 @@ Things to do:
         - [x] Change all methods that return/accept subclasses of Collection to return as general a subclass as possible (ie. ArrayList<> -> List<>)
         - [x] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value
         - [ ] Make the parser read token-by-token from the lexer, rather than having it require all the lexemes at once
+    - [ ] Miscellaneous
+        - [ ] Decide on a file extension for InterWest (.iw? .west?)
+        - [ ] Make InterWest logo
 
 
