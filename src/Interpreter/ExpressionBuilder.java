@@ -47,14 +47,9 @@ public class ExpressionBuilder {
             case "TreeKind(if statement)" -> buildIfExpression(ptNode);
             case "TreeKind(expression call)" -> buildExpressionCall(ptNode);
             default -> {
-                errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown nonterminal type `"+ptNode.getKind()+"`", true));
-                yield null;
+                throw new RuntimeException("Unknown nonterminal type `"+ptNode.getKind()+"`");
             }
         };
-
-        if (expr == null) {
-            return null;
-        }
 
         expr.underlyingParseTree = ptNode;
         return expr;
@@ -68,9 +63,7 @@ public class ExpressionBuilder {
             case "identifier" -> new VariableExpression(lexeme, ptNode);
             case "int" -> new IdentityExpression(new ValueWrapper<>(Integer.parseInt(lexeme), ValueLibrary.intType), ptNode);
             default -> {
-                (new RuntimeException()).printStackTrace();
-                errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Unknown terminal type `"+tokenName+"`", true));
-                yield null;
+                throw new RuntimeException("Unknown terminal type `"+tokenName+"`");
             }
         };
     }
@@ -125,7 +118,7 @@ public class ExpressionBuilder {
             if (childNode instanceof NonterminalParseTreeNode) {
                 childExpressions.add(buildExpression((NonterminalParseTreeNode) childNode));
             } else {
-                errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Expected nonterminal node, got terminal", true));
+                throw new RuntimeException("Expected nonterminal node, got terminal");
             }
         }
         return new ExpressionSeries(childExpressions);

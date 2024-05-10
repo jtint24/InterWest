@@ -1,43 +1,47 @@
 package ErrorManager;
 
+import java.util.Locale;
+
 public class Error {
-    private final int errorLevel;
-    private final String annotation;
+    private final String header;
+    private final String body;
     private final ErrorType type;
     private final boolean isFatal;
+    private final int errorCode;
+    private final String[] helpItems;
 
-    public Error(ErrorType type, String annotation, boolean isFatal) {
-        this.annotation = annotation;
+    public Error(ErrorType type, String header, String body, boolean isFatal, int errorCode, String... helpItems) {
         this.type = type;
-        this.errorLevel = 0;
+        this.header = header;
+        this.body = body;
         this.isFatal = isFatal;
+        this.errorCode = errorCode;
+        this.helpItems = helpItems;
     }
-
-    public Error(ErrorType type, String annotation, boolean isFatal, int errorLevel) {
-        this.annotation = annotation;
-        this.type = type;
-        this.errorLevel = errorLevel;
-        this.isFatal = isFatal;
-    }
-
-    public static Error runtimeWarning(String annotation) {
-        return new Error(ErrorType.INTERPRETER_ERROR, annotation, false);
-    }
-
     public boolean getIsFatal() {
         return isFatal;
     }
 
     public enum ErrorType {
-        LEXER_ERROR,
-        INPUT_ERROR,
-        PARSER_ERROR,
-        INTERPRETER_ERROR,
-        RUNTIME_ERROR
+        LEXER_ERROR('L'),
+        INPUT_ERROR('I'),
+        PARSER_ERROR('P'),
+        INTERPRETER_ERROR('A'),
+        RUNTIME_ERROR('R');
+        public final char code;
+        ErrorType(char c) {
+            code = c;
+        }
     }
 
     @Override
     public String toString() {
-        return type.toString() + "\n" + annotation;
+        String dividerLine = "-".repeat(80-5) + " " + type.code + String.format("%03d", errorCode);
+        String headerLine = header.toUpperCase(Locale.ROOT);
+
+        String helpString = "help: "+String.join("\nhelp: ", helpItems);
+
+
+        return dividerLine+"\n"+headerLine+"\n"+body+"\n"+helpString;
     }
 }

@@ -4,6 +4,7 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import ErrorManager.ErrorLibrary;
 import Parser.ParseTreeNode;
 import Utils.Result;
 import Utils.TriValue;
@@ -49,11 +50,11 @@ public class ConditionalExpression extends Expression {
 
         if (matchesType == TriValue.FALSE) {
             context.addError(
-                    new Error(Error.ErrorType.INTERPRETER_ERROR, "Condition of type "+condition.getType(context)+" doesn't match Bool", true)
+                    ErrorLibrary.getIfTypeMismatch(this, condition.getType(context))
             );
         } else if (matchesType == TriValue.UNKNOWN) {
             context.addError(
-                    new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't verify that condition of type "+condition.getType(context)+" matches Bool", false)
+                    ErrorLibrary.getIfTypeWarning(this, condition.getType(context))
             );
         }
 

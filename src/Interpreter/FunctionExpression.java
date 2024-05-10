@@ -71,7 +71,7 @@ public class FunctionExpression extends Expression {
                 );
             } else if (subtypeStatus == TriValue.UNKNOWN) {
                 context.addError(
-                            new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type " + parameterType + " matches received type " + argumentType + " in argument " + (i + 1) + ".", false)
+                        new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type " + parameterType + " matches received type " + argumentType + " in argument " + (i + 1) + ".", false)
                 );
             }
         }
