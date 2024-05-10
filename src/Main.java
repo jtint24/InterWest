@@ -28,8 +28,8 @@ public class Main {
         Expression expr = sesh.getAST();
 
         Annotator annotator = new Annotator(expr.underlyingParseTree);
-        System.out.println(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getBody().getContainedExpressions().get(0).underlyingParseTree);
-        annotator.applyStyle(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getBody().getContainedExpressions().get(0).underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '*'));
+        annotator.applyStyle(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getBody().getContainedExpressions().get(0).underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '*', "This is my second message it should be farther up"));
+        annotator.applyStyle(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getCondition().underlyingParseTree, new Annotator.Style(AnsiCodes.BLUE, '^', "This is my first message it should be farther down"));
 
         System.out.println(annotator.getAnnotatedString());
     }

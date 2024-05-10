@@ -6,6 +6,7 @@ import Parser.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class Annotator {
 
@@ -33,6 +34,7 @@ public class Annotator {
             }};
         } else {
             ArrayList<Style> styles = new ArrayList<>();
+
 
             for (ParseTreeNode child : ((NonterminalParseTreeNode) ptNode).getAllChildren()) {
                 styles.addAll(getStyleList(child, defaultStyle));
@@ -63,7 +65,8 @@ public class Annotator {
         for (int i = styles.size()-1; i>=0; i--) {
             Symbol symbol = symbols.get(i);
             Style style = styles.get(i);
-            ArrayList<String> renderedBlock = style.renderOn(symbol.getLexeme(), tallestBlockHeight);
+            boolean isTerminal = (i == 0) || (styles.get(i-1).annotation == null);
+            ArrayList<String> renderedBlock = style.renderOn(symbol.getLexeme(), tallestBlockHeight, isTerminal);
             lineBlocks.add(0, renderedBlock);
             tallestBlockHeight = Math.max(tallestBlockHeight, renderedBlock.size());
         }
@@ -101,22 +104,40 @@ public class Annotator {
     public static class Style {
         String ansiColor;
         Character underline;
+        String annotation;
 
         public Style(String ansiColor, Character underline) {
             this.ansiColor = ansiColor;
             this.underline = underline;
-//            if (this.underline == null) {
-//                this.underline = '.';
-//            }
         }
 
-        public ArrayList<String> renderOn(String s, int tallestBlockHeight) {
-            return new ArrayList<>() {{
-                add(ansiColor+s+AnsiCodes.RESET);
-                if (underline != null) {
-                    add((""+underline).repeat(s.length()));
+        public Style(String ansiColor, Character underline, String annotation) {
+            this.ansiColor = ansiColor;
+            this.underline = underline;
+            this.annotation = annotation;
+        }
+
+        public ArrayList<String> renderOn(String s, int tallestBlockHeight, boolean isTerminal) {
+            ArrayList<String> lines = new ArrayList<>();
+
+            lines.add(ansiColor+s+AnsiCodes.RESET);
+            if (underline != null) {
+                int startingWhitespaceCount = s.length()-s.stripTrailing().length();
+                int trailingWhitespaceCount = s.length()-s.stripLeading().length();
+                int coreLength = s.strip().length();
+
+                lines.add(" ".repeat(startingWhitespaceCount)+(""+underline).repeat(coreLength)+" ".repeat(trailingWhitespaceCount));
+            } else if (annotation != null && isTerminal) {
+                lines.add("|");
+            }
+            if (annotation != null && isTerminal) {
+                while (lines.size() <= tallestBlockHeight) {
+                    lines.add("|");
                 }
-            }};
+                lines.add(annotation);
+            }
+
+            return lines;
         }
     }
 }
