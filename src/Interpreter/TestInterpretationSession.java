@@ -65,7 +65,8 @@ public class TestInterpretationSession extends InterpretationSession {
                 DFA convertedDFA = DFAConverter.dfaFrom(innerExpression);
                 outputBuffer.println(convertedDFA);
             } else {
-                errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Expected a lambda expression", false));
+                throw new RuntimeException("Expected a lambda expression");
+                // errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Expected a lambda expression", false));
             }
 
 

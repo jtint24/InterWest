@@ -8,6 +8,8 @@ import Parser.ParseTreeNode;
 import Utils.Result;
 import Utils.TriValue;
 
+import static ErrorManager.ErrorLibrary.*;
+
 public class ReturnExpression extends Expression {
 
     Expression exprToReturn;
@@ -33,15 +35,15 @@ public class ReturnExpression extends Expression {
         context = exprToReturn.validate(context);
 
         if (context.getReturnType() == null) {
-            context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "No return type detected in this scope. Are you sure it can be returned from?", true));
+            context.addError(getNotReturnable(this));
         } else {
             Type actualReturnType = exprToReturn.getType(context);
 
             TriValue subtypeStatus = exprToReturn.matchesType(context.getReturnType(), context);
             if (subtypeStatus == TriValue.FALSE) {
-                context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Type mismatch between expected return type `" + context.getReturnType() + "` and actual return type `" + actualReturnType + "`", true));
+                context.addError(getReturnTypeMismatch(this, context.getReturnType(), exprToReturn.getType(context)));
             } else if (subtypeStatus == TriValue.UNKNOWN) {
-                context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove match between expected return type `" + context.getReturnType() + "` and actual return type `" + actualReturnType + "`", false));
+                context.addError(getReturnTypeWarning(this, context.getReturnType(), exprToReturn.getType(context)));
             }
         }
         return context;

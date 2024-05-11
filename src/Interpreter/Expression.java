@@ -12,7 +12,7 @@ import Utils.TriValue;
 import java.util.ArrayList;
 
 public abstract class Expression {
-    Result<Value, Error> staticValue;
+    Result<Value, String> staticValue;
     public ParseTreeNode underlyingParseTree;
     public abstract ExpressionResult evaluate(State situatedState);
     public abstract ValidationContext validate(ValidationContext context);
@@ -30,7 +30,7 @@ public abstract class Expression {
      *
      * Give the static result of the expression, if it exists
      * */
-    public Result<Value, Error> reduceToValue() {
+    public Result<Value, String> reduceToValue() {
         return staticValue;
     }
 

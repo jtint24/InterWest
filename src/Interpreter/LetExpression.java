@@ -4,13 +4,16 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import Parser.ParseTreeNode;
 import Utils.Result;
+
+import static ErrorManager.ErrorLibrary.getRedefinition;
 
 public class LetExpression extends Expression {
     String identifierName;
     public Expression exprToSet;
 
-    public LetExpression(String identifierName, Expression exprToSet) {
+    public LetExpression(String identifierName, Expression exprToSet, ParseTreeNode underlyingParseTree) {
         this.identifierName = identifierName;
         this.exprToSet = exprToSet;
         this.underlyingParseTree = underlyingParseTree;
@@ -32,7 +35,7 @@ public class LetExpression extends Expression {
     public ValidationContext validate(ValidationContext context) {
         context = exprToSet.validate(context);
         if (context.hasVariable(identifierName)) {
-            context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't redeclare variable `"+identifierName+"`", true));
+            context.addError(getRedefinition(this, identifierName));
         }
         context.addVariableType(identifierName, exprToSet.getType(context));
         return context;

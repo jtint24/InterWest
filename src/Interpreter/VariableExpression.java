@@ -7,6 +7,8 @@ import ErrorManager.Error;
 import Parser.ParseTreeNode;
 import Utils.Result;
 
+import static ErrorManager.ErrorLibrary.getVariableNotFound;
+
 public class VariableExpression extends Expression {
     String identifier;
 
@@ -23,7 +25,7 @@ public class VariableExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
         if (!context.hasVariable(identifier)) {
-            context.addError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't find variable `"+identifier+"` in scope.", true));
+            context.addError(getVariableNotFound(this));
         }
         return context;
     }

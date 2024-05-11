@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class StaticReductionContext {
     HashMap<String, Value> declaredConstants = new HashMap<>();
     ArrayList<Error> errors = new ArrayList<>();
-    Result<Value, Error> returnedValue = null;
+    Result<Value, String> returnedValue = null;
 
     public void addErrors(ArrayList<Error> newErrors) {
         errors.addAll(newErrors);

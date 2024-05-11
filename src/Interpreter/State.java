@@ -23,7 +23,8 @@ public class State {
 
     public void put(String id, Value val) {
         if (contains(id)) {
-            errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Scope already contains `"+id+"`!", true));
+            // errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Scope already contains `"+id+"`!", true));
+            throw new RuntimeException("Scope already contains `"+id+"`!");
         }
 
         scopes.peek().put(id, val);
@@ -49,8 +50,9 @@ public class State {
             }
         }
 
-        errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Can't find value `"+id+"` in scope!", true));
-        return null;
+        throw new RuntimeException("Can't find value `"+id+"` in scope!");
+        // errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Can't find value `"+id+"` in scope!", true));
+        // return null;
     }
 
     public String toString() {

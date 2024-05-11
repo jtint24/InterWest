@@ -1,8 +1,6 @@
 package Interpreter;
 
 import Elements.*;
-import ErrorManager.ErrorManager;
-import IO.OutputBuffer;
 import Parser.ParseTreeNode;
 import Utils.Result;
 import ErrorManager.Error;
@@ -11,6 +9,8 @@ import Utils.TriValue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static ErrorManager.ErrorLibrary.*;
 
 public class FunctionExpression extends Expression {
     Expression funcExpression; // Expression to evaluate to get the function
@@ -52,7 +52,7 @@ public class FunctionExpression extends Expression {
         Type funcType = funcExpression.getType(context);
         if (!(funcType instanceof FunctionType)) {
             context.addError(
-                    new Error(Error.ErrorType.INTERPRETER_ERROR, "Expression of type " + funcType + " is not callable.", true)
+                    getCallabilityMismatch(this, funcType)
             );
 
             return context;
@@ -67,11 +67,11 @@ public class FunctionExpression extends Expression {
 
             if (subtypeStatus == TriValue.FALSE) {
                 context.addError(
-                        new Error(Error.ErrorType.INTERPRETER_ERROR,  "Expected type "+parameterType+" doesn't match received type "+argumentType+" in argument "+(i+1)+".", true)
+                        getFunctionArgumentTypeMismatch(this, inputExpressions.get(i), parameterType, argumentType)
                 );
             } else if (subtypeStatus == TriValue.UNKNOWN) {
                 context.addError(
-                        new Error(Error.ErrorType.INTERPRETER_ERROR, "Can't prove that expected type " + parameterType + " matches received type " + argumentType + " in argument " + (i + 1) + ".", false)
+                        getFunctionArgumentTypeWarning(this, inputExpressions.get(i), parameterType, argumentType)
                 );
             }
         }
@@ -92,7 +92,7 @@ public class FunctionExpression extends Expression {
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
-        staticValue = Result.error(Error.runtimeWarning("Function expressions cannot be statically reduced"));
+        staticValue = Result.error("Function expressions cannot be statically reduced");
         for (Expression inputExpression : inputExpressions) {
             context = inputExpression.initializeStaticValues(context);
         }
@@ -103,5 +103,9 @@ public class FunctionExpression extends Expression {
     public String toString() {
         List<String> inputExprStrings = inputExpressions.stream().map(Expression::toString).collect(Collectors.toList());
         return funcExpression+"("+String.join(", ", inputExprStrings)+")";
+    }
+
+    public Expression getFuncExpression() {
+        return funcExpression;
     }
 }
