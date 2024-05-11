@@ -14,7 +14,8 @@ public class InputBuffer {
     }
     public char getChar() {
         if (this.isTerminated()) {
-            errorManager.logError(new Error(Error.ErrorType.INPUT_ERROR, "InputBuffer has run out", false));
+            throw new RuntimeException("InputBuffer has run out");
+            // errorManager.logError(new Error(Error.ErrorType.INPUT_ERROR, "InputBuffer has run out", false));
         }
         char retChar = body.charAt(0);
         body = body.substring(1);

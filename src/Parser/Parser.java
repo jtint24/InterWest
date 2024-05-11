@@ -11,6 +11,9 @@ import Lexer.Tokenizer;
 import Parser.EventLibrary.*;
 import ErrorManager.Error;
 
+import static ErrorManager.ErrorLibrary.getParserHasTerminated;
+import static ErrorManager.ErrorLibrary.getWrongToken;
+
 public class Parser {
     ArrayList<Symbol> symbols = new ArrayList<>();
     int pos = 0;
@@ -59,13 +62,15 @@ public class Parser {
 
      Token nth(int lookahead) {
          if (this.fuel == 0) {
-             errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Parser is stuck!", true));
+             // TODO: Figure out how to report this as an error
+             throw new RuntimeException();
+             // errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Parser is stuck!", true));
          }
 
          this.fuel--;
 
          if (this.pos+lookahead >= this.symbols.size()) {
-             errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Parser has hit end!", true));
+             errorManager.logError(getParserHasTerminated());
          }
 
          Token retToken = this.symbols.get(this.pos+lookahead).getTokenType();
@@ -92,14 +97,15 @@ public class Parser {
          if (this.eat(kind)) {
              return;
          }
-         errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Expected token of type "+kind+", got "+this.nth(0), true));
+         errorManager.logError(getWrongToken(kind, this.nth(0)));
+         // errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Expected token of type "+kind+", got "+this.nth(0), true));
      }
 
      void advanceWithError(Error error) {
-         MarkOpened m_opened = this.open();
+         MarkOpened markOpened = this.open();
          errorManager.logError(error);
          this.advance();
-         this.close(m_opened, TreeKind.invalid());
+         this.close(markOpened, TreeKind.invalid());
      }
 
      public ParseTreeNode buildTree() {

@@ -23,15 +23,11 @@ import static Elements.ValueLibrary.intType;
 public class Main {
     public static void main(String[] args) {
         InterpretationSession sesh = new InterpretationSession(
-                "if true   {     printNonzero(12)}"
+                "let a = 4 \n let a = 6"
         );
-        Expression expr = sesh.getAST();
+        sesh.runSession();
 
-        Annotator annotator = new Annotator(expr.underlyingParseTree);
-        annotator.applyStyle(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getBody().getContainedExpressions().get(0).underlyingParseTree, new Annotator.Style(AnsiCodes.RED, null, "This is my second message it should be farther up"));
-        annotator.applyStyle(((ConditionalExpression)((ExpressionSeries) expr).getContainedExpressions().get(0)).getCondition().underlyingParseTree, new Annotator.Style(AnsiCodes.BLUE, '^', "This is my first message it should be farther down"));
-
-        System.out.println(annotator.getAnnotatedString());
+        runTests();
     }
 
     public static void runTests() {

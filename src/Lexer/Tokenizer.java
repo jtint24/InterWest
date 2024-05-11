@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static ErrorManager.ErrorLibrary.getUnknownToken;
+
 public class Tokenizer {
     private final InputBuffer inputBuffer;
     private final ErrorManager errorManager;
@@ -62,14 +64,15 @@ public class Tokenizer {
             if (possibleTokens.size() == 1) {
                 return new Symbol(currentLexeme, possibleTokens.get(0));
             } else if (possibleTokens.size() > 1) {
-                errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "Ambiguous tokens for `"+currentLexeme+"`", true));
+               // errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "Ambiguous tokens for `"+currentLexeme+"`", true));
+                throw new RuntimeException("Ambiguous tokens for `"+currentLexeme+"`:"+Arrays.toString(possibleTokens.toArray()));
             }
 
             inputBuffer.ungetChar(currentLexeme.charAt(currentLexeme.length() - 1));
             currentLexeme = currentLexeme.substring(0, currentLexeme.length() - 1);
         } while (!currentLexeme.equals(""));
 
-        errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "No possible token for `"+originalLexeme+"`", true));
+        errorManager.logError(getUnknownToken(originalLexeme));
 
         // System.out.println("currentLexeme: `"+currentLexeme+"`");
 

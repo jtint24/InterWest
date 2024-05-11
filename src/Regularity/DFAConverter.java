@@ -47,7 +47,7 @@ public class DFAConverter {
 
             // Check if ret expression can be reduced to value statically
 
-            Result<Value, Error> result = returnedExpression.reduceToValue();
+            Result<Value, String> result = returnedExpression.reduceToValue();
 
             if (result.isOK()) {
                 Value returnValue = result.getOkValue();

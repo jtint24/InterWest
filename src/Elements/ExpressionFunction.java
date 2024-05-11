@@ -4,6 +4,8 @@ import Interpreter.*;
 import ErrorManager.ErrorManager;
 import ErrorManager.Error;
 
+import static ErrorManager.ErrorLibrary.getRuntimeArgumentTypeMismatch;
+
 public class ExpressionFunction extends Function {
     /**
      * THIS CLASS MAY NEED TO BE DELETED!
@@ -66,12 +68,15 @@ public class ExpressionFunction extends Function {
 
     static void validateArguments(ErrorManager errorManager, FunctionType type, Value[] values) {
         if (values.length != type.parameterTypes.length) {
-            errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Expected `"+ type.parameterTypes.length+"` arguments, got `"+values.length+"`", true));
+            throw new RuntimeException("Expected `"+ type.parameterTypes.length+"` arguments, got `"+values.length+"`");
         }
 
         for (int i = 0; i<values.length; i++) {
             if (!type.parameterTypes[i].matchesValue(values[i], errorManager)) {
-                errorManager.logError(new Error(Error.ErrorType.RUNTIME_ERROR, "Type mismatch in parameter "+(i+1)+". Expected "+ type.parameterTypes[i]+", got "+values[i].getType()+".", true));
+
+                throw new RuntimeException("Type mismatch");
+                //errorManager.logError(getRuntimeArgumentTypeMismatch(wrappedExpression, ));
+                //new Error(Error.ErrorType.RUNTIME_ERROR, "Type mismatch in parameter "+(i+1)+". Expected "+ type.parameterTypes[i]+", got "+values[i].getType()+".", true));
             }
         }
     }

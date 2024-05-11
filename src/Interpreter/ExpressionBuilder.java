@@ -131,7 +131,7 @@ public class ExpressionBuilder {
         String identifier = ((TerminalParseTreeNode)ptNode.getChildren().get(1)).getWrappedSymbol().getLexeme();
         Expression assignToExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3));
 
-        return new LetExpression(identifier, assignToExpression);
+        return new LetExpression(identifier, assignToExpression, ptNode);
     };
 
     public Expression buildReturnExpression(NonterminalParseTreeNode ptNode) {

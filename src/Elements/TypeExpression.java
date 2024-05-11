@@ -11,7 +11,7 @@ public class TypeExpression extends Type {
     // An expression that resolves to a type
 
     Expression definition;
-    Result<Value, Error> staticValue;
+    Result<Value, String> staticValue;
 
     public TypeExpression(Expression definition) {
         this.definition = definition;

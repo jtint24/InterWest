@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ErrorManager.ErrorLibrary.getSyntaxError;
+
 public class NonterminalParseTreeNode extends ParseTreeNode {
     TreeKind kind;
     private final ArrayList<ParseTreeNode> children = new ArrayList<>();
@@ -78,7 +80,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
     public List<Error> getMalformedNodeErrors() {
         ArrayList<Error> errors = new ArrayList<>();
         if (!kind.isValid) {
-            errors.add(new Error(Error.ErrorType.PARSER_ERROR, "Malformed tree node", true));
+            errors.add(getSyntaxError(this));
         }
         for (ParseTreeNode child : children) {
             errors.addAll(child.getMalformedNodeErrors());
