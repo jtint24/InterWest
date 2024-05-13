@@ -38,8 +38,13 @@ public class Error {
     public String toString() {
         String dividerLine = "-".repeat(80-5) + " " + type.code + String.format("%03d", errorCode);
         String headerLine = header.toUpperCase(Locale.ROOT);
+        String helpString;
 
-        String helpString = "help: "+String.join("\nhelp: ", helpItems);
+        if (helpItems.length > 0) {
+            helpString = "help: " + String.join("\nhelp: ", helpItems);
+        } else {
+            helpString = "";
+        }
 
 
         return dividerLine+"\n"+headerLine+"\n"+body+"\n"+helpString;

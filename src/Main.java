@@ -23,7 +23,7 @@ import static Elements.ValueLibrary.intType;
 public class Main {
     public static void main(String[] args) {
         InterpretationSession sesh = new InterpretationSession(
-                "let a = 4 \n let a = 6"
+                "let a = 4 \n let b = a"
         );
         sesh.runSession();
 

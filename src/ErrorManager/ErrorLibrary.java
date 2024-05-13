@@ -61,7 +61,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "callability mismatch",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -79,7 +79,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "type mismatch",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -115,7 +115,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "unknown constant",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -134,7 +134,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "redeclared constant",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -152,7 +152,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "not returnable",
                 bodyMessage,
-                false,
+                true,
                 0,
                 "Make sure that this return statement is in a function"
         );
@@ -171,7 +171,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "type mismatch",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -189,7 +189,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "type mismatch",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -202,7 +202,7 @@ public class ErrorLibrary {
                 Error.ErrorType.LEXER_ERROR,
                 "unknown token",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -215,7 +215,7 @@ public class ErrorLibrary {
                 Error.ErrorType.PARSER_ERROR,
                 "Unexpected Token",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -226,7 +226,7 @@ public class ErrorLibrary {
                 Error.ErrorType.PARSER_ERROR,
                 "Unexpected Termination",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -244,7 +244,7 @@ public class ErrorLibrary {
                 Error.ErrorType.INTERPRETER_ERROR,
                 "syntax error",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
@@ -262,7 +262,7 @@ public class ErrorLibrary {
                 Error.ErrorType.RUNTIME_ERROR,
                 "type mismatch",
                 bodyMessage,
-                false,
+                true,
                 0
         );
     }
