@@ -4,44 +4,31 @@ import Lexer.Symbol;
 import Lexer.SymbolString;
 import Parser.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
 
 public class Annotator {
 
-    ParseTreeNode ptNode;
+    SymbolString stringToAnnotate;
 
-    HashMap<ParseTreeNode, Style> styles = new HashMap<>();
+    ArrayList<Style> styles;
 
-    public Annotator(ParseTreeNode ptNode) {
-        this.ptNode = ptNode;
+    private static final Style defaultStyle = new Style("", null);
+
+    public Annotator(SymbolString symbolString) {
+        this.stringToAnnotate = symbolString;
+        this.styles = new ArrayList<>();
+        for (int i = 0; i<symbolString.length(); i++) {
+            styles.add(defaultStyle);
+        }
     }
 
     public void applyStyle(ParseTreeNode ptNode, Style style) {
-        styles.put(ptNode, style);
-    }
+        HashSet<Symbol> styledSymbols = new HashSet<>(ptNode.getSymbols().toList());
 
-    ArrayList<Style> getStyleList(ParseTreeNode ptNode) {
-        return getStyleList(ptNode, new Style("", null));
-    }
-    ArrayList<Style> getStyleList(ParseTreeNode ptNode, Style defaultStyle) {
-        defaultStyle = styles.getOrDefault(ptNode, defaultStyle);
-        if (ptNode instanceof TerminalParseTreeNode) {
-            Style finalDefaultStyle = defaultStyle;
-            return new ArrayList<>() {{
-                add(finalDefaultStyle);
-            }};
-        } else {
-            ArrayList<Style> styles = new ArrayList<>();
-
-
-            for (ParseTreeNode child : ((NonterminalParseTreeNode) ptNode).getAllChildren()) {
-                styles.addAll(getStyleList(child, defaultStyle));
+        for (int i = 0; i<styles.size(); i++) {
+            if (styledSymbols.contains(stringToAnnotate.get(i))) {
+                styles.set(i, style);
             }
-
-            return styles;
         }
     }
 
@@ -52,8 +39,6 @@ public class Annotator {
     public String getAnnotatedString() {
         // Get a sequence of applied Styles matching the SymbolString
 
-        ArrayList<Style> styles = getStyleList(ptNode);
-        SymbolString symbols = ptNode.getSymbols();
 
         // System.out.println("Starting get annotated string");
         // System.out.println(styles);
@@ -64,7 +49,7 @@ public class Annotator {
         int tallestBlockHeight = 0;
 
         for (int i = styles.size()-1; i>=0; i--) {
-            Symbol symbol = symbols.get(i);
+            Symbol symbol = stringToAnnotate.get(i);
             Style style = styles.get(i);
             boolean isTerminal = (i == 0) || (styles.get(i-1).annotation == null);
             ArrayList<String> renderedBlock = style.renderOn(symbol.getLexeme(), tallestBlockHeight, isTerminal);
@@ -138,7 +123,7 @@ public class Annotator {
                 lines.add(annotation);
             }
 
-            System.out.println(Arrays.toString(lines.toArray()));
+            // System.out.println(Arrays.toString(lines.toArray()));
 
             return lines;
         }

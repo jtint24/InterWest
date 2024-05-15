@@ -37,6 +37,16 @@ public class SymbolString {
         return new SymbolString(new ArrayList<>(symbols.subList(startIdx, untilIdx)));
     }
 
+    public SymbolString symbolsOnLine(int lineNumber) {
+        ArrayList<Symbol> retString = new ArrayList<>();
+        for (Symbol s : symbols) {
+            if (s.getStartingLineNumber() == lineNumber) {
+                retString.add(s);
+            }
+        }
+        return new SymbolString(retString);
+    }
+
     public SymbolString substring(int untilIdx) {
         return substring(untilIdx, symbols.size());
     }
@@ -52,4 +62,5 @@ public class SymbolString {
     public List<Symbol> toList() {
         return symbols;
     }
+
 }

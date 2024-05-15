@@ -28,7 +28,7 @@ public class TestInterpretationSession extends InterpretationSession {
     public OutputBuffer testGetParseTree() {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();
-            llParser.setSymbols(symbolString.toList());
+            llParser.setSymbols(symbolString);
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
             outputBuffer.println(parseTree);
@@ -44,7 +44,7 @@ public class TestInterpretationSession extends InterpretationSession {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();
 
-            llParser.setSymbols(symbolString.toList());
+            llParser.setSymbols(symbolString);
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
 
@@ -84,7 +84,7 @@ public class TestInterpretationSession extends InterpretationSession {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();
 
-            llParser.setSymbols(symbolString.toList());
+            llParser.setSymbols(symbolString);
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
 
@@ -104,7 +104,7 @@ public class TestInterpretationSession extends InterpretationSession {
 
     public OutputBuffer testBinaryExpressions() {
         SymbolString symbolString = tokenizer.extractAllSymbols();
-        llParser.setSymbols(symbolString.toList());
+        llParser.setSymbols(symbolString);
         NonterminalLibrary.fullExpression.apply(llParser);
         ParseTreeNode parseTree = llParser.buildTree();
         outputBuffer.println(parseTree);

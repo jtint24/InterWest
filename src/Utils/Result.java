@@ -1,8 +1,8 @@
 package Utils;
 
 public class Result<T, U> {
-    private T okValue;
-    private U errValue;
+    private final T okValue;
+    private final U errValue;
 
     public Result(T okValue, U errValue) {
         this.okValue = okValue;
@@ -25,6 +25,14 @@ public class Result<T, U> {
             return okValue;
         } else {
             throw new RuntimeException("Accessed value of failed result");
+        }
+    }
+
+    public U getErrValue() {
+        if (!isOK()) {
+            return errValue;
+        } else {
+            throw new RuntimeException("Accessed error of succeeded result");
         }
     }
 }

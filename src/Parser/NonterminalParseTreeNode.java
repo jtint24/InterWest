@@ -14,8 +14,11 @@ import static ErrorManager.ErrorLibrary.getSyntaxError;
 public class NonterminalParseTreeNode extends ParseTreeNode {
     TreeKind kind;
     private final ArrayList<ParseTreeNode> children = new ArrayList<>();
-    public NonterminalParseTreeNode(TreeKind kind) {
+    SymbolString programSymbols;
+
+    public NonterminalParseTreeNode(TreeKind kind, SymbolString programSymbols) {
         this.kind = kind;
+        this.programSymbols = programSymbols;
     }
 
     public void addChild(ParseTreeNode child) {
@@ -100,7 +103,15 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         return header + body;
     }
 
+    @Override
+    public int getStartingLineNumber() {
+        return children.get(0).getStartingLineNumber();
+    }
 
+    @Override
+    public SymbolString getLine() {
+        return programSymbols.symbolsOnLine(getStartingLineNumber());
+    }
 
     @Override
     public String toString() {

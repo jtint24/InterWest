@@ -1,0 +1,4 @@
+lexer
+$$ANO19 = 1
+
+EXPECTED_RESULT:

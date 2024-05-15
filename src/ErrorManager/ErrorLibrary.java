@@ -12,7 +12,7 @@ import java.util.List;
 public class ErrorLibrary {
     // TODO: Add information about the whole line
     public static Error getIfTypeMismatch(ConditionalExpression conditionalExpression, Type actual) {
-        Annotator annotator = new Annotator(conditionalExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(conditionalExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 conditionalExpression.getCondition().underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actual+"`")
@@ -29,7 +29,7 @@ public class ErrorLibrary {
     }
 
     public static Error getIfTypeWarning(ConditionalExpression conditionalExpression, Type actual) {
-        Annotator annotator = new Annotator(conditionalExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(conditionalExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 conditionalExpression.getCondition().underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actual+"`")
@@ -49,7 +49,7 @@ public class ErrorLibrary {
     }
 
     public static Error getCallabilityMismatch(FunctionExpression functionExpression, Type actual) {
-        Annotator annotator = new Annotator(functionExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(functionExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 functionExpression.getFuncExpression().underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This isn't a function.")
@@ -67,7 +67,7 @@ public class ErrorLibrary {
     }
 
     public static Error getFunctionArgumentTypeMismatch(FunctionExpression functionExpression, Expression invalidArg, Type expectedType, Type actualType) {
-        Annotator annotator = new Annotator(functionExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(functionExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 invalidArg.underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actualType+"`")
@@ -85,7 +85,7 @@ public class ErrorLibrary {
     }
 
     public static Error getFunctionArgumentTypeWarning(FunctionExpression functionExpression, Expression invalidArg, Type expectedType, Type actualType) {
-        Annotator annotator = new Annotator(functionExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(functionExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 invalidArg.underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actualType+"`")
@@ -103,7 +103,7 @@ public class ErrorLibrary {
     }
 
     public static Error getVariableNotFound(VariableExpression variableExpression) {
-        Annotator annotator = new Annotator(variableExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(variableExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 variableExpression.underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "I don't recognize this")
@@ -121,7 +121,7 @@ public class ErrorLibrary {
     }
 
     public static Error getRedefinition(LetExpression letExpression, String name) {
-        Annotator annotator = new Annotator(letExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(letExpression.underlyingParseTree.getLine());
         ParseTreeNode redeclarationPTNode = ((NonterminalParseTreeNode)letExpression.underlyingParseTree).getChildren().get(1);
         annotator.applyStyle(
                 redeclarationPTNode,
@@ -140,7 +140,7 @@ public class ErrorLibrary {
     }
 
     public static Error getNotReturnable(ReturnExpression returnExpression) {
-        Annotator annotator = new Annotator(returnExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(returnExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 returnExpression.underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This statement can't return")
@@ -159,7 +159,7 @@ public class ErrorLibrary {
     }
 
     public static Error getReturnTypeMismatch(ReturnExpression returnExpression, Type expectedType, Type actualType) {
-        Annotator annotator = new Annotator(returnExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(returnExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 returnExpression.getExprToReturn().underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actualType+"`")
@@ -177,7 +177,7 @@ public class ErrorLibrary {
     }
 
     public static Error getReturnTypeWarning(ReturnExpression returnExpression, Type expectedType, Type actualType) {
-        Annotator annotator = new Annotator(returnExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(returnExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 returnExpression.getExprToReturn().underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actualType+"`")
@@ -232,7 +232,7 @@ public class ErrorLibrary {
     }
 
     public static Error getSyntaxError(NonterminalParseTreeNode ptNode) {
-        Annotator annotator = new Annotator(ptNode);
+        Annotator annotator = new Annotator(ptNode.getLine());
         annotator.applyStyle(
                 ptNode,
                 new Annotator.Style(AnsiCodes.RED, '^', "I don't recognize this")
@@ -241,7 +241,7 @@ public class ErrorLibrary {
         String bodyMessage = annotator.getAnnotatedString()
                 + "\n\nI don't recognize this pattern.\n";
         return new Error(
-                Error.ErrorType.INTERPRETER_ERROR,
+                Error.ErrorType.PARSER_ERROR,
                 "syntax error",
                 bodyMessage,
                 true,
@@ -250,7 +250,7 @@ public class ErrorLibrary {
     }
 
     public static Error getRuntimeArgumentTypeMismatch(FunctionExpression functionExpression, Expression invalidArg, Type expectedType, Type actualType) {
-        Annotator annotator = new Annotator(functionExpression.underlyingParseTree);
+        Annotator annotator = new Annotator(functionExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
                 invalidArg.underlyingParseTree,
                 new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actualType+"`")

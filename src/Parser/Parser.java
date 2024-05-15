@@ -3,6 +3,7 @@ package Parser;
 
 import ErrorManager.ErrorManager;
 import Lexer.Symbol;
+import Lexer.SymbolString;
 import Lexer.Token;
 
 import java.util.*;
@@ -15,7 +16,7 @@ import static ErrorManager.ErrorLibrary.getParserHasTerminated;
 import static ErrorManager.ErrorLibrary.getWrongToken;
 
 public class Parser {
-    ArrayList<Symbol> symbols = new ArrayList<>();
+    SymbolString symbols;
     int pos = 0;
     int fuel = 256;
     ArrayList<Event> events = new ArrayList<>();
@@ -27,9 +28,8 @@ public class Parser {
          this.tokenizer = tokenizer;
      }
 
-     public void setSymbols(List<Symbol> symbols) {
-         this.symbols.clear();
-         this.symbols.addAll(symbols);
+     public void setSymbols(SymbolString symbols) {
+         this.symbols = symbols;
      }
      MarkOpened open() {
          MarkOpened mark = new MarkOpened(this.events.size());
@@ -57,7 +57,7 @@ public class Parser {
          this.pos++;
      }
      boolean eof() {
-         return this.pos == this.symbols.size();
+         return this.pos == this.symbols.length();
      }
 
      Token nth(int lookahead) {
@@ -69,7 +69,7 @@ public class Parser {
 
          this.fuel--;
 
-         if (this.pos+lookahead >= this.symbols.size()) {
+         if (this.pos+lookahead >= this.symbols.length()) {
              errorManager.logError(getParserHasTerminated());
          }
 
@@ -111,13 +111,13 @@ public class Parser {
      public ParseTreeNode buildTree() {
          Stack<ParseTreeNode> stack = new Stack<>();
 
-         Iterator<Symbol> symbolIterator = symbols.iterator();
+         Iterator<Symbol> symbolIterator = symbols.toList().iterator();
 
          assert events.get(events.size()-1) instanceof CloseEvent;
 
          for (Event event : events) {
              if (event instanceof OpenEvent) {
-                 stack.push(new NonterminalParseTreeNode(((OpenEvent) event).kind));
+                 stack.push(new NonterminalParseTreeNode(((OpenEvent) event).kind, symbols));
              } else if (event instanceof CloseEvent) {
                  ParseTreeNode tree = stack.pop();
                  if (stack.isEmpty()) {
@@ -127,7 +127,7 @@ public class Parser {
                  }
              } else if (event instanceof AdvanceEvent) {
                  Symbol symbol = symbolIterator.next();
-                 ((NonterminalParseTreeNode) stack.peek()).addChild(new TerminalParseTreeNode(symbol));
+                 ((NonterminalParseTreeNode) stack.peek()).addChild(new TerminalParseTreeNode(symbol, symbols));
              }
          }
          assert stack.size() == 1;

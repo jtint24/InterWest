@@ -11,8 +11,10 @@ import java.util.List;
 
 public class TerminalParseTreeNode extends ParseTreeNode {
     Symbol wrappedSymbol;
-    public TerminalParseTreeNode(Symbol wrappedSymbol) {
+    SymbolString line;
+    public TerminalParseTreeNode(Symbol wrappedSymbol, SymbolString symbols) {
         this.wrappedSymbol = wrappedSymbol;
+        this.line = symbols.symbolsOnLine(wrappedSymbol.getStartingLineNumber());
     }
 
     public Symbol getWrappedSymbol() {
@@ -31,6 +33,16 @@ public class TerminalParseTreeNode extends ParseTreeNode {
     @Override
     public SymbolString getSymbols() {
         return new SymbolString(wrappedSymbol);
+    }
+
+    @Override
+    public int getStartingLineNumber() {
+        return wrappedSymbol.getStartingLineNumber();
+    }
+
+    @Override
+    public SymbolString getLine() {
+        return line;
     }
 
     @Override

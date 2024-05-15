@@ -35,15 +35,17 @@ public class TokenLibrary {
         };
     }
 
+    public static final Token errorToken = new Token(
+            "ERROR",
+            (String lexeme) -> false,
+            (String lexeme) -> false
+    );
+
 
     public static final Token whitespace = new Token(
             "whitespace",
-            (String lexeme) -> {
-                return allIn(lexeme, " \t\n");
-            },
-            (String lexeme) -> {
-                return allIn(lexeme, " \t\n");
-            }
+            (String lexeme) -> allIn(lexeme, " \t\n"),
+            (String lexeme) -> allIn(lexeme, " \t\n")
     );
     public static final Token backslash = fromString("\\");
     public static final Token slash = fromString("/");
@@ -108,12 +110,8 @@ public class TokenLibrary {
 
     public static final Token plusToken = new Token(
             "plus",
-            (String lexeme) -> {
-                return lexeme.equals("+");
-            },
-            (String lexeme) -> {
-                return "+".contains(lexeme);
-            }
+            (String lexeme) -> lexeme.equals("+"),
+            (String lexeme) -> "+".contains(lexeme)
     ).toBinder(new BindingPowers(PrecedenceLevel.ADDITION, Associativity.LEFT));
 
     private static final Token floatToken = new Token(
@@ -154,12 +152,8 @@ public class TokenLibrary {
 
     public static final Token eof = new Token(
             "eof",
-            (String lexeme) -> {
-                return false;
-            },
-            (String lexeme) -> {
-                return false;
-            }
+            (String lexeme) -> false,
+            (String lexeme) -> false
     );
 
     public static final Token let = fromString("let");

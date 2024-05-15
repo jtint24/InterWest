@@ -18,4 +18,6 @@ public abstract class ParseTreeNode {
     public abstract void removeSymbolsOfType(Token token);
     public abstract List<Error> getMalformedNodeErrors();
     public abstract SymbolString getSymbols();
+    public abstract int getStartingLineNumber();
+    public abstract SymbolString getLine();
 }

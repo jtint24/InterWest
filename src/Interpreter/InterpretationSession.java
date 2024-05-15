@@ -53,7 +53,7 @@ public class InterpretationSession {
     public Expression getAST() {
         SymbolString symbolString = tokenizer.extractAllSymbols();
         outputBuffer.println(symbolString);
-        llParser.setSymbols( symbolString.toList());
+        llParser.setSymbols(symbolString);
 
         // System.out.println("symbol string: "+symbolString);
 

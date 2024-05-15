@@ -8,6 +8,7 @@ import Parser.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ExpressionBuilder {
     ErrorManager errorManager;
@@ -148,14 +149,14 @@ public class ExpressionBuilder {
 
         // [{] [parameterList?] [->] [type] [expression] [}]
 
-        NonterminalParseTreeNode parameterList;
+        List<ParseTreeNode> parameterList;
         int subExpressionsStartIdx;
 
         if (ptNode.getChildren().get(1) instanceof NonterminalParseTreeNode) {
-            parameterList = (NonterminalParseTreeNode) ptNode.getChildren().get(1);
+            parameterList = ((NonterminalParseTreeNode) ptNode.getChildren().get(1)).getChildren();
             subExpressionsStartIdx = 4;
         } else {
-            parameterList = new NonterminalParseTreeNode(TreeKind.valid(NonterminalLibrary.parameterList));
+            parameterList = new ArrayList<>();
             subExpressionsStartIdx = 3;
         }
 
@@ -169,9 +170,9 @@ public class ExpressionBuilder {
         ArrayList<String> paramNames = new ArrayList<>();
         ArrayList<Type> paramTypes = new ArrayList<>();
 
-        for (int i = 0; i<parameterList.getChildren().size(); i+=2) {
-            Expression paramType = buildExpression((NonterminalParseTreeNode) parameterList.getChildren().get(i));
-            String paramName = ((TerminalParseTreeNode)parameterList.getChildren().get(i+1)).getWrappedSymbol().getLexeme();
+        for (int i = 0; i<parameterList.size(); i+=2) {
+            Expression paramType = buildExpression((NonterminalParseTreeNode) parameterList.get(i));
+            String paramName = ((TerminalParseTreeNode)parameterList.get(i+1)).getWrappedSymbol().getLexeme();
 
             paramNames.add(paramName);
             paramTypes.add(new TypeExpression(paramType));

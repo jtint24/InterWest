@@ -42,6 +42,8 @@ Things to do:
         - [x] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value
         - [ ] Make the parser read token-by-token from the lexer, rather than having it require all the lexemes at once
     - [ ] Miscellaneous
+        - [ ] Change ErrorManager.Error to ErrorManager.InterWestError or something like that to avoid conflict with java.lang.Error
+        - [ ] Change name of Token to TokenType and Symbol to Token, if that's not confusing
         - [ ] Decide on a file extension for InterWest (.iw? .west?)
         - [ ] Make InterWest logo
 
