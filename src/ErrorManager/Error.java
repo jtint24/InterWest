@@ -36,8 +36,9 @@ public class Error {
 
     @Override
     public String toString() {
-        String dividerLine = "-".repeat(80-5) + " " + type.code + String.format("%03d", errorCode);
-        String headerLine = header.toUpperCase(Locale.ROOT);
+        String headerColor = this.isFatal ? AnsiCodes.RED + "[X]" : AnsiCodes.YELLOW + "[!]";
+        String dividerLine = headerColor + " " + header.toUpperCase(Locale.ROOT) + " " + "-".repeat(80-5-5-header.length()) + " " + type.code + String.format("%03d", errorCode) + AnsiCodes.RESET;
+        // String headerLine = header.toUpperCase(Locale.ROOT);
         String helpString;
 
         if (helpItems.length > 0) {
@@ -47,6 +48,6 @@ public class Error {
         }
 
 
-        return dividerLine+"\n"+headerLine+"\n"+body+"\n"+helpString;
+        return dividerLine+"\n"+""+"\n"+body+"\n"+helpString;
     }
 }

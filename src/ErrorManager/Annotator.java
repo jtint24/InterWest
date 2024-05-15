@@ -5,6 +5,7 @@ import Lexer.SymbolString;
 import Parser.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -54,9 +55,9 @@ public class Annotator {
         ArrayList<Style> styles = getStyleList(ptNode);
         SymbolString symbols = ptNode.getSymbols();
 
-        System.out.println("Starting get annotated string");
-        System.out.println(styles);
-        System.out.println(symbols);
+        // System.out.println("Starting get annotated string");
+        // System.out.println(styles);
+        // System.out.println(symbols);
 
         // Render each Symbol with each Style to make an ArrayList of lines
         ArrayList<ArrayList<String>> lineBlocks = new ArrayList<>();
@@ -119,8 +120,8 @@ public class Annotator {
 
         public ArrayList<String> renderOn(String s, int tallestBlockHeight, boolean isTerminal) {
             ArrayList<String> lines = new ArrayList<>();
-
-            lines.add(ansiColor+s+AnsiCodes.RESET);
+            String flattenedCore = s.replace("\n", "");
+            lines.add(ansiColor+flattenedCore+AnsiCodes.RESET);
             if (underline != null) {
                 int startingWhitespaceCount = s.length()-s.stripTrailing().length();
                 int trailingWhitespaceCount = s.length()-s.stripLeading().length();
@@ -131,11 +132,13 @@ public class Annotator {
                 lines.add("|");
             }
             if (annotation != null && isTerminal) {
-                while (lines.size() <= tallestBlockHeight) {
+                do {
                     lines.add("|");
-                }
+                } while (lines.size() <= tallestBlockHeight);
                 lines.add(annotation);
             }
+
+            System.out.println(Arrays.toString(lines.toArray()));
 
             return lines;
         }

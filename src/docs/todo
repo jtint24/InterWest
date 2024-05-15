@@ -2,6 +2,8 @@ Things to do:
 
     - [ ] Lexer
         - [ ] Revise identifier definition to be actual (accept a-Z, 0-9 after first char, and _)
+        - [ ] Make the lexer resilient by skipping over error tokens
+        - [ ] Give tokens line numbers
     - [ ] Parser
         - [x] Add Pratt parsing / parse binary operators
     - [ ] Main Interface
@@ -13,20 +15,20 @@ Things to do:
                 - [x] Build a TriValue logic enum to handle the trivalued logic of this method
                 - [x] Handle the trivalue logic wherever this function is used
                 - [x] Make a function to check an expression against a type, either by static value or by the expression's type
-                - [ ] Apply Expression::matchesType to everywhere it can be used
+                - [x] Apply Expression::matchesType to everywhere it can be used
         - [ ] Improve Error Messages
             - [ ] Add line numbers to error messages
                 - [ ] Add line numbers to expressions
                 - [ ] Add line numbers to parse nodes
                 - [ ] Add line numbers to lexemes
-            - [ ] Make error messages more descriptive and consistent
-                - [ ] Add an error message factory/library to put all the error messages in one place
-                - [ ] Add suggestions to error messages
-                - [ ] Study what makes a good error message
-            - [ ] Add highlights to error messages
-                - [ ] Give parse tree nodes their internal lexemes
-                - [ ] Give expressions their parse tree nodes
-                - [ ] Allow errors to be given a lexeme string with some "highlighted"
+            - [x] Make error messages more descriptive and consistent
+                - [x] Add an error message factory/library to put all the error messages in one place
+                - [x] Add suggestions to error messages
+                - [x] Study what makes a good error message
+            - [x] Add highlights to error messages
+                - [x] Give parse tree nodes their internal lexemes
+                - [x] Give expressions their parse tree nodes
+                - [x] Allow errors to be given a lexeme string with some "highlighted"
         - [ ] If Statements
             - [ ] Add an "else" condition
                 - [ ] Change the parse definition of conditionals to allow an else
