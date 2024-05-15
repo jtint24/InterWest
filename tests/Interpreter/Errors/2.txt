@@ -3,7 +3,25 @@ let a = 5
 let b = let a = b
 
 EXPECTED_RESULT:
-INTERPRETER_ERROR
-Can't find variable `b` in scope.
-INTERPRETER_ERROR
-Can't redeclare variable `a`
+[X] UNKNOWN CONSTANT ------------------------------------------------------ A000
+
+let b = let a = b
+                ^
+                |
+                I don't recognize this
+
+
+I can't find a constant called `b` in scope.
+
+
+[X] REDECLARED CONSTANT --------------------------------------------------- A000
+
+let b = let a = b
+            ^
+            |
+            This constant exists in scope
+
+
+This constant, `a`, already exists and can't be redeclared.
+
+

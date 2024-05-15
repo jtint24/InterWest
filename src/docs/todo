@@ -2,8 +2,8 @@ Things to do:
 
     - [ ] Lexer
         - [ ] Revise identifier definition to be actual (accept a-Z, 0-9 after first char, and _)
-        - [ ] Make the lexer resilient by skipping over error tokens
-        - [ ] Give tokens line numbers
+        - [x] Make the lexer resilient by skipping over error tokens
+        - [x] Give tokens line numbers
     - [ ] Parser
         - [x] Add Pratt parsing / parse binary operators
     - [ ] Main Interface
@@ -18,9 +18,9 @@ Things to do:
                 - [x] Apply Expression::matchesType to everywhere it can be used
         - [ ] Improve Error Messages
             - [ ] Add line numbers to error messages
-                - [ ] Add line numbers to expressions
-                - [ ] Add line numbers to parse nodes
-                - [ ] Add line numbers to lexemes
+                - [x] Add line numbers to expressions
+                - [x] Add line numbers to parse nodes
+                - [x] Add line numbers to lexemes
             - [x] Make error messages more descriptive and consistent
                 - [x] Add an error message factory/library to put all the error messages in one place
                 - [x] Add suggestions to error messages

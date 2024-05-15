@@ -2,3 +2,11 @@ lexer
 $$ANO19 = 1
 
 EXPECTED_RESULT:
+[X] UNKNOWN TOKEN --------------------------------------------------------- L000
+
+I don't recognize the token `$`
+
+[X] UNKNOWN TOKEN --------------------------------------------------------- L000
+
+I don't recognize the token `$`
+

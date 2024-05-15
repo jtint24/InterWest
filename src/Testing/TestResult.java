@@ -12,7 +12,9 @@ public class TestResult {
     }
 
     boolean isPassed() {
-        return result.equals(expected);
+        String ansiCleanedResult = result.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
+        String ansiCleanedExpected = expected.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
+        return ansiCleanedResult.equals(ansiCleanedExpected);
     }
 
     void appendOrigin(String name) {

@@ -81,7 +81,7 @@ public class Annotator {
         StringBuilder body = new StringBuilder();
 
         for (String line : lines) {
-            body.append(line).append("\n");
+            body.append(line.stripTrailing()).append("\n");
         }
 
         return body.toString();

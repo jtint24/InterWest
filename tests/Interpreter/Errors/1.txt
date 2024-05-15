@@ -2,5 +2,14 @@ interpreter
 let fourth_int = let a = fourth_int
 
 EXPECTED_RESULT:
-INTERPRETER_ERROR
-Can't find variable `fourth_int` in scope.
+[X] UNKNOWN CONSTANT ------------------------------------------------------ A000
+
+let fourth_int = let a = fourth_int
+                         ^^^^^^^^^^
+                         |
+                         I don't recognize this
+
+
+I can't find a constant called `fourth_int` in scope.
+
+

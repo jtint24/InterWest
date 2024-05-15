@@ -116,8 +116,8 @@ public class TestInterpretationSession extends InterpretationSession {
             SymbolString symbolString = tokenizer.extractAllSymbols();
             outputBuffer.println(symbolString);
         } catch (RuntimeException exception) {
-            outputBuffer.println(exception);
-            outputBuffer.println(Arrays.toString(exception.getStackTrace()));
+            // outputBuffer.println(exception);
+            // outputBuffer.println(Arrays.toString(exception.getStackTrace()));
         }
 
         return outputBuffer;
