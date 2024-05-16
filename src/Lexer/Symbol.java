@@ -12,7 +12,7 @@ public class Symbol {
     }
 
     public String toString() {
-        return "{ lexeme = `"+lexeme.replace("\n", "\\n")+"` tokenType = "+tokenType+" }";
+        return "{ lexeme = `"+lexeme.replace("\n", "\\n")+"` tokenType = "+tokenType+" lineNumber = "+startingLineNumber+" }";
     }
 
     public Token getTokenType() {

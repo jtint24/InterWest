@@ -6,45 +6,45 @@ EXPECTED_RESULT:
 |	| TreeKind(full expression)
 |	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
-|	|	|	|	| { lexeme = `let` tokenType = let }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `a` tokenType = identifier }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `=` tokenType = = }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `let` tokenType = let lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
+|	|	|	|	| { lexeme = `a` tokenType = identifier lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
+|	|	|	|	| { lexeme = `=` tokenType = = lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `(` tokenType = ( lineNumber = 1 }
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `1` tokenType = int }
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	| { lexeme = `)` tokenType = ) }
-|	|	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `1` tokenType = int lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	| { lexeme = `)` tokenType = ) lineNumber = 1 }
+|	|	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace lineNumber = 1 }

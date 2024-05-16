@@ -5,10 +5,10 @@ let b = let a = b
 EXPECTED_RESULT:
 [X] UNKNOWN CONSTANT ------------------------------------------------------ A000
 
-let b = let a = b
-                ^
-                |
-                I don't recognize this
+2 | let b = let a = b
+  |                 ^
+  |                 |
+  |                 I don't recognize this
 
 
 I can't find a constant called `b` in scope.
@@ -16,10 +16,10 @@ I can't find a constant called `b` in scope.
 
 [X] REDECLARED CONSTANT --------------------------------------------------- A000
 
-let b = let a = b
-            ^
-            |
-            This constant exists in scope
+2 | let b = let a = b
+  |             ^
+  |             |
+  |             This constant exists in scope
 
 
 This constant, `a`, already exists and can't be redeclared.

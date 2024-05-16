@@ -2,4 +2,4 @@ lexer
 HELLO.WoW.H-LP+mM12
 
 EXPECTED_RESULT:
-{ lexeme = `HELLO` tokenType = identifier }{ lexeme = `.` tokenType = . }{ lexeme = `WoW` tokenType = identifier }{ lexeme = `.` tokenType = . }{ lexeme = `H` tokenType = identifier }{ lexeme = `-` tokenType = - }{ lexeme = `LP` tokenType = identifier }{ lexeme = `+` tokenType = plus }{ lexeme = `mM12` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }
+{ lexeme = `HELLO` tokenType = identifier lineNumber = 1 }{ lexeme = `.` tokenType = . lineNumber = 1 }{ lexeme = `WoW` tokenType = identifier lineNumber = 1 }{ lexeme = `.` tokenType = . lineNumber = 1 }{ lexeme = `H` tokenType = identifier lineNumber = 1 }{ lexeme = `-` tokenType = - lineNumber = 1 }{ lexeme = `LP` tokenType = identifier lineNumber = 1 }{ lexeme = `+` tokenType = plus lineNumber = 1 }{ lexeme = `mM12` tokenType = identifier lineNumber = 1 }{ lexeme = `\n\n` tokenType = whitespace lineNumber = 1 }

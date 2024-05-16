@@ -2,4 +2,4 @@ lexer
 123 -203 128231771238182381237412 -99999999999999-9292992029 a991232232
 
 EXPECTED_RESULT:
-{ lexeme = `123` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `-203` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `128231771238182381237412` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `-99999999999999` tokenType = int }{ lexeme = `-9292992029` tokenType = int }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `a991232232` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }
+{ lexeme = `123` tokenType = int lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `-203` tokenType = int lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `128231771238182381237412` tokenType = int lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `-99999999999999` tokenType = int lineNumber = 1 }{ lexeme = `-9292992029` tokenType = int lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `a991232232` tokenType = identifier lineNumber = 1 }{ lexeme = `\n\n` tokenType = whitespace lineNumber = 1 }

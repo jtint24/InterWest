@@ -77,10 +77,17 @@ public class Annotator {
             }
         }
 
+        // Create a block for line number heading
+
+
         // Turn the lines into a single string by joining them with newlines
         StringBuilder body = new StringBuilder();
 
-        for (String line : lines) {
+        String lineNumberPrefix = stringToAnnotate.get(0).getStartingLineNumber()+" ";
+
+        for (int i = 0; i<lines.size(); i++) {
+            String prefix = i == 0 ? lineNumberPrefix :" ".repeat(lineNumberPrefix.length());
+            String line = prefix + "| "+ lines.get(i);
             body.append(line.stripTrailing()).append("\n");
         }
 

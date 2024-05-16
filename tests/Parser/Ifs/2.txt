@@ -11,48 +11,48 @@ EXPECTED_RESULT:
 |	| TreeKind(full expression)
 |	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(if statement)
-|	|	|	|	| { lexeme = `if` tokenType = if }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `if` tokenType = if lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| TreeKind(if statement)
-|	|	|	|	|	|	|	| { lexeme = `if` tokenType = if }
-|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	|	|	|	| { lexeme = `if` tokenType = if lineNumber = 1 }
+|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	| { lexeme = `a` tokenType = identifier }
-|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	|	|	|	| { lexeme = `{` tokenType = { }
-|	|	|	|	|	|	|	| { lexeme = `\n        ` tokenType = whitespace }
+|	|	|	|	|	|	|	|	|	| { lexeme = `a` tokenType = identifier lineNumber = 1 }
+|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
+|	|	|	|	|	|	|	| { lexeme = `{` tokenType = { lineNumber = 1 }
+|	|	|	|	|	|	|	| { lexeme = `\n        ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	|	|	|	| TreeKind(let)
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `let` tokenType = let }
-|	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `b` tokenType = identifier }
-|	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `=` tokenType = = }
-|	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `let` tokenType = let lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `b` tokenType = identifier lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `=` tokenType = = lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 2 }
 |	|	|	|	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int }
-|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `\n    ` tokenType = whitespace }
-|	|	|	|	|	|	|	| { lexeme = `}` tokenType = } }
-|	|	|	|	|	|	| { lexeme = `\n    ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `{` tokenType = { }
-|	|	|	|	| { lexeme = `\n    ` tokenType = whitespace }
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	|	|	|	| { lexeme = `\n    ` tokenType = whitespace lineNumber = 2 }
+|	|	|	|	|	|	|	| { lexeme = `}` tokenType = } lineNumber = 3 }
+|	|	|	|	|	|	| { lexeme = `\n    ` tokenType = whitespace lineNumber = 3 }
+|	|	|	|	| { lexeme = `{` tokenType = { lineNumber = 4 }
+|	|	|	|	| { lexeme = `\n    ` tokenType = whitespace lineNumber = 4 }
 |	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| TreeKind(let)
-|	|	|	|	|	|	|	| { lexeme = `let` tokenType = let }
-|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	|	|	|	| { lexeme = `c` tokenType = identifier }
-|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	|	|	|	| { lexeme = `=` tokenType = = }
-|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	|	|	|	| { lexeme = `let` tokenType = let lineNumber = 5 }
+|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 5 }
+|	|	|	|	|	|	|	| { lexeme = `c` tokenType = identifier lineNumber = 5 }
+|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 5 }
+|	|	|	|	|	|	|	| { lexeme = `=` tokenType = = lineNumber = 5 }
+|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 5 }
 |	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int }
-|	|	|	|	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
-|	|	|	|	| { lexeme = `}` tokenType = } }
-|	|	|	| { lexeme = `\n\n` tokenType = whitespace }
+|	|	|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int lineNumber = 5 }
+|	|	|	|	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace lineNumber = 5 }
+|	|	|	|	| { lexeme = `}` tokenType = } lineNumber = 6 }
+|	|	|	| { lexeme = `\n\n` tokenType = whitespace lineNumber = 6 }

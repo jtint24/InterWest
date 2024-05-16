@@ -2,4 +2,4 @@ lexer
 .,-;-><>->>+/\
 
 EXPECTED_RESULT:
-{ lexeme = `.` tokenType = . }{ lexeme = `,` tokenType = , }{ lexeme = `-` tokenType = - }{ lexeme = `;` tokenType = ; }{ lexeme = `->` tokenType = -> }{ lexeme = `<` tokenType = < }{ lexeme = `>` tokenType = > }{ lexeme = `->` tokenType = -> }{ lexeme = `>` tokenType = > }{ lexeme = `+` tokenType = plus }{ lexeme = `/` tokenType = / }{ lexeme = `\` tokenType = \ }{ lexeme = `\n\n` tokenType = whitespace }
+{ lexeme = `.` tokenType = . lineNumber = 1 }{ lexeme = `,` tokenType = , lineNumber = 1 }{ lexeme = `-` tokenType = - lineNumber = 1 }{ lexeme = `;` tokenType = ; lineNumber = 1 }{ lexeme = `->` tokenType = -> lineNumber = 1 }{ lexeme = `<` tokenType = < lineNumber = 1 }{ lexeme = `>` tokenType = > lineNumber = 1 }{ lexeme = `->` tokenType = -> lineNumber = 1 }{ lexeme = `>` tokenType = > lineNumber = 1 }{ lexeme = `+` tokenType = plus lineNumber = 1 }{ lexeme = `/` tokenType = / lineNumber = 1 }{ lexeme = `\` tokenType = \ lineNumber = 1 }{ lexeme = `\n\n` tokenType = whitespace lineNumber = 1 }

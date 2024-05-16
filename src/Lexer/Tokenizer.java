@@ -14,7 +14,7 @@ import static ErrorManager.ErrorLibrary.getUnknownToken;
 public class Tokenizer {
     private final InputBuffer inputBuffer;
     private final ErrorManager errorManager;
-    private int currentLineNumber = 0;
+    private int currentLineNumber = 1;
 
     public Tokenizer(InputBuffer inputBuffer, ErrorManager errorManager) {
         this.inputBuffer = inputBuffer;
@@ -43,17 +43,12 @@ public class Tokenizer {
         List<Token> availableTokens = Arrays.asList(TokenLibrary.getTokens());
         String currentLexeme = "";
 
-        int lineNumberDifference = 0;
-
         while (!availableTokens.isEmpty()) {
             if (inputBuffer.isTerminated()) {
                 break;
             } else {
                 char currentChar = inputBuffer.getChar();
                 currentLexeme += currentChar;
-                if (currentChar == '\n') {
-                    lineNumberDifference++;
-                }
             }
 
             List<Token> newAvailableTokens = new ArrayList<>();
@@ -84,8 +79,10 @@ public class Tokenizer {
             }
 
             if (possibleTokens.size() == 1) {
-                currentLineNumber += lineNumberDifference;
-                return Result.ok(new Symbol(currentLexeme, possibleTokens.get(0), currentLineNumber - lineNumberDifference));
+                int startingLineNumber = currentLineNumber;
+                currentLineNumber += (int) (currentLexeme.chars().filter(c -> c == '\n').count());
+
+                return Result.ok(new Symbol(currentLexeme, possibleTokens.get(0), startingLineNumber));
             } else if (possibleTokens.size() > 1) {
                // errorManager.logError(new Error(Error.ErrorType.LEXER_ERROR, "Ambiguous tokens for `"+currentLexeme+"`", true));
                 throw new RuntimeException("Ambiguous tokens for `"+currentLexeme+"`:"+Arrays.toString(possibleTokens.toArray()));
@@ -96,15 +93,17 @@ public class Tokenizer {
         } while (currentLexeme.length() > 0);
 
         // errorManager.logError(getUnknownToken(originalLexeme));
-        currentLineNumber += lineNumberDifference;
 
         // Remove characters from the input buffer to remove the error lexeme
         for (int i = 0; i<originalLexeme.length(); i++) {
             inputBuffer.getChar();
         }
 
+        int startingLineNumber = currentLineNumber;
+        currentLineNumber += (int) (currentLexeme.chars().filter(c -> c == '\n').count());
 
-        return Result.error(new ErrorSymbol(originalLexeme, currentLineNumber - lineNumberDifference));
+
+        return Result.error(new ErrorSymbol(originalLexeme, startingLineNumber));
     }
 
     public boolean isTerminated() {

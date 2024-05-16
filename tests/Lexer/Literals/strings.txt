@@ -2,4 +2,4 @@ lexer
 "hey there this is a string""""that was an empty string without anything before it" ""
 
 EXPECTED_RESULT:
-{ lexeme = `"hey there this is a string"` tokenType = String }{ lexeme = `""` tokenType = String }{ lexeme = `"that was an empty string without anything before it"` tokenType = String }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `""` tokenType = String }{ lexeme = `\n\n` tokenType = whitespace }
+{ lexeme = `"hey there this is a string"` tokenType = String lineNumber = 1 }{ lexeme = `""` tokenType = String lineNumber = 1 }{ lexeme = `"that was an empty string without anything before it"` tokenType = String lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `""` tokenType = String lineNumber = 1 }{ lexeme = `\n\n` tokenType = whitespace lineNumber = 1 }

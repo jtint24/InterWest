@@ -7,46 +7,46 @@ EXPECTED_RESULT:
 |	| TreeKind(full expression)
 |	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
-|	|	|	|	| { lexeme = `let` tokenType = let }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `four` tokenType = identifier }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `=` tokenType = = }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `let` tokenType = let lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
+|	|	|	|	| { lexeme = `four` tokenType = identifier lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
+|	|	|	|	| { lexeme = `=` tokenType = = lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	| TreeKind(binary expression)
 |	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int }
-|	|	|	|	|	|	| { lexeme = `+` tokenType = plus }
+|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int lineNumber = 1 }
+|	|	|	|	|	|	| { lexeme = `+` tokenType = plus lineNumber = 1 }
 |	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int }
-|	|	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace }
+|	|	|	|	|	|	|	| { lexeme = `2` tokenType = int lineNumber = 1 }
+|	|	|	|	|	|	|	| { lexeme = `\n` tokenType = whitespace lineNumber = 1 }
 |	| TreeKind(full expression)
 |	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(let)
-|	|	|	|	| { lexeme = `let` tokenType = let }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `one_hundred` tokenType = identifier }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
-|	|	|	|	| { lexeme = `=` tokenType = = }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `let` tokenType = let lineNumber = 2 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 2 }
+|	|	|	|	| { lexeme = `one_hundred` tokenType = identifier lineNumber = 2 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 2 }
+|	|	|	|	| { lexeme = `=` tokenType = = lineNumber = 2 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 2 }
 |	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	| TreeKind(binary expression)
 |	|	|	|	|	|	| TreeKind(binary expression)
 |	|	|	|	|	|	|	| TreeKind(binary expression)
 |	|	|	|	|	|	|	|	| TreeKind(binary expression)
 |	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `10` tokenType = int }
-|	|	|	|	|	|	|	|	|	| { lexeme = `+` tokenType = plus }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `10` tokenType = int lineNumber = 2 }
+|	|	|	|	|	|	|	|	|	| { lexeme = `+` tokenType = plus lineNumber = 2 }
 |	|	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	|	| { lexeme = `10` tokenType = int }
-|	|	|	|	|	|	|	|	| { lexeme = `+` tokenType = plus }
+|	|	|	|	|	|	|	|	|	|	| { lexeme = `10` tokenType = int lineNumber = 2 }
+|	|	|	|	|	|	|	|	| { lexeme = `+` tokenType = plus lineNumber = 2 }
 |	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	| { lexeme = `10` tokenType = int }
-|	|	|	|	|	|	|	| { lexeme = `+` tokenType = plus }
+|	|	|	|	|	|	|	|	|	| { lexeme = `10` tokenType = int lineNumber = 2 }
+|	|	|	|	|	|	|	| { lexeme = `+` tokenType = plus lineNumber = 2 }
 |	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	| { lexeme = `50` tokenType = int }
-|	|	|	|	|	|	| { lexeme = `+` tokenType = plus }
+|	|	|	|	|	|	|	|	| { lexeme = `50` tokenType = int lineNumber = 2 }
+|	|	|	|	|	|	| { lexeme = `+` tokenType = plus lineNumber = 2 }
 |	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	| { lexeme = `20` tokenType = int }
-|	|	|	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace }
+|	|	|	|	|	|	|	| { lexeme = `20` tokenType = int lineNumber = 2 }
+|	|	|	|	|	|	|	| { lexeme = `\n\n` tokenType = whitespace lineNumber = 2 }

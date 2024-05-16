@@ -3,4 +3,4 @@ return if let
 reeturrn iff ltt
 
 EXPECTED_RESULT:
-{ lexeme = `return` tokenType = return }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `if` tokenType = if }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `let` tokenType = let }{ lexeme = `\n` tokenType = whitespace }{ lexeme = `reeturrn` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `iff` tokenType = identifier }{ lexeme = ` ` tokenType = whitespace }{ lexeme = `ltt` tokenType = identifier }{ lexeme = `\n\n` tokenType = whitespace }
+{ lexeme = `return` tokenType = return lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `if` tokenType = if lineNumber = 1 }{ lexeme = ` ` tokenType = whitespace lineNumber = 1 }{ lexeme = `let` tokenType = let lineNumber = 1 }{ lexeme = `\n` tokenType = whitespace lineNumber = 1 }{ lexeme = `reeturrn` tokenType = identifier lineNumber = 2 }{ lexeme = ` ` tokenType = whitespace lineNumber = 2 }{ lexeme = `iff` tokenType = identifier lineNumber = 2 }{ lexeme = ` ` tokenType = whitespace lineNumber = 2 }{ lexeme = `ltt` tokenType = identifier lineNumber = 2 }{ lexeme = `\n\n` tokenType = whitespace lineNumber = 2 }

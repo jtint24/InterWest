@@ -6,16 +6,16 @@ EXPECTED_RESULT:
 |	| TreeKind(full expression)
 |	|	| TreeKind(delimited expression)
 |	|	|	| TreeKind(lambda)
-|	|	|	|	| { lexeme = `{` tokenType = { }
-|	|	|	|	| { lexeme = `->` tokenType = -> }
-|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	| { lexeme = `{` tokenType = { lineNumber = 1 }
+|	|	|	|	| { lexeme = `->` tokenType = -> lineNumber = 1 }
+|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	| TreeKind(delimited expression)
 |	|	|	|	|	|	| TreeKind(return)
-|	|	|	|	|	|	|	| { lexeme = `return` tokenType = return }
-|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace }
+|	|	|	|	|	|	|	| { lexeme = `return` tokenType = return lineNumber = 1 }
+|	|	|	|	|	|	|	| { lexeme = ` ` tokenType = whitespace lineNumber = 1 }
 |	|	|	|	|	|	|	| TreeKind(full expression)
 |	|	|	|	|	|	|	|	| TreeKind(delimited expression)
-|	|	|	|	|	|	|	|	|	| { lexeme = `western` tokenType = identifier }
-|	|	|	|	| { lexeme = `}` tokenType = } }
-|	|	|	| { lexeme = `\n\n` tokenType = whitespace }
+|	|	|	|	|	|	|	|	|	| { lexeme = `western` tokenType = identifier lineNumber = 1 }
+|	|	|	|	| { lexeme = `}` tokenType = } lineNumber = 1 }
+|	|	|	| { lexeme = `\n\n` tokenType = whitespace lineNumber = 1 }
