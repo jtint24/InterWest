@@ -9,6 +9,8 @@ Things to do:
     - [ ] Main Interface
         - [ ] Make an interface that can read in an InterWest file
         - [ ] Add a faux-"compile" option that serializes the AST
+    - [ ] IO
+        - [ ] Make the InputBuffer actually buffer from a file instead of a String
     - [ ] Interpreter
         - [ ] Improve Type System
             - [ ] Allow Type::subtypeOf to handle regular types
@@ -17,7 +19,7 @@ Things to do:
                 - [x] Make a function to check an expression against a type, either by static value or by the expression's type
                 - [x] Apply Expression::matchesType to everywhere it can be used
         - [ ] Improve Error Messages
-            - [ ] Add line numbers to error messages
+            - [x] Add line numbers to error messages
                 - [x] Add line numbers to expressions
                 - [x] Add line numbers to parse nodes
                 - [x] Add line numbers to lexemes

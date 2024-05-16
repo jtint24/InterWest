@@ -5,13 +5,10 @@ import IO.InputBuffer;
 import IO.OutputBuffer;
 import Parser.Parser;
 import Lexer.SymbolString;
-import Lexer.TokenLibrary;
 import Lexer.Tokenizer;
 import Parser.NonterminalLibrary;
 import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
-
-import java.util.Arrays;
 
 public class InterpretationSession {
     ErrorManager errorManager;
@@ -34,25 +31,21 @@ public class InterpretationSession {
 
         Expression expr = getAST();
 
-        outputBuffer.println(expr);
+        // outputBuffer.println(expr);
         expr.initializeStaticValues(new StaticReductionContext());
         ValidationContext validationContext = expr.validate(new ValidationContext());
         errorManager.logErrors(validationContext.errors);
-
-        System.out.println("ValidationContext: ");
-        System.out.println(validationContext.errors);
 
         State newState = new State(errorManager);
         ExpressionResult result = expr.evaluate(newState);
 
         outputBuffer.println(result.resultingValue);
         outputBuffer.println(result.resultingState);
-
     }
 
     public Expression getAST() {
         SymbolString symbolString = tokenizer.extractAllSymbols();
-        outputBuffer.println(symbolString);
+        // outputBuffer.println(symbolString);
         llParser.setSymbols(symbolString);
 
         // System.out.println("symbol string: "+symbolString);
@@ -73,11 +66,9 @@ public class InterpretationSession {
 
         ParseTreeNode parseTree = llParser.buildTree();
 
-        parseTree.removeSymbolsOfType(TokenLibrary.whitespace);
-
         errorManager.logErrors(parseTree.getMalformedNodeErrors());
 
-        outputBuffer.println(parseTree);
+        // outputBuffer.println(parseTree);
 
         Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
         return expr;
