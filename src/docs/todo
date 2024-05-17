@@ -12,6 +12,9 @@ Things to do:
     - [ ] IO
         - [ ] Make the InputBuffer actually buffer from a file instead of a String
     - [ ] Interpreter
+        - [ ] Literals
+            - [ ] Allow String literals to be used in expressions
+            - [ ] Allow Number/Float literals to be used in expressions
         - [ ] Improve Type System
             - [ ] Allow Type::subtypeOf to handle regular types
                 - [x] Build a TriValue logic enum to handle the trivalued logic of this method

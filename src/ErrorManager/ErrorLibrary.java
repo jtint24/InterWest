@@ -268,5 +268,21 @@ public class ErrorLibrary {
     }
 
 
+    public static Error getEmptyLetError(LetExpression letExpression) {
+        Annotator annotator = new Annotator(letExpression.underlyingParseTree.getLine());
+        /* annotator.applyStyle(
+                letExpression.underlyingParseTree,
+                // new Annotator.Style(AnsiCodes.RED, '^', null)
+        );*/
 
+        String bodyMessage = annotator.getAnnotatedString()
+                + "\n\nThis let expression has an empty assignment.\n";
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "EMPTY ASSIGNMENT",
+                bodyMessage,
+                true,
+                0
+        );
+    }
 }

@@ -1,0 +1,14 @@
+interpreter
+let a = 54
+let
+b
+
+
+
+=
+
+4
+EXPECTED_RESULT:
+let a = 54
+let b = 4
+

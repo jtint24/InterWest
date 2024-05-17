@@ -77,6 +77,7 @@ public class InterpretationSession {
         errorManager.logErrors(parseTree.getMalformedNodeErrors());
 
         // outputBuffer.println(parseTree);
+        // System.out.println(parseTree);
 
         Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
         return expr;

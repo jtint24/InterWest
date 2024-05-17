@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ErrorManager.ErrorLibrary.getUnknownToken;
-
 public class Tokenizer {
     private final InputBuffer inputBuffer;
     private final ErrorManager errorManager;

@@ -2,9 +2,6 @@ package Elements;
 
 import Interpreter.*;
 import ErrorManager.ErrorManager;
-import ErrorManager.Error;
-
-import static ErrorManager.ErrorLibrary.getRuntimeArgumentTypeMismatch;
 
 public class ExpressionFunction extends Function {
     /**
@@ -74,7 +71,8 @@ public class ExpressionFunction extends Function {
         for (int i = 0; i<values.length; i++) {
             if (!type.parameterTypes[i].matchesValue(values[i], errorManager)) {
 
-                throw new RuntimeException("Type mismatch");
+                // TODO: This should be a runtime error, not an exception
+                throw new RuntimeException("Type mismatch on parameter "+i+". Value "+values[i]+" doesn't match type "+ type.parameterTypes[i]);
                 //errorManager.logError(getRuntimeArgumentTypeMismatch(wrappedExpression, ));
                 //new Error(Error.ErrorType.RUNTIME_ERROR, "Type mismatch in parameter "+(i+1)+". Expected "+ type.parameterTypes[i]+", got "+values[i].getType()+".", true));
             }

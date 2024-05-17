@@ -2,12 +2,10 @@ package Interpreter;
 
 import Elements.*;
 import ErrorManager.ErrorManager;
-import ErrorManager.Error;
 import Lexer.TokenLibrary;
 import Parser.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ExpressionBuilder {
@@ -28,6 +26,7 @@ public class ExpressionBuilder {
 
         if (ptNode.getKind().toString().equals("TreeKind(delimited expression)")) {
             if (ptNode.getChildren().size() == 0) {
+                // throw new RuntimeException();
                 return null;
             }
             ParseTreeNode childNode = ptNode.getChildren().get(0);

@@ -2,7 +2,6 @@ package Interpreter;
 
 import Elements.Value;
 import Elements.ValueLibrary;
-import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 
 import java.util.*;

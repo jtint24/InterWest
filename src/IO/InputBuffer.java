@@ -1,7 +1,6 @@
 package IO;
 
 
-import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 
 public class InputBuffer {

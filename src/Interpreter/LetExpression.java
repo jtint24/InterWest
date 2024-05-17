@@ -4,6 +4,7 @@ import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.Error;
+import ErrorManager.ErrorLibrary;
 import Parser.ParseTreeNode;
 import Utils.Result;
 
@@ -33,11 +34,18 @@ public class LetExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-        context = exprToSet.validate(context);
+        if (exprToSet == null) {
+            context.addError(ErrorLibrary.getEmptyLetError(this));
+        } else {
+            context = exprToSet.validate(context);
+        }
         if (context.hasVariable(identifierName)) {
             context.addError(getRedefinition(this, identifierName));
         }
-        context.addVariableType(identifierName, exprToSet.getType(context));
+        if (exprToSet != null) {
+            context.addVariableType(identifierName, exprToSet.getType(context));
+        }
+
         return context;
     }
 
@@ -50,18 +58,18 @@ public class LetExpression extends Expression {
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.ok(ValueLibrary.trueValue);
 
-        StaticReductionContext discardedContext = exprToSet.initializeStaticValues(context);
+        if (exprToSet != null) {
+            StaticReductionContext discardedContext = exprToSet.initializeStaticValues(context);
 
 
-        // NOTE: We could build some mechanism to chain other errors to this one
-        // Like, if this constant is used later, and the static value of it isn't available, then we could link it to
-        // the error in the let statement instead of the error in the reference
+            // NOTE: We could build some mechanism to chain other errors to this one
+            // Like, if this constant is used later, and the static value of it isn't available, then we could link it to
+            // the error in the let statement instead of the error in the reference
 
-        if (exprToSet.staticValue.isOK()) {
-            context.declaredConstants.put(identifierName, exprToSet.staticValue.getOkValue());
+            if (exprToSet.staticValue.isOK()) {
+                context.declaredConstants.put(identifierName, exprToSet.staticValue.getOkValue());
+            }
         }
-
-
 
         return context;
     }
