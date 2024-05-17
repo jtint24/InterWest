@@ -1,15 +1,19 @@
 package Main;
 
 import Interpreter.InterpretationSession;
+import Testing.TestSuite;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        // args = new String[]{"run", "-f", "/Users/joshuatint/Desktop/code/test-lang/src/interwest1.west"};
+        //args = new String[]{"run", "-f", "/Users/joshuatint/Desktop/code/test-lang/src/interwest1.west"};
+        // args = new String[]{"help"};
+        args = new String[]{"validate", "interwest1.west"};
         if (args.length == 0) {
             argParseError("Please select at least one of the following commands: help, run, validate, test");
         }
@@ -21,8 +25,54 @@ public class Main {
         }
     }
 
-    public static void runTests(String[] args) {}
-    public static void validateFile(String[] args) {}
+    public static void runTests(String[] args) {
+        String[] possibleFlags = {"-d"};
+        String[] requiredFlags = {"-d"};
+
+        String[] flagArgs = new String[args.length-1];
+
+        System.arraycopy(args, 1, flagArgs, 0, args.length - 1);
+        HashMap<String, String> flags = getFlags(flagArgs, possibleFlags);
+
+        validateFlags(flags, List.of(possibleFlags), List.of(requiredFlags));
+
+        TestSuite testSuite = new TestSuite(new File(flags.get("-f")));
+
+        testSuite.getResults();
+    }
+    public static void validateFile(String[] args) throws IOException {
+        String[] possibleFlags = {"-f"};
+        String[] requiredFlags = {"-f"};
+
+        String[] flagArgs = new String[args.length-1];
+        System.arraycopy(args, 1, flagArgs, 0, args.length - 1);
+
+
+        HashMap<String, String> flags = getFlags(flagArgs, possibleFlags);
+
+//        for (Map.Entry<String, String> entry : flags.entrySet()) {
+//            System.out.println(entry.getKey() + " " + entry.getValue());
+//        }
+
+        validateFlags(flags, List.of(possibleFlags), List.of(requiredFlags));
+
+        String fileName = flags.get("-f");
+
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String program = sb.toString();
+
+            InterpretationSession sesh = new InterpretationSession(program);
+            sesh.validateAST();
+        }
+    }
 
     public static void printHelp() {
         // TODO
@@ -71,9 +121,9 @@ public class Main {
 
         HashMap<String, String> flags = getFlags(flagArgs, possibleFlags);
 
-        for (Map.Entry<String, String> entry : flags.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }
+//        for (Map.Entry<String, String> entry : flags.entrySet()) {
+//            System.out.println(entry.getKey() + " " + entry.getValue());
+//        }
 
         validateFlags(flags, List.of(possibleFlags), List.of(requiredFlags));
 

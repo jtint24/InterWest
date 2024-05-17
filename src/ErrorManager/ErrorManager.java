@@ -45,9 +45,9 @@ public class ErrorManager {
     }
 
     public void killSession() {
-        printErrors();
+        printErrors(true);
         // System.exit(0);
-        throw new RuntimeException();
+        throw new RuntimeException("The interpretation has failed. See above errors.");
     }
 
     public void printErrors() {

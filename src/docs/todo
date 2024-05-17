@@ -7,7 +7,7 @@ Things to do:
     - [ ] Parser
         - [x] Add Pratt parsing / parse binary operators
     - [ ] Main Interface
-        - [ ] Make an interface that can read in an InterWest file
+        - [x] Make an interface that can read in an InterWest file
         - [ ] Add a faux-"compile" option that serializes the AST
     - [ ] IO
         - [ ] Make the InputBuffer actually buffer from a file instead of a String
@@ -31,7 +31,9 @@ Things to do:
                 - [x] Give parse tree nodes their internal lexemes
                 - [x] Give expressions their parse tree nodes
                 - [x] Allow errors to be given a lexeme string with some "highlighted"
+            - [ ] Assign Errors unique codes
         - [ ] If Statements
+            - [ ] Allow ifs to take arbitrary functions instead of pre-deliminated blocks
             - [ ] Add an "else" condition
                 - [ ] Change the parse definition of conditionals to allow an else
                 - [ ] Change the ExpressionBuilder::buildIfExpression to handle else conditions

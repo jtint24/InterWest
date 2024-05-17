@@ -27,6 +27,14 @@ public class InterpretationSession {
         this.expressionBuilder = new ExpressionBuilder(errorManager);
     }
 
+    public void validateAST() {
+        Expression expr = getAST();
+
+        expr.initializeStaticValues(new StaticReductionContext());
+        ValidationContext validationContext = expr.validate(new ValidationContext());
+        errorManager.logErrors(validationContext.errors);
+    }
+
     public void runSession() {
 
         Expression expr = getAST();
