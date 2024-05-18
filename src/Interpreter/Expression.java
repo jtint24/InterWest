@@ -37,13 +37,18 @@ public abstract class Expression {
     public abstract StaticReductionContext initializeStaticValues(StaticReductionContext context);
 
     public TriValue matchesType(Type type, ValidationContext context) {
+
         TriValue subtypeStatus = type.subtypeOf(getType(context));
 
-        if (subtypeStatus != TriValue.TRUE && this.staticValue.isOK()) {
+        if (subtypeStatus == TriValue.UNKNOWN && this.staticValue != null && this.staticValue.isOK()) {
             Value inputValue = this.staticValue.getOkValue();
             ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
             subtypeStatus = TriValue.fromBool(type.matchesValue(inputValue, testErrorManager));
             context.addErrors(testErrorManager.getErrors());
+        }
+
+        if (subtypeStatus != TriValue.TRUE && this.staticValue == null) {
+            return TriValue.FALSE;
         }
 
         return subtypeStatus;

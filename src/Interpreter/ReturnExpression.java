@@ -32,7 +32,10 @@ public class ReturnExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-        context = exprToReturn.validate(context);
+
+        if (exprToReturn != null) {
+            context = exprToReturn.validate(context);
+        }
 
         if (context.getReturnType() == null) {
             context.addError(getNotReturnable(this));
@@ -57,9 +60,16 @@ public class ReturnExpression extends Expression {
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
-        StaticReductionContext discardedContext = exprToReturn.initializeStaticValues(context);
 
-        context.returnedValue = exprToReturn.staticValue;
+        if (exprToReturn != null) {
+            StaticReductionContext discardedContext = exprToReturn.initializeStaticValues(context);
+        }
+
+        if (exprToReturn != null) {
+            context.returnedValue = exprToReturn.staticValue;
+        } else {
+            context.returnedValue = Result.ok(ValueLibrary.unitValue);
+        }
 
         return context;
     }

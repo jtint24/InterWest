@@ -12,9 +12,11 @@ public class ValueLibrary {
     public static Type universeType = new UniverseType();
     public static RefinementType typeType = new RefinementType(universeType, null);
     public static RefinementType boolType = new RefinementType(universeType, null);
+    public static RefinementType unitType = new RefinementType(universeType, null);
     public static RefinementType intType = new RefinementType(universeType, null);
     public static ValueWrapper<Boolean> trueValue = new ValueWrapper<>(true, boolType);
     public static ValueWrapper<Boolean> falseValue = new ValueWrapper<>(false, boolType);
+    public static BuiltinValue unitValue = new BuiltinValue(unitType);
 
     public static Function printInt = new BuiltinFunction(new FunctionType(boolType, intType)) {
         @Override
@@ -47,6 +49,9 @@ public class ValueLibrary {
         put("printInt", printInt);
         put("printNonzero", printNonzero);
         put("Nonzero", nonzeroType);
+        put("Unit", unitType);
+        put("unit", unitValue);
+
     }};
 
     static {
@@ -93,6 +98,20 @@ public class ValueLibrary {
             public DFA getDFA(Value... inputs) {
                 // return DFA.alwaysFalse();
                 return DFAConditions.dfaInequalTo(new ValueWrapper<>(0, intType));
+            }
+        };
+
+
+        unitType.condition = new DFAFunction(new BuiltinFunction(new FunctionType(boolType, universeType)) {
+            @Override
+            public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+                Value inputVal = values[0];
+                return new ValueWrapper<>(inputVal.equals(unitValue), boolType);
+            }
+        }) {
+            @Override
+            public DFA getDFA(Value... inputs) {
+                return DFAConditions.dfaEqualTo(unitValue);
             }
         };
 

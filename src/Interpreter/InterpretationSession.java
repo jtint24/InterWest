@@ -33,6 +33,10 @@ public class InterpretationSession {
         expr.initializeStaticValues(new StaticReductionContext());
         ValidationContext validationContext = expr.validate(new ValidationContext());
         errorManager.logErrors(validationContext.errors);
+
+        if (validationContext.errors.size() == 0) {
+            System.out.println("Looks like you're all good! No problems to report.");
+        }
     }
 
     public void runSession() {
