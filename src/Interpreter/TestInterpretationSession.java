@@ -1,13 +1,8 @@
 package Interpreter;
 
 import Elements.ExpressionFunction;
-import ErrorManager.Error;
-import ErrorManager.ErrorManager;
-import IO.InputBuffer;
 import IO.OutputBuffer;
 import Lexer.SymbolString;
-import Lexer.Tokenizer;
-import Parser.Parser;
 import Parser.NonterminalLibrary;
 import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
@@ -48,7 +43,7 @@ public class TestInterpretationSession extends InterpretationSession {
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
 
-            Expression programExpr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
+            Expression programExpr = expressionBuilder.buildNonterminalExpression((NonterminalParseTreeNode) parseTree);
             ValidationContext startContext = new ValidationContext();
             ValidationContext endContext = programExpr.validate(startContext);
 
@@ -88,7 +83,7 @@ public class TestInterpretationSession extends InterpretationSession {
             NonterminalLibrary.file.apply(llParser);
             ParseTreeNode parseTree = llParser.buildTree();
 
-            Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
+            Expression expr = expressionBuilder.buildNonterminalExpression((NonterminalParseTreeNode) parseTree);
             ValidationContext startContext = new ValidationContext();
             ValidationContext endContext = expr.validate(startContext);
             errorManager.logErrors(endContext.errors);

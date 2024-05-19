@@ -15,7 +15,16 @@ public class ExpressionBuilder {
         this.errorManager = errorManager;
     }
 
-    public Expression buildExpression(NonterminalParseTreeNode ptNode) {
+    public Expression buildExpression(ParseTreeNode ptNode) {
+        if (ptNode instanceof NonterminalParseTreeNode) {
+            return buildNonterminalExpression((NonterminalParseTreeNode) ptNode);
+        } else if (ptNode instanceof TerminalParseTreeNode) {
+            return buildTerminalExpression((TerminalParseTreeNode) ptNode);
+        }
+        throw new RuntimeException("This PTNode is neither terminal nor nonterminal???");
+    }
+
+    public Expression buildNonterminalExpression(NonterminalParseTreeNode ptNode) {
         ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
 
         // System.out.println(ptNode.getKind());
@@ -46,6 +55,7 @@ public class ExpressionBuilder {
             case "TreeKind(lambda)" -> buildLambdaExpression(ptNode);
             case "TreeKind(if statement)" -> buildIfExpression(ptNode);
             case "TreeKind(expression call)" -> buildExpressionCall(ptNode);
+            case "TreeKind(binary expression)" -> buildBinaryExpression(ptNode);
             default -> {
                 throw new RuntimeException("Unknown nonterminal type `"+ptNode.getKind()+"`");
             }
@@ -55,6 +65,7 @@ public class ExpressionBuilder {
         return expr;
     }
 
+
     public Expression buildTerminalExpression(TerminalParseTreeNode ptNode) {
         String tokenName = ptNode.getWrappedSymbol().getTokenType().toString();
         String lexeme = ptNode.getWrappedSymbol().getLexeme();
@@ -62,6 +73,7 @@ public class ExpressionBuilder {
         return switch (tokenName) {
             case "identifier" -> new VariableExpression(lexeme, ptNode);
             case "int" -> new IdentityExpression(new ValueWrapper<>(Integer.parseInt(lexeme), ValueLibrary.intType), ptNode);
+            case "!=" -> new IdentityExpression(ValueLibrary.unequalsFunc, ptNode);
             default -> {
                 throw new RuntimeException("Unknown terminal type `"+tokenName+"`");
             }
@@ -73,16 +85,31 @@ public class ExpressionBuilder {
 
         // [called-expr] [(] [arg list] [)]
 
-        Expression calledExpr = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(0));
+        Expression calledExpr = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(0));
 
         NonterminalParseTreeNode argList = (NonterminalParseTreeNode) ptNode.getChildren().get(2);
         ArrayList<Expression> argumentExpressions = new ArrayList<>();
 
         for (ParseTreeNode argument : argList.getChildren()) {
-            argumentExpressions.add(buildExpression((NonterminalParseTreeNode) argument));
+            argumentExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) argument));
         }
 
         return new FunctionExpression(calledExpr, argumentExpressions, ptNode);
+    }
+
+    private Expression buildBinaryExpression(NonterminalParseTreeNode ptNode) {
+        // [lhs] [operator] [rhs]
+
+        Expression lhs = buildExpression(ptNode.getChildren().get(0));
+        Expression rhs = buildExpression(ptNode.getChildren().get(2));
+        Expression operator = buildExpression(ptNode.getChildren().get(1));
+
+        ArrayList<Expression> arguments = new ArrayList<>() {{
+            add(lhs);
+            add(rhs);
+        }};
+
+        return new FunctionExpression(operator, arguments, ptNode);
     }
 
     public Expression buildIfExpression(NonterminalParseTreeNode ptNode) {
@@ -90,13 +117,13 @@ public class ExpressionBuilder {
 
         // [if] [condition] [{] [statements...] [}]
 
-        Expression condition = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
+        Expression condition = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
 
         ArrayList<Expression> childExpressions = new ArrayList<>();
 
         for (int i = 3; i<ptNode.getChildren().size()-1; i++) {
             if (ptNode.getChildren().get(i) instanceof NonterminalParseTreeNode) {
-                Expression builtExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i));
+                Expression builtExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i));
                 if (builtExpression != null) {
                     childExpressions.add(builtExpression);
                 }
@@ -116,7 +143,7 @@ public class ExpressionBuilder {
         ArrayList<Expression> childExpressions = new ArrayList<>();
         for (ParseTreeNode childNode : ptNode.getChildren()) {
             if (childNode instanceof NonterminalParseTreeNode) {
-                childExpressions.add(buildExpression((NonterminalParseTreeNode) childNode));
+                childExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) childNode));
             } else {
                 throw new RuntimeException("Expected nonterminal node, got terminal");
             }
@@ -129,7 +156,7 @@ public class ExpressionBuilder {
         ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
         // [let] [identifier] [=] [expression]
         String identifier = ((TerminalParseTreeNode)ptNode.getChildren().get(1)).getWrappedSymbol().getLexeme();
-        Expression assignToExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3));
+        Expression assignToExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3));
 
         return new LetExpression(identifier, assignToExpression, ptNode);
     };
@@ -138,39 +165,45 @@ public class ExpressionBuilder {
         ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
         // [return] [expression]
 
-        Expression returnToExpression = buildExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
+        Expression returnToExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(1));
 
         return new ReturnExpression(returnToExpression, ptNode);
     }
 
     public Expression buildLambdaExpression(NonterminalParseTreeNode ptNode) {
-        ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
 
-        // [{] [parameterList?] [->] [type] [expression] [}]
+        // [regular?] [{] [parameterList?] [->] [type] [expression] [}]
 
         List<ParseTreeNode> parameterList;
         int subExpressionsStartIdx;
+        int lBraceIdx = 0;
+        boolean isRegular = false;
 
-        if (ptNode.getChildren().get(1) instanceof NonterminalParseTreeNode) {
-            parameterList = ((NonterminalParseTreeNode) ptNode.getChildren().get(1)).getChildren();
-            subExpressionsStartIdx = 4;
-        } else {
-            parameterList = new ArrayList<>();
-            subExpressionsStartIdx = 3;
+        if (ptNode.getChildren().get(0) instanceof TerminalParseTreeNode) {
+            lBraceIdx = 1;
+            isRegular = true;
         }
 
-        Expression resultTypeExpression = buildExpression( (NonterminalParseTreeNode) ptNode.getChildren().get(subExpressionsStartIdx-1));
+        if (ptNode.getChildren().get(1+lBraceIdx) instanceof NonterminalParseTreeNode) {
+            parameterList = ((NonterminalParseTreeNode) ptNode.getChildren().get(1+lBraceIdx)).getChildren();
+            subExpressionsStartIdx = 4+lBraceIdx;
+        } else {
+            parameterList = new ArrayList<>();
+            subExpressionsStartIdx = 3+lBraceIdx;
+        }
+
+        Expression resultTypeExpression = buildNonterminalExpression( (NonterminalParseTreeNode) ptNode.getChildren().get(subExpressionsStartIdx-1));
 
         ArrayList<Expression> subExpressions = new ArrayList<>();
         for (int i = subExpressionsStartIdx; i<ptNode.getChildren().size()-1; i++) {
-            subExpressions.add(buildExpression( (NonterminalParseTreeNode) ptNode.getChildren().get(i)));
+            subExpressions.add(buildNonterminalExpression( (NonterminalParseTreeNode) ptNode.getChildren().get(i)));
         }
 
         ArrayList<String> paramNames = new ArrayList<>();
         ArrayList<Type> paramTypes = new ArrayList<>();
 
         for (int i = 0; i<parameterList.size(); i+=2) {
-            Expression paramType = buildExpression((NonterminalParseTreeNode) parameterList.get(i));
+            Expression paramType = buildNonterminalExpression((NonterminalParseTreeNode) parameterList.get(i));
             String paramName = ((TerminalParseTreeNode)parameterList.get(i+1)).getWrappedSymbol().getLexeme();
 
             paramNames.add(paramName);
@@ -184,7 +217,7 @@ public class ExpressionBuilder {
 
         FunctionType type = new FunctionType(returnType, paramTypes.toArray(new Type[0]));
 
-        Function lambdaFunc = new ExpressionFunction(type, new ReturnableExpressionSeries(returnType, subExpressions),  paramNames.toArray(new String[0]));
+        Function lambdaFunc = new ExpressionFunction(type, new ReturnableExpressionSeries(returnType, subExpressions),  paramNames.toArray(new String[0]), isRegular);
 
         return new IdentityExpression(lambdaFunc, ptNode);
 

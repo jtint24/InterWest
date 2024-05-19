@@ -83,7 +83,7 @@ public class InterpretationSession {
         // outputBuffer.println(parseTree);
         // System.out.println(parseTree);
 
-        Expression expr = expressionBuilder.buildExpression((NonterminalParseTreeNode) parseTree);
+        Expression expr = expressionBuilder.buildNonterminalExpression((NonterminalParseTreeNode) parseTree);
         return expr;
     }
 

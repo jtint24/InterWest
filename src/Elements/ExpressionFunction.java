@@ -2,6 +2,8 @@ package Elements;
 
 import Interpreter.*;
 import ErrorManager.ErrorManager;
+import Regularity.DFA;
+import Regularity.DFAConverter;
 
 public class ExpressionFunction extends Function {
     /**
@@ -39,11 +41,14 @@ public class ExpressionFunction extends Function {
     FunctionType type;
     Expression wrappedExpression;
     String[] parameterNames;
+    boolean isRegular;
+    DFA equivalentDFA = null;
 
-    public ExpressionFunction(FunctionType type, Expression wrappedExpression, String[] parameterNames) {
+    public ExpressionFunction(FunctionType type, Expression wrappedExpression, String[] parameterNames, boolean isRegular) {
         this.type = type;
         this.wrappedExpression = wrappedExpression;
         this.parameterNames = parameterNames;
+        this.isRegular = isRegular;
     }
 
     @Override
@@ -80,6 +85,9 @@ public class ExpressionFunction extends Function {
     }
 
     public ValidationContext validate() {
+        if (isRegular) {
+            equivalentDFA = DFAConverter.dfaFrom(wrappedExpression);
+        }
         return wrappedExpression.validate(new ValidationContext());
     }
 

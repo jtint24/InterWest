@@ -45,6 +45,8 @@ public class FunctionExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
+        context = funcExpression.validate(context);
+
         for (Expression inputExpression : inputExpressions) {
             context = inputExpression.validate(context);
         }

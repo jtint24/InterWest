@@ -53,6 +53,10 @@ public class NonterminalLibrary {
         @Override
         public void parse(Parser parser) {
 
+            parser.eat(TokenLibrary.regularToken);
+
+            parser.eat(TokenLibrary.whitespace);
+
             parser.expect(TokenLibrary.lBrace);
             parser.eat(TokenLibrary.whitespace);
 
@@ -135,7 +139,7 @@ public class NonterminalLibrary {
                 parser.expect(TokenLibrary.rParen);
             } else if (parser.at(TokenLibrary.identifier)) {
                 parser.eat(TokenLibrary.identifier);
-            } else if (parser.at(TokenLibrary.lBrace)) {
+            } else if (parser.at(TokenLibrary.lBrace) || parser.at(TokenLibrary.regularToken)) {
                 lambda.apply(parser);
             } else if (parser.at(TokenLibrary.let)) {
                 letStatement.apply(parser);

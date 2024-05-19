@@ -21,6 +21,15 @@ Things to do:
                 - [x] Handle the trivalue logic wherever this function is used
                 - [x] Make a function to check an expression against a type, either by static value or by the expression's type
                 - [x] Apply Expression::matchesType to everywhere it can be used
+            - [ ] Make the type function/statement work
+                - [ ] Make a regularity system
+                    - [ ] Add necessary lexer changes
+                    - [ ] Change lambda parser definition to allow "regular" prefix
+                    - [ ] Add regularity enforcement during validation
+                    - [ ] Add necessary errors
+                - [ ] Write function definition for "type"
+                - [ ] Write behavior for static types
+                - [ ] Write behavior for dynamic types
         - [ ] Improve Error Messages
             - [x] Add line numbers to error messages
                 - [x] Add line numbers to expressions
@@ -35,6 +44,7 @@ Things to do:
                 - [x] Give expressions their parse tree nodes
                 - [x] Allow errors to be given a lexeme string with some "highlighted"
             - [ ] Assign Errors unique codes
+            - [ ] Make Unexpected Token errors print out a SymbolString like other errors
         - [ ] If Statements
             - [ ] Allow ifs to take arbitrary functions instead of pre-deliminated blocks
             - [ ] Add an "else" condition
@@ -43,7 +53,7 @@ Things to do:
                 - [ ] Modify ConditionalExpression to handle else (make sure the else code is validated too)
     - [ ] Tests
         - [x] Build testing module
-        - [ ] Add tests for if statements
+        - [ ] Add AST tests for if statements
     - [ ] Minor fixes
         - [x] Change all methods that return/accept subclasses of Collection to return as general a subclass as possible (ie. ArrayList<> -> List<>)
         - [x] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value

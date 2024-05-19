@@ -39,6 +39,14 @@ public class ValueLibrary {
             return values[0].equals(values[1]) ? trueValue : falseValue;
         }
     };
+
+    public static Function unequalsFunc = new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            return !values[0].equals(values[1]) ? trueValue : falseValue;
+        }
+    };
+
     public static HashMap<String, Value> builtinValues = new HashMap<>() {{
         put("true", trueValue);
         put("false", falseValue);
@@ -51,7 +59,7 @@ public class ValueLibrary {
         put("Nonzero", nonzeroType);
         put("Unit", unitType);
         put("unit", unitValue);
-
+        put("!=", unequalsFunc);
     }};
 
     static {
