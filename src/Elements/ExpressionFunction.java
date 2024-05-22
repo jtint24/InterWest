@@ -2,8 +2,14 @@ package Elements;
 
 import Interpreter.*;
 import ErrorManager.ErrorManager;
+import ErrorManager.Error;
 import Regularity.DFA;
 import Regularity.DFAConverter;
+import Utils.Result;
+
+import java.util.Arrays;
+
+import static ErrorManager.ErrorLibrary.getUnresolvableTypeExpression;
 
 public class ExpressionFunction extends Function {
     /**
@@ -85,10 +91,30 @@ public class ExpressionFunction extends Function {
     }
 
     public ValidationContext validate() {
-        if (isRegular) {
-            equivalentDFA = DFAConverter.dfaFrom(wrappedExpression);
+        ValidationContext context = new ValidationContext();
+
+        for (Type paramType : type.parameterTypes) {
+            if (paramType instanceof TypeExpression && (((TypeExpression) paramType).staticValue == null || !((TypeExpression) paramType).staticValue.isOK())) {
+                context.addError(getUnresolvableTypeExpression((TypeExpression) paramType));
+            }
         }
-        return wrappedExpression.validate(new ValidationContext());
+
+        if (isRegular) {
+            System.out.println(Arrays.toString(((ReturnableExpressionSeries) wrappedExpression).getContainedExpressions().toArray()));
+            Result<DFA, Error> dfaResult = DFAConverter.dfaFrom(wrappedExpression);
+            if (!dfaResult.isOK()) {
+                context.addError(dfaResult.getErrValue());
+            } else {
+                equivalentDFA = dfaResult.getOkValue();
+            }
+        }
+
+        for (int i = 0; i<parameterNames.length; i++) {
+            String parameterName = parameterNames[i];
+            Type parameterType = type.parameterTypes[i];
+            context.addVariableType(parameterName, parameterType);
+        }
+        return wrappedExpression.validate(context);
     }
 
     public StaticReductionContext initializeStaticValues() {

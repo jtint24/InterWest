@@ -48,10 +48,19 @@ public class Annotator {
         ArrayList<ArrayList<String>> lineBlocks = new ArrayList<>();
         int tallestBlockHeight = 0;
 
+        boolean lastWasAnnotated = false;
+
         for (int i = styles.size()-1; i>=0; i--) {
             Symbol symbol = stringToAnnotate.get(i);
             Style style = styles.get(i);
-            boolean isTerminal = (i == 0) || (styles.get(i-1).annotation == null);
+            // isTerminal = isFirst or (isFirstNonBlankSymbolWithNonNullAnnotation)
+            // isTerminal = isFirst or (isNonBlank && nonNullAnnotation && !lastWasAnnotated)
+            boolean isTerminal = (i == 0 && !symbol.getLexeme().isBlank()) || (styles.get(i).annotation != null && !symbol.getLexeme().isBlank() && !lastWasAnnotated); // TODO: FIX THIS SO THAT ANNOTATED BLOCKS STARTING WITH WHITESPACE GET ANNOTATED PROPERLY (THE FIRST ANNOTATED TERMINAL SHOULD BE THE FIRST NONBLANK TERMINAL, NOT THE FIRST TERMINAL IN GENERAL)
+            if (isTerminal) {
+                lastWasAnnotated = true;
+            } else if (styles.get(i).annotation == null) {
+                lastWasAnnotated = false;
+            }
             ArrayList<String> renderedBlock = style.renderOn(symbol.getLexeme(), tallestBlockHeight, isTerminal);
             lineBlocks.add(0, renderedBlock);
             tallestBlockHeight = Math.max(tallestBlockHeight, renderedBlock.size());
@@ -73,6 +82,7 @@ public class Annotator {
                 if (printedLength(lines.get(i)) < printedLength(lines.get(0))) {
                     neededLength = printedLength(lines.get(0)) - printedLength(lines.get(i));
                 }
+                // String filler = (i+"").charAt(0)+"";
                 lines.set(i, lines.get(i) + " ".repeat(neededLength));
             }
         }
@@ -86,7 +96,7 @@ public class Annotator {
         String lineNumberPrefix = stringToAnnotate.get(0).getStartingLineNumber()+" ";
 
         for (int i = 0; i<lines.size(); i++) {
-            String prefix = i == 0 ? lineNumberPrefix :" ".repeat(lineNumberPrefix.length());
+            String prefix = i == 0 ? lineNumberPrefix : " ".repeat(lineNumberPrefix.length());
             String line = prefix + "| "+ lines.get(i);
             body.append(line.stripTrailing()).append("\n");
         }
@@ -111,19 +121,32 @@ public class Annotator {
         }
 
         public ArrayList<String> renderOn(String s, int tallestBlockHeight, boolean isTerminal) {
+
+
             ArrayList<String> lines = new ArrayList<>();
             String flattenedCore = s.replace("\n", "");
             lines.add(ansiColor+flattenedCore+AnsiCodes.RESET);
-            if (underline != null) {
-                int startingWhitespaceCount = s.length()-s.stripTrailing().length();
-                int trailingWhitespaceCount = s.length()-s.stripLeading().length();
-                int coreLength = s.strip().length();
 
-                lines.add(" ".repeat(startingWhitespaceCount)+(""+underline).repeat(coreLength)+" ".repeat(trailingWhitespaceCount));
+            if (underline != null) {
+                if (s.isBlank()) {
+                    lines.add(s);
+
+                } else {
+                    int startingWhitespaceCount = s.length() - s.stripTrailing().length();
+                    int trailingWhitespaceCount = s.length() - s.stripLeading().length();
+                    int coreLength = s.strip().length();
+                    if (s.contains("0") && underline == '^') {
+                        String str = " ".repeat(startingWhitespaceCount) + ("" + underline).repeat(coreLength) + " ".repeat(trailingWhitespaceCount);
+                        System.out.println("!");
+                    }
+                    assert startingWhitespaceCount + trailingWhitespaceCount + coreLength == s.length();
+                    lines.add("-".repeat(startingWhitespaceCount) + ("" + underline).repeat(coreLength) + ".".repeat(trailingWhitespaceCount));
+                    //lines.add((""+underline).repeat(s.length()));
+                }
             } else if (annotation != null && isTerminal) {
                 lines.add("|");
             }
-            if (annotation != null && isTerminal) {
+            if (annotation != null && !s.isBlank() && isTerminal) {
                 do {
                     lines.add("|");
                 } while (lines.size() <= tallestBlockHeight);

@@ -45,13 +45,14 @@ public class FunctionExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-        context = funcExpression.validate(context);
 
         for (Expression inputExpression : inputExpressions) {
             context = inputExpression.validate(context);
         }
 
+
         Type funcType = funcExpression.getType(context);
+
         if (!(funcType instanceof FunctionType)) {
             context.addError(
                     getCallabilityMismatch(this, funcType)
@@ -59,6 +60,7 @@ public class FunctionExpression extends Expression {
 
             return context;
         }
+
 
         Type[] parameterTypes = ((FunctionType) funcType).getParameterTypes();
         for (int i = 0; i<parameterTypes.length; i++) {
@@ -77,6 +79,8 @@ public class FunctionExpression extends Expression {
                 );
             }
         }
+
+        context = funcExpression.validate(context);
 
         return context;
     }

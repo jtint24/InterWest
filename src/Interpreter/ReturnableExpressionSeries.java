@@ -33,8 +33,8 @@ public class ReturnableExpressionSeries extends ExpressionContainer {
             }
             situatedState = result.resultingState;
         }
-
-        return null;
+        throw new RuntimeException("This expression should have returned by now!");
+        // return null;
     }
 
     @Override

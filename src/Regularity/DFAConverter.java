@@ -3,6 +3,7 @@ package Regularity;
 import ErrorManager.Error;
 import Elements.Value;
 import Elements.ValueLibrary;
+import ErrorManager.ErrorLibrary;
 import Interpreter.*;
 import Utils.Result;
 
@@ -12,15 +13,12 @@ public class DFAConverter {
     // A DFA that returns true, always
     static DFA trueDFA = new DFA(new DFANode("accept", ValueLibrary.trueValue));
 
-    public static DFA dfaFrom(Expression ex) {
+    public static Result<DFA, Error> dfaFrom(Expression ex) {
 
-        // if (ex instanceof StaticExpression) {
-        //    return ((StaticExpression) ex).toDFA();
-        // }
+        System.out.println("Getting DFA from "+ex);
+        System.out.println(ex.underlyingParseTree);
 
-        // System.out.println(ex);
-
-        ex.initializeStaticValues(new StaticReductionContext());
+        // ex.initializeStaticValues(new StaticReductionContext());
 
         // TODO: Figure out where to simplify
 
@@ -64,10 +62,15 @@ public class DFAConverter {
             } else {
                 // System.out.println("ERROR! DFA Conversion not possible");
                 // TODO: Return some kind of error that it DFA conversion is not possible, with details
+                return Result.error(ErrorLibrary.getFailedRegularityError(new ArrayList<>()));
             }
         }
 
         // Unionize all the return values
+
+        if (intersectedDFAs.size() == 0) {
+            // return Result.error(ErrorLibrary.getFailedRegularityError(new ArrayList<>()));
+        }
 
         DFA unionizedDFA = intersectedDFAs.remove(0);
         // "Unionized: ");
@@ -85,7 +88,7 @@ public class DFAConverter {
 
         // Simplify after everything's been done?
 
-        return unionizedDFA;
+        return Result.ok(unionizedDFA);
     }
 
 
@@ -93,10 +96,16 @@ public class DFAConverter {
         public HashMap<ReturnExpression, DFA> returnClauses;
         public DFA passConditions; // The series of conditions that need to be met to get to this point
         // public boolean terminates = false;
+        public ArrayList<Expression> unconvertableExpressions = new ArrayList<>();
 
         public ReturnClauseConditionResult(HashMap<ReturnExpression, DFA> returnClauses, DFA conditions) {
             this.returnClauses = returnClauses;
             this.passConditions = conditions;
+        }
+        public ReturnClauseConditionResult(HashMap<ReturnExpression, DFA> returnClauses, DFA conditions, ArrayList<Expression> unconvertableExpressions) {
+            this.returnClauses = returnClauses;
+            this.passConditions = conditions;
+            this.unconvertableExpressions = unconvertableExpressions;
         }
 /*
         public ReturnClauseConditionResult(HashMap<ReturnExpression, ArrayList<DFA>> returnClauses, ArrayList<DFA> conditions, boolean terminates) {
@@ -122,7 +131,13 @@ public class DFAConverter {
             for (Expression ex : ((ExpressionContainer) root).getContainedExpressions()) {
                 ReturnClauseConditionResult outResult;
                 if (ex instanceof ConditionalExpression) {
-                    DFA ifCondition = dfaFrom(((ConditionalExpression) ex).getCondition());
+                    Result<DFA, Error> ifConditionResult = dfaFrom(((ConditionalExpression) ex).getCondition());
+                    if (!ifConditionResult.isOK()) {
+                        ArrayList<Expression> unconvertableExpression = new ArrayList<>();
+                        unconvertableExpression.add(ex);
+                        return new ReturnClauseConditionResult(returnClauses, conditions, unconvertableExpression);
+                    }
+                    DFA ifCondition = ifConditionResult.getOkValue();
 
                     ExpressionSeries body = ((ConditionalExpression) ex).getBody();
 
@@ -164,72 +179,6 @@ public class DFAConverter {
         }
 
         return new ReturnClauseConditionResult(returnClauses, passConditions);
-    }
-
-    /*
-
-    DEPRECATED:
-     */
-    private static HashMap<ReturnExpression, ArrayList<DFA>> getReturnClauses(Expression root) {
-        // Start with the expression as root
-
-        // Create set of previously discovered nodes
-        HashSet<Expression> discovered = new HashSet<>();
-
-        HashMap<ReturnExpression, ArrayList<DFA>> retMap = new HashMap<>();
-
-        // Make root the first observed node
-        ArrayList<ExpressionDFSNode> frontier = new ArrayList<>() {{
-            add(new ExpressionDFSNode(root, new ArrayList<>()));
-        }};
-
-        while (frontier.size() > 0) {
-            // For each observed node:
-            ExpressionDFSNode currentNode = frontier.remove(0);
-            Expression observed = currentNode.expression;
-            ArrayList<DFA> conditions = new ArrayList<>();
-
-            // TODO: Check if the observed node is an invalid type of expression, ie. a loop
-
-            // Add to the frontier any internal expressions that satisfy any of the following:
-            //  - They are conditionals
-            //  - They are returnExpressions
-            //  - They could contain returnExpressions that dictate the return value of this expression
-            if (observed instanceof ExpressionContainer) {
-                ArrayList<Expression> containedExpressions = ((ExpressionContainer) observed).getContainedExpressions();
-
-                for (Expression containedExpression : containedExpressions) {
-                    if (!discovered.contains(containedExpression) && containedExpression instanceof ReturnExpression) {
-                        frontier.add(0, new ExpressionDFSNode(containedExpression, conditions));
-                    }
-                    if (!discovered.contains(containedExpression) && containedExpression instanceof ExpressionSeries) {
-                        frontier.add(0, new ExpressionDFSNode(containedExpression, conditions));
-                    }
-                    // TODO: check for conditionals
-                }
-
-                discovered.addAll(containedExpressions);
-            }
-
-            // Check if it is a returnExpression
-            if (observed instanceof ReturnExpression) {
-                // If so, trace the list of conditionals that lead to it being run
-                // Append this to the return hashmap
-
-                retMap.put((ReturnExpression) observed, conditions);
-            }
-        }
-
-        return retMap;
-    }
-
-    static class ExpressionDFSNode {
-        Expression expression;
-        ArrayList<DFA> conditions;
-        public ExpressionDFSNode(Expression expression, ArrayList<DFA> conditions) {
-            this.expression = expression;
-            this.conditions = conditions;
-        }
     }
 
     public static boolean checkEquivalence(DFA dfa1, DFA dfa2) {

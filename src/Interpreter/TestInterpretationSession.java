@@ -1,6 +1,7 @@
 package Interpreter;
 
 import Elements.ExpressionFunction;
+import ErrorManager.Error;
 import IO.OutputBuffer;
 import Lexer.SymbolString;
 import Parser.NonterminalLibrary;
@@ -8,6 +9,7 @@ import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
 import Regularity.DFA;
 import Regularity.DFAConverter;
+import Utils.Result;
 
 
 import java.util.Arrays;
@@ -57,8 +59,12 @@ public class TestInterpretationSession extends InterpretationSession {
             if (programExpr instanceof IdentityExpression && ((IdentityExpression) programExpr).wrappedValue instanceof ExpressionFunction) {
 
                 Expression innerExpression = ((ExpressionFunction) ((IdentityExpression) programExpr).wrappedValue).getWrappedExpression();
-                DFA convertedDFA = DFAConverter.dfaFrom(innerExpression);
-                outputBuffer.println(convertedDFA);
+                Result<DFA, Error> convertedDFAResult = DFAConverter.dfaFrom(innerExpression);
+                if (convertedDFAResult.isOK()) {
+                    outputBuffer.println(convertedDFAResult.getOkValue());
+                } else {
+                    outputBuffer.println(convertedDFAResult.getErrValue());
+                }
             } else {
                 throw new RuntimeException("Expected a lambda expression");
                 // errorManager.logError(new Error(Error.ErrorType.INTERPRETER_ERROR, "Expected a lambda expression", false));

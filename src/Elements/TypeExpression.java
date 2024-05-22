@@ -20,12 +20,16 @@ public class TypeExpression extends Type {
 
     @Override
     public TriValue subtypeOf(Type superType) {
-
+        // TODO: use static value
         return TriValue.UNKNOWN;
     }
 
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
         return false;
+    }
+
+    public Expression getExpression() {
+        return definition;
     }
 }

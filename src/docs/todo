@@ -12,6 +12,8 @@ Things to do:
     - [ ] IO
         - [ ] Make the InputBuffer actually buffer from a file instead of a String
     - [ ] Interpreter
+        - [ ] Validation
+            - [ ] Make it so that static values take into account function arguments (like {Int a -> a}(2) knows that a is always 2)
         - [ ] Literals
             - [ ] Allow String literals to be used in expressions
             - [ ] Allow Number/Float literals to be used in expressions
@@ -23,9 +25,9 @@ Things to do:
                 - [x] Apply Expression::matchesType to everywhere it can be used
             - [ ] Make the type function/statement work
                 - [ ] Make a regularity system
-                    - [ ] Add necessary lexer changes
-                    - [ ] Change lambda parser definition to allow "regular" prefix
-                    - [ ] Add regularity enforcement during validation
+                    - [x] Add necessary lexer changes
+                    - [x] Change lambda parser definition to allow "regular" prefix
+                    - [x] Add regularity enforcement during validation
                     - [ ] Add necessary errors
                 - [ ] Write function definition for "type"
                 - [ ] Write behavior for static types
@@ -59,6 +61,7 @@ Things to do:
         - [x] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value
         - [ ] Make the parser read token-by-token from the lexer, rather than having it require all the lexemes at once
     - [ ] Miscellaneous
+        - [ ] Update lambdas to new syntax
         - [ ] Change ErrorManager.Error to ErrorManager.InterWestError or something like that to avoid conflict with java.lang.Error
         - [ ] Change name of Token to TokenType and Symbol to Token, if that's not confusing
         - [ ] Decide on a file extension for InterWest (.iw? .west?)

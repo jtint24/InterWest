@@ -6,6 +6,7 @@ import Lexer.TokenLibrary;
 import Parser.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ExpressionBuilder {
@@ -172,8 +173,9 @@ public class ExpressionBuilder {
 
     public Expression buildLambdaExpression(NonterminalParseTreeNode ptNode) {
 
-        // [regular?] [{] [parameterList?] [->] [type] [expression] [}]
+        // [regular?] [{] [parameterList?] [->] [expression...] [}]
 
+        // System.out.println(Arrays.toString(ptNode.getChildren().stream().map(a -> a.getSymbols()).toArray()));
         List<ParseTreeNode> parameterList;
         int subExpressionsStartIdx;
         int lBraceIdx = 0;
@@ -186,17 +188,33 @@ public class ExpressionBuilder {
 
         if (ptNode.getChildren().get(1+lBraceIdx) instanceof NonterminalParseTreeNode) {
             parameterList = ((NonterminalParseTreeNode) ptNode.getChildren().get(1+lBraceIdx)).getChildren();
-            subExpressionsStartIdx = 4+lBraceIdx;
+            subExpressionsStartIdx = 3+lBraceIdx;
         } else {
             parameterList = new ArrayList<>();
-            subExpressionsStartIdx = 3+lBraceIdx;
+            subExpressionsStartIdx = 2+lBraceIdx;
         }
 
-        Expression resultTypeExpression = buildNonterminalExpression( (NonterminalParseTreeNode) ptNode.getChildren().get(subExpressionsStartIdx-1));
-
         ArrayList<Expression> subExpressions = new ArrayList<>();
-        for (int i = subExpressionsStartIdx; i<ptNode.getChildren().size()-1; i++) {
-            subExpressions.add(buildNonterminalExpression( (NonterminalParseTreeNode) ptNode.getChildren().get(i)));
+        Type returnType;
+
+        if (ptNode.getChildren().size()-subExpressionsStartIdx == 2) {
+            // We have a single-expression lambda
+            subExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(ptNode.getChildren().size() - 2)));
+            returnType = subExpressions.get(0).getType(
+                    new ValidationContext() // NOTE: This empty validation context is probably fine (it probably only impacts the type in the case of a impure function) but WILL need to be changed later! Maybe set it to null then have some code in FunctionExpression::validate?
+            );
+        } else {
+
+            Expression resultTypeExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(subExpressionsStartIdx - 1));
+            returnType = new TypeExpression(resultTypeExpression);
+
+            for (int i = subExpressionsStartIdx; i < ptNode.getChildren().size() - 1; i++) {
+                subExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i)));
+            }
+        }
+
+        if (subExpressions.size() == 1 && !(subExpressions.get(0) instanceof ReturnExpression)) {
+            subExpressions.set(0, new ReturnExpression(subExpressions.get(0), subExpressions.get(0).underlyingParseTree));
         }
 
         ArrayList<String> paramNames = new ArrayList<>();
@@ -213,7 +231,6 @@ public class ExpressionBuilder {
         // System.out.println(Arrays.toString(paramNames.toArray()));
         // System.out.println(Arrays.toString(paramTypes.toArray()));
 
-        Type returnType = new TypeExpression(resultTypeExpression);
 
         FunctionType type = new FunctionType(returnType, paramTypes.toArray(new Type[0]));
 
