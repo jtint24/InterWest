@@ -8,15 +8,16 @@ import Interpreter.*;
 import Utils.Result;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class DFAConverter {
     // A DFA that returns true, always
     static DFA trueDFA = new DFA(new DFANode("accept", ValueLibrary.trueValue));
 
-    public static Result<DFA, Error> dfaFrom(Expression ex) {
+    public static Result<DFA, Function<Expression, Error>> dfaFrom(Expression ex) {
 
         System.out.println("Getting DFA from "+ex);
-        System.out.println(ex.underlyingParseTree);
+        System.out.println("underlying parse tree: "+ex.underlyingParseTree);
 
         // ex.initializeStaticValues(new StaticReductionContext());
 
@@ -62,7 +63,7 @@ public class DFAConverter {
             } else {
                 // System.out.println("ERROR! DFA Conversion not possible");
                 // TODO: Return some kind of error that it DFA conversion is not possible, with details
-                return Result.error(ErrorLibrary.getFailedRegularityError(new ArrayList<>()));
+                return Result.error((regularityDeclaration) -> ErrorLibrary.getFailedRegularityError(new ArrayList<>()));
             }
         }
 
@@ -131,7 +132,7 @@ public class DFAConverter {
             for (Expression ex : ((ExpressionContainer) root).getContainedExpressions()) {
                 ReturnClauseConditionResult outResult;
                 if (ex instanceof ConditionalExpression) {
-                    Result<DFA, Error> ifConditionResult = dfaFrom(((ConditionalExpression) ex).getCondition());
+                    Result<DFA, Function<Expression, Error>> ifConditionResult = dfaFrom(((ConditionalExpression) ex).getCondition());
                     if (!ifConditionResult.isOK()) {
                         ArrayList<Expression> unconvertableExpression = new ArrayList<>();
                         unconvertableExpression.add(ex);

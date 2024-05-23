@@ -11,16 +11,18 @@ public class TypeExpression extends Type {
     // An expression that resolves to a type
 
     Expression definition;
-    Result<Value, String> staticValue;
 
     public TypeExpression(Expression definition) {
         this.definition = definition;
-        this.staticValue = definition.reduceToValue();
     }
 
     @Override
     public TriValue subtypeOf(Type superType) {
         // TODO: use static value
+        Result<Type, String> staticValue = getStaticValue();
+        if (staticValue.isOK()) {
+            return staticValue.getOkValue().subtypeOf(superType);
+        }
         return TriValue.UNKNOWN;
     }
 
@@ -31,5 +33,20 @@ public class TypeExpression extends Type {
 
     public Expression getExpression() {
         return definition;
+    }
+
+    public Result<Type, String> getStaticValue() {
+        Result<Value, String> staticValue = getExpression().staticValue;
+        if (staticValue.isOK()) {
+            assert staticValue.getOkValue() instanceof Type;
+            return Result.ok((Type) staticValue.getOkValue());
+        } else {
+            return Result.error(staticValue.getErrValue());
+        }
+    }
+
+    @Override
+    public String toString() {
+        return getExpression().toString();
     }
 }

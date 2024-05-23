@@ -94,16 +94,24 @@ public class ExpressionFunction extends Function {
         ValidationContext context = new ValidationContext();
 
         for (Type paramType : type.parameterTypes) {
-            if (paramType instanceof TypeExpression && (((TypeExpression) paramType).staticValue == null || !((TypeExpression) paramType).staticValue.isOK())) {
+            if ((paramType instanceof TypeExpression) && (((TypeExpression) paramType).getExpression() == null || !((TypeExpression) paramType).getStaticValue().isOK())) {
                 context.addError(getUnresolvableTypeExpression((TypeExpression) paramType));
             }
         }
 
+        if (
+                (type.getResultType() instanceof TypeExpression)
+                        && (((TypeExpression) type.getResultType()).getStaticValue() == null
+                        || !((TypeExpression) type.getResultType()).getStaticValue().isOK())
+        ) {
+            context.addError(getUnresolvableTypeExpression((TypeExpression) type.getResultType()));
+        }
+
         if (isRegular) {
             System.out.println(Arrays.toString(((ReturnableExpressionSeries) wrappedExpression).getContainedExpressions().toArray()));
-            Result<DFA, Error> dfaResult = DFAConverter.dfaFrom(wrappedExpression);
+            Result<DFA, java.util.function.Function<Expression, Error>> dfaResult = DFAConverter.dfaFrom(wrappedExpression);
             if (!dfaResult.isOK()) {
-                context.addError(dfaResult.getErrValue());
+                context.addError(dfaResult.getErrValue().apply(wrappedExpression));
             } else {
                 equivalentDFA = dfaResult.getOkValue();
             }
@@ -118,6 +126,18 @@ public class ExpressionFunction extends Function {
     }
 
     public StaticReductionContext initializeStaticValues() {
+
+
+        for (Type paramType : type.parameterTypes) {
+            if (paramType instanceof TypeExpression) {
+                ((TypeExpression) paramType).getExpression().initializeStaticValues(new StaticReductionContext());
+            }
+        }
+
+        if (type.getResultType() instanceof TypeExpression) {
+            ((TypeExpression) type.getResultType()).getExpression().initializeStaticValues(new StaticReductionContext());
+        }
+
         return wrappedExpression.initializeStaticValues(new StaticReductionContext());
     }
 

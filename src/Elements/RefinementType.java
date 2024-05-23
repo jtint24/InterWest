@@ -20,6 +20,14 @@ public class RefinementType extends Type {
     public TriValue subtypeOf(Type superType) {
         // System.out.println("Checking if "+this+" is a subtype of "+superType);
 
+        if (superType instanceof TypeExpression) {
+            if (((TypeExpression) superType).getStaticValue().isOK()) {
+                return subtypeOf(((TypeExpression) superType).getStaticValue().getOkValue());
+            } else {
+                return TriValue.UNKNOWN;
+            }
+        }
+
         if (superType instanceof UniverseType || this == superType) {
             return TriValue.TRUE;
         }

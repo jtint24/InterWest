@@ -12,7 +12,7 @@ import Utils.TriValue;
 import java.util.ArrayList;
 
 public abstract class Expression {
-    Result<Value, String> staticValue;
+    public Result<Value, String> staticValue;
     public ParseTreeNode underlyingParseTree;
     public abstract ExpressionResult evaluate(State situatedState);
     public abstract ValidationContext validate(ValidationContext context);
@@ -38,7 +38,7 @@ public abstract class Expression {
 
     public TriValue matchesType(Type type, ValidationContext context) {
 
-        TriValue subtypeStatus = type.subtypeOf(getType(context));
+        TriValue subtypeStatus = getType(context).subtypeOf(type);
 
         if (subtypeStatus == TriValue.UNKNOWN && this.staticValue != null && this.staticValue.isOK()) {
             Value inputValue = this.staticValue.getOkValue();

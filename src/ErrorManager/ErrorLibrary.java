@@ -77,6 +77,7 @@ public class ErrorLibrary {
 
         String bodyMessage = annotator.getAnnotatedString()
                 + "\n\nI was expecting an expression of type `"+expectedType+"` in this argument, but I got type `"+actualType+"`.\n";
+
         return new Error(
                 Error.ErrorType.INTERPRETER_ERROR,
                 "type mismatch",
@@ -290,25 +291,27 @@ public class ErrorLibrary {
 
     public static Error getFailedRegularityError(ArrayList<Expression> failedExpressions) {
 
-        StringBuilder bodyMessage = new StringBuilder();
-
-        for (Expression failedExpression : failedExpressions) {
-            Annotator expressionAnnotator = new Annotator(failedExpression.underlyingParseTree.getLine());
-            expressionAnnotator.applyStyle(failedExpression.underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '^'));
-            bodyMessage.append(expressionAnnotator.getAnnotatedString()).append("\n");
-        }
-
-        bodyMessage.append("I can't convert the following expressions to regular functions. They might formally be regular, but they're too complex for me to convert right now.\n");
-
-
-        return new Error(
-                Error.ErrorType.INTERPRETER_ERROR,
-                "Failed Regularity",
-                bodyMessage.toString(),
-                true,
-                0,
-                "Try simplifying these expressions or removing the regular declaration"
-        );
+        throw new RuntimeException();
+//
+//        StringBuilder bodyMessage = new StringBuilder();
+//
+//        for (Expression failedExpression : failedExpressions) {
+//            Annotator expressionAnnotator = new Annotator(failedExpression.underlyingParseTree.getLine());
+//            expressionAnnotator.applyStyle(failedExpression.underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '^'));
+//            bodyMessage.append(expressionAnnotator.getAnnotatedString()).append("\n");
+//        }
+//
+//        bodyMessage.append("I can't convert the following expressions to regular functions. They might formally be regular, but they're too complex for me to convert right now.\n");
+//
+//
+//        return new Error(
+//                Error.ErrorType.INTERPRETER_ERROR,
+//                "Failed Regularity",
+//                bodyMessage.toString(),
+//                true,
+//                0,
+//                "Try simplifying these expressions or removing the regular declaration"
+//        );
     }
 
     public static Error getUnresolvableTypeExpression(TypeExpression expr) {

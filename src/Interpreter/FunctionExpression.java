@@ -50,6 +50,7 @@ public class FunctionExpression extends Expression {
             context = inputExpression.validate(context);
         }
 
+        context = funcExpression.validate(context);
 
         Type funcType = funcExpression.getType(context);
 
@@ -80,7 +81,6 @@ public class FunctionExpression extends Expression {
             }
         }
 
-        context = funcExpression.validate(context);
 
         return context;
     }
