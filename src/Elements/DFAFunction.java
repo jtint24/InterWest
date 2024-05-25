@@ -21,4 +21,8 @@ public abstract class DFAFunction extends Function {
     }
 
     public abstract DFA getDFA(int wrtArg, Value... inputs);
+
+    public FunctionType getType() {
+        return wrappedFunction.getType();
+    }
 }

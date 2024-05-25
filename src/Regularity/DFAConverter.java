@@ -102,9 +102,9 @@ public class DFAConverter {
             FunctionExpression functionEx = (FunctionExpression) ex;
             Result<Value, String> functionResult = functionEx.getFuncExpression().staticValue;
 
-            System.out.println("Converting the expression: "+functionEx.getFuncExpression());
-            System.out.println("Static value: "+functionResult);
-            System.out.println(functionResult.getOkValue() instanceof DFAFunction);
+            // System.out.println("Converting the expression: "+functionEx.getFuncExpression());
+            // System.out.println("Static value: "+functionResult);
+            // System.out.println(functionResult.getOkValue() instanceof DFAFunction);
 
             if (functionResult.isOK() && functionResult.getOkValue() instanceof DFAFunction) {
                 // Ensure that all the arguments are statically known except for one which can be wrt variable
@@ -115,7 +115,7 @@ public class DFAConverter {
                 ArrayList<Expression> argumentExpressions = functionEx.getArgumentExpressions();
                 for (int i = 0; i < argumentExpressions.size(); i++) {
                     Expression argument = argumentExpressions.get(i);
-                    System.out.println(argument);
+                    // System.out.println(argument);
                     if (argument.staticValue.isOK()) {
                         staticArguments.add(argument.staticValue.getOkValue());
                     } else {

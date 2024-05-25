@@ -60,6 +60,7 @@ public class ErrorLibrary {
 
         String bodyMessage = annotator.getAnnotatedString()
                 + "\n\nI was expecting a function here, but instead this has type `"+actual+"`.\n";
+
         return new Error(
                 Error.ErrorType.INTERPRETER_ERROR,
                 "callability mismatch",
@@ -364,7 +365,7 @@ public class ErrorLibrary {
 
         bodyMessage.append(annotator.getAnnotatedString());
 
-        bodyMessage.append("\nBut right now I can only convert lambdas with 1 argument to regular expressions. This one has "+argCount+".\n");
+        bodyMessage.append("\nBut right now I can only convert lambdas with 1 argument to regular expressions. This one has ").append(argCount).append(".\n");
 
         return new Error(
                 Error.ErrorType.INTERPRETER_ERROR,

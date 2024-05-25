@@ -3,6 +3,9 @@ package Elements;
 import ErrorManager.ErrorManager;
 import Utils.TriValue;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public class FunctionType extends Type {
     Type[] parameterTypes;
     Type resultType;
@@ -51,5 +54,11 @@ public class FunctionType extends Type {
         }
         Function func = (Function) v;
         return this.subtypeOf(func.getType()).unknownIsFalse();
+    }
+
+    @Override
+    public String toString() {
+        return "Function("+resultType+"; "+Arrays.stream(parameterTypes).map(Type::toString).collect(Collectors.joining(", "))+")";
+
     }
 }

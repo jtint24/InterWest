@@ -203,6 +203,9 @@ public class ExpressionBuilder {
             returnType = subExpressions.get(0).getType(
                     new ValidationContext() // NOTE: This empty validation context is probably fine (it probably only impacts the type in the case of a impure function) but WILL need to be changed later! Maybe set it to null then have some code in FunctionExpression::validate?
             );
+            System.out.println("ReturnType: "+returnType);
+            System.out.println("SubExpression(0): "+subExpressions.get(0));
+
         } else {
 
             Expression resultTypeExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(subExpressionsStartIdx - 1));
