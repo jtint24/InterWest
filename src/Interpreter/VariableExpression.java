@@ -38,6 +38,8 @@ public class VariableExpression extends Expression {
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        staticValue = Result.error("Variable `"+identifier+"` can't be statically reduced");
+
         if (ValueLibrary.builtinValues.containsKey(identifier)) {
             staticValue = Result.ok(ValueLibrary.builtinValues.get(identifier));
         }
@@ -51,6 +53,10 @@ public class VariableExpression extends Expression {
 
     @Override
     public String toString() {
+        return identifier;
+    }
+
+    public String getIdentifier() {
         return identifier;
     }
 }

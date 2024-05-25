@@ -4,6 +4,7 @@ import Elements.Type;
 import Elements.TypeExpression;
 import Interpreter.*;
 import Lexer.Token;
+import Lexer.TokenLibrary;
 import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
 import Parser.TreeKind;
@@ -289,29 +290,41 @@ public class ErrorLibrary {
         );
     }
 
-    public static Error getFailedRegularityError(ArrayList<Expression> failedExpressions) {
+    public static Error getFailedRegularityError(ArrayList<Expression> failedExpressions, ParseTreeNode parseTreeNode) {
 
-        throw new RuntimeException();
-//
-//        StringBuilder bodyMessage = new StringBuilder();
-//
-//        for (Expression failedExpression : failedExpressions) {
-//            Annotator expressionAnnotator = new Annotator(failedExpression.underlyingParseTree.getLine());
-//            expressionAnnotator.applyStyle(failedExpression.underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '^'));
-//            bodyMessage.append(expressionAnnotator.getAnnotatedString()).append("\n");
-//        }
-//
-//        bodyMessage.append("I can't convert the following expressions to regular functions. They might formally be regular, but they're too complex for me to convert right now.\n");
-//
-//
-//        return new Error(
-//                Error.ErrorType.INTERPRETER_ERROR,
-//                "Failed Regularity",
-//                bodyMessage.toString(),
-//                true,
-//                0,
-//                "Try simplifying these expressions or removing the regular declaration"
-//        );
+
+        StringBuilder bodyMessage = new StringBuilder();
+
+        bodyMessage.append("You declared the following lambda as regular:\n\n");
+
+
+        Annotator annotator = new Annotator(parseTreeNode.getLine());
+
+        if (parseTreeNode instanceof NonterminalParseTreeNode) {
+            annotator.applyStyle(
+                    ((NonterminalParseTreeNode) parseTreeNode).getChildren().get(0),
+                    new Annotator.Style(AnsiCodes.RED, '^', null)
+            );
+        }
+
+        bodyMessage.append(annotator.getAnnotatedString());
+
+        bodyMessage.append("\nBut I can't convert the following expressions to regular functions. They might formally be regular, but they're too complex for me to convert right now.\n");
+
+        for (Expression failedExpression : failedExpressions) {
+            Annotator expressionAnnotator = new Annotator(failedExpression.underlyingParseTree.getLine());
+            expressionAnnotator.applyStyle(failedExpression.underlyingParseTree, new Annotator.Style(AnsiCodes.RED, '^'));
+            bodyMessage.append("\n").append(expressionAnnotator.getAnnotatedString()).append("\n");
+        }
+
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "Failed Regularity",
+                bodyMessage.toString(),
+                true,
+                0,
+                "Try simplifying these expressions or removing the regular declaration"
+        );
     }
 
     public static Error getUnresolvableTypeExpression(TypeExpression expr) {
@@ -330,6 +343,36 @@ public class ErrorLibrary {
                 true,
                 0,
                 "Try simplifying this expression"
+        );
+    }
+
+    public static Error getWrongArgCountForRegular(ParseTreeNode regularityDeclaration, int argCount) {
+
+        StringBuilder bodyMessage = new StringBuilder();
+
+        bodyMessage.append("You declared the following lambda as regular:\n\n");
+
+
+        Annotator annotator = new Annotator(regularityDeclaration.getLine());
+
+        if (regularityDeclaration instanceof NonterminalParseTreeNode) {
+            annotator.applyStyle(
+                    ((NonterminalParseTreeNode) regularityDeclaration).getChildren().get(0),
+                    new Annotator.Style(AnsiCodes.RED, '^', null)
+            );
+        }
+
+        bodyMessage.append(annotator.getAnnotatedString());
+
+        bodyMessage.append("\nBut right now I can only convert lambdas with 1 argument to regular expressions. This one has "+argCount+".\n");
+
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "Failed Regularity",
+                bodyMessage.toString(),
+                true,
+                0,
+                "Try simplifying these expressions or removing the regular declaration"
         );
     }
 }

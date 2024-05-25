@@ -3,6 +3,7 @@ package Elements;
 import Interpreter.*;
 import ErrorManager.ErrorManager;
 import ErrorManager.Error;
+import Parser.ParseTreeNode;
 import Regularity.DFA;
 import Regularity.DFAConverter;
 import Utils.Result;
@@ -10,6 +11,7 @@ import Utils.Result;
 import java.util.Arrays;
 
 import static ErrorManager.ErrorLibrary.getUnresolvableTypeExpression;
+import static ErrorManager.ErrorLibrary.getWrongArgCountForRegular;
 
 public class ExpressionFunction extends Function {
     /**
@@ -49,12 +51,14 @@ public class ExpressionFunction extends Function {
     String[] parameterNames;
     boolean isRegular;
     DFA equivalentDFA = null;
+    ParseTreeNode ptNode;
 
-    public ExpressionFunction(FunctionType type, Expression wrappedExpression, String[] parameterNames, boolean isRegular) {
+    public ExpressionFunction(FunctionType type, Expression wrappedExpression, String[] parameterNames, boolean isRegular, ParseTreeNode ptNode) {
         this.type = type;
         this.wrappedExpression = wrappedExpression;
         this.parameterNames = parameterNames;
         this.isRegular = isRegular;
+        this.ptNode = ptNode;
     }
 
     @Override
@@ -108,12 +112,16 @@ public class ExpressionFunction extends Function {
         }
 
         if (isRegular) {
-            System.out.println(Arrays.toString(((ReturnableExpressionSeries) wrappedExpression).getContainedExpressions().toArray()));
-            Result<DFA, java.util.function.Function<Expression, Error>> dfaResult = DFAConverter.dfaFrom(wrappedExpression);
-            if (!dfaResult.isOK()) {
-                context.addError(dfaResult.getErrValue().apply(wrappedExpression));
+            if (parameterNames.length != 1) {
+                context.addError(getWrongArgCountForRegular(ptNode, parameterNames.length));
             } else {
-                equivalentDFA = dfaResult.getOkValue();
+                System.out.println(Arrays.toString(((ReturnableExpressionSeries) wrappedExpression).getContainedExpressions().toArray()));
+                Result<DFA, java.util.function.Function<ParseTreeNode, Error>> dfaResult = DFAConverter.dfaFrom(wrappedExpression, parameterNames[0]);
+                if (!dfaResult.isOK()) {
+                    context.addError(dfaResult.getErrValue().apply(ptNode));
+                } else {
+                    equivalentDFA = dfaResult.getOkValue();
+                }
             }
         }
 

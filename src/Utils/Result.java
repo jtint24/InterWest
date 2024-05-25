@@ -35,4 +35,12 @@ public class Result<T, U> {
             throw new RuntimeException("Accessed error of succeeded result");
         }
     }
+
+    public String toString() {
+        if (isOK()) {
+            return "Result.ok("+getOkValue()+")";
+        } else {
+            return "Result.error("+getErrValue()+")";
+        }
+    }
 }

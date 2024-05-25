@@ -234,7 +234,7 @@ public class ExpressionBuilder {
 
         FunctionType type = new FunctionType(returnType, paramTypes.toArray(new Type[0]));
 
-        Function lambdaFunc = new ExpressionFunction(type, new ReturnableExpressionSeries(returnType, subExpressions),  paramNames.toArray(new String[0]), isRegular);
+        Function lambdaFunc = new ExpressionFunction(type, new ReturnableExpressionSeries(returnType, subExpressions),  paramNames.toArray(new String[0]), isRegular, ptNode);
 
         return new IdentityExpression(lambdaFunc, ptNode);
 

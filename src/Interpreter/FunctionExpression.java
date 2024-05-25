@@ -3,7 +3,6 @@ package Interpreter;
 import Elements.*;
 import Parser.ParseTreeNode;
 import Utils.Result;
-import ErrorManager.Error;
 import Utils.TriValue;
 
 import java.util.ArrayList;
@@ -15,18 +14,18 @@ import static ErrorManager.ErrorLibrary.*;
 public class FunctionExpression extends Expression {
     Expression funcExpression; // Expression to evaluate to get the function
 
-    ArrayList<Expression> inputExpressions;
+    ArrayList<Expression> argumentExpressions;
 
-    public FunctionExpression(Expression funcExpression, ArrayList<Expression> inputExpressions, ParseTreeNode underlyingParseTree) {
+    public FunctionExpression(Expression funcExpression, ArrayList<Expression> argumentExpressions, ParseTreeNode underlyingParseTree) {
         this.funcExpression = funcExpression;
-        this.inputExpressions = inputExpressions;
+        this.argumentExpressions = argumentExpressions;
         this.underlyingParseTree = underlyingParseTree;
     }
 
     @Override
     public ExpressionResult evaluate(State situatedState) {
         ArrayList<Value> results = new ArrayList<>();
-        for (Expression inputExpression : inputExpressions) {
+        for (Expression inputExpression : argumentExpressions) {
             ExpressionResult result = inputExpression.evaluate(situatedState);
             results.add(result.resultingValue);
             situatedState = result.resultingState;
@@ -46,7 +45,7 @@ public class FunctionExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
 
-        for (Expression inputExpression : inputExpressions) {
+        for (Expression inputExpression : argumentExpressions) {
             context = inputExpression.validate(context);
         }
 
@@ -66,17 +65,17 @@ public class FunctionExpression extends Expression {
         Type[] parameterTypes = ((FunctionType) funcType).getParameterTypes();
         for (int i = 0; i<parameterTypes.length; i++) {
             Type parameterType = parameterTypes[i];
-            Type argumentType = inputExpressions.get(i).getType(context);
+            Type argumentType = argumentExpressions.get(i).getType(context);
 
-            TriValue subtypeStatus = inputExpressions.get(i).matchesType(parameterType, context);
+            TriValue subtypeStatus = argumentExpressions.get(i).matchesType(parameterType, context);
 
             if (subtypeStatus == TriValue.FALSE) {
                 context.addError(
-                        getFunctionArgumentTypeMismatch(this, inputExpressions.get(i), parameterType, argumentType)
+                        getFunctionArgumentTypeMismatch(this, argumentExpressions.get(i), parameterType, argumentType)
                 );
             } else if (subtypeStatus == TriValue.UNKNOWN) {
                 context.addError(
-                        getFunctionArgumentTypeWarning(this, inputExpressions.get(i), parameterType, argumentType)
+                        getFunctionArgumentTypeWarning(this, argumentExpressions.get(i), parameterType, argumentType)
                 );
             }
         }
@@ -99,19 +98,24 @@ public class FunctionExpression extends Expression {
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.error("Function expressions cannot be statically reduced");
-        for (Expression inputExpression : inputExpressions) {
-            context = inputExpression.initializeStaticValues(context);
+        for (Expression argExpression : argumentExpressions) {
+            context = argExpression.initializeStaticValues(context);
         }
+        context = funcExpression.initializeStaticValues(context);
         return context;
     }
 
     @Override
     public String toString() {
-        List<String> inputExprStrings = inputExpressions.stream().map(Expression::toString).collect(Collectors.toList());
+        List<String> inputExprStrings = argumentExpressions.stream().map(Expression::toString).collect(Collectors.toList());
         return funcExpression+"("+String.join(", ", inputExprStrings)+")";
     }
 
     public Expression getFuncExpression() {
         return funcExpression;
+    }
+
+    public ArrayList<Expression> getArgumentExpressions() {
+        return argumentExpressions;
     }
 }

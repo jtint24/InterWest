@@ -16,7 +16,7 @@ public class Operations {
         };
         return new DFAFunction(coreFunc) {
             @Override
-            public DFA getDFA(Value... inputs) {
+            public DFA getDFA(int wrtArg, Value... inputs) {
                 return DFAConditions.dfaEqualTo(inputs[0]);
             }
         };

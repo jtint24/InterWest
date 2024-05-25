@@ -41,11 +41,11 @@ public class RefinementType extends Type {
         if (condition instanceof DFAFunction && superType instanceof RefinementType && ((RefinementType) superType).condition instanceof DFAFunction) {
 
             // IF I can turn superType into a DFA and I can turn MYSELF into a DFA, then do that
-            DFA myDFA = ((DFAFunction) condition).getDFA();
+            DFA myDFA = ((DFAFunction) condition).getDFA(0);
             // System.out.println("myDFA:");
             // System.out.println(myDFA);
 
-            DFA superDFA = ((DFAFunction) ((RefinementType) superType).condition).getDFA();
+            DFA superDFA = ((DFAFunction) ((RefinementType) superType).condition).getDFA(0);
             // System.out.println("SuperDFA:");
             // System.out.println(superDFA);
 

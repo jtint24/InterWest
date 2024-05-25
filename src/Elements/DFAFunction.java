@@ -20,5 +20,5 @@ public abstract class DFAFunction extends Function {
         return wrappedFunction.apply(errorManager, values);
     }
 
-    public abstract DFA getDFA(Value... inputs);
+    public abstract DFA getDFA(int wrtArg, Value... inputs);
 }

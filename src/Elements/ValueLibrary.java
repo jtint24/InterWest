@@ -40,10 +40,17 @@ public class ValueLibrary {
         }
     };
 
-    public static Function unequalsFunc = new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
+    public static Function unequalsFunc =new DFAFunction(
+            new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
+                @Override
+                public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+                    return !values[0].equals(values[1]) ? trueValue : falseValue;
+                }
+            }
+    ) {
         @Override
-        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
-            return !values[0].equals(values[1]) ? trueValue : falseValue;
+        public DFA getDFA(int wrtArg, Value... inputs) {
+            return DFAConditions.dfaInequalTo(inputs[0]);
         }
     };
 
@@ -85,7 +92,7 @@ public class ValueLibrary {
             }
         }) {
             @Override
-            public DFA getDFA(Value... inputs) {
+            public DFA getDFA(int wrtArg, Value... inputs) {
                 return DFA.alwaysTrue();
             }
         };
@@ -103,7 +110,7 @@ public class ValueLibrary {
                 }
         ) {
             @Override
-            public DFA getDFA(Value... inputs) {
+            public DFA getDFA(int wrtArg, Value... inputs) {
                 // return DFA.alwaysFalse();
                 return DFAConditions.dfaInequalTo(new ValueWrapper<>(0, intType));
             }
@@ -118,7 +125,7 @@ public class ValueLibrary {
             }
         }) {
             @Override
-            public DFA getDFA(Value... inputs) {
+            public DFA getDFA(int wrtArg, Value... inputs) {
                 return DFAConditions.dfaEqualTo(unitValue);
             }
         };

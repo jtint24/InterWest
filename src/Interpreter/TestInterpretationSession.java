@@ -60,11 +60,12 @@ public class TestInterpretationSession extends InterpretationSession {
             if (programExpr instanceof IdentityExpression && ((IdentityExpression) programExpr).wrappedValue instanceof ExpressionFunction) {
 
                 Expression innerExpression = ((ExpressionFunction) ((IdentityExpression) programExpr).wrappedValue).getWrappedExpression();
-                Result<DFA, Function<Expression, Error>> convertedDFAResult = DFAConverter.dfaFrom(innerExpression);
+                // TODO: Make this use the already-in-place ExpressionFunction regularity conversion process
+                Result<DFA, Function<ParseTreeNode, Error>> convertedDFAResult = DFAConverter.dfaFrom(innerExpression, "x");
                 if (convertedDFAResult.isOK()) {
                     outputBuffer.println(convertedDFAResult.getOkValue());
                 } else {
-                    outputBuffer.println(convertedDFAResult.getErrValue().apply(((ExpressionFunction)((IdentityExpression) programExpr).wrappedValue).getWrappedExpression()));
+                    outputBuffer.println(convertedDFAResult.getErrValue().apply(((ExpressionFunction)((IdentityExpression) programExpr).wrappedValue).getWrappedExpression().underlyingParseTree));
                 }
             } else {
                 throw new RuntimeException("Expected a lambda expression");
