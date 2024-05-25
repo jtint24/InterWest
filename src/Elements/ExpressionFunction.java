@@ -46,7 +46,6 @@ public class ExpressionFunction extends Function {
      *
      * */
 
-    FunctionType type;
     Expression wrappedExpression;
     String[] parameterNames;
     boolean isRegular;
@@ -155,5 +154,9 @@ public class ExpressionFunction extends Function {
 
     public String toString() {
         return "{->\n"+wrappedExpression.toString()+"}";
+    }
+
+    public boolean getIsRegular() {
+        return isRegular;
     }
 }

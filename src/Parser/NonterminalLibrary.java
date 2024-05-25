@@ -143,12 +143,23 @@ public class NonterminalLibrary {
                 lambda.apply(parser);
             } else if (parser.at(TokenLibrary.let)) {
                 letStatement.apply(parser);
+            } else if (parser.at(TokenLibrary.typeToken)) {
+                typeStatement.apply(parser);
             } else if (parser.at(TokenLibrary.ifToken)) {
                 ifStatement.apply(parser);
             } else if (parser.at(TokenLibrary.returnToken)) {
                 returnStatement.apply(parser);
             }
             parser.eat(TokenLibrary.whitespace);
+        }
+    };
+
+    public static Nonterminal typeStatement = new Nonterminal("type declaration") {
+        @Override
+        public void parse(Parser parser) {
+            parser.expect(TokenLibrary.typeToken);
+            parser.eat(TokenLibrary.whitespace);
+            fullExpression.apply(parser);
         }
     };
 

@@ -16,5 +16,9 @@ public class StaticReductionContext {
         errors.addAll(newErrors);
     }
 
+    public void addError(Error newError) {
+        errors.add(newError);
+    }
+
 
 }

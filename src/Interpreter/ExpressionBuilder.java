@@ -57,6 +57,7 @@ public class ExpressionBuilder {
             case "TreeKind(if statement)" -> buildIfExpression(ptNode);
             case "TreeKind(expression call)" -> buildExpressionCall(ptNode);
             case "TreeKind(binary expression)" -> buildBinaryExpression(ptNode);
+            case "TreeKind(type declaration)" -> buildTypeDeclaration(ptNode);
             default -> {
                 throw new RuntimeException("Unknown nonterminal type `"+ptNode.getKind()+"`");
             }
@@ -79,6 +80,12 @@ public class ExpressionBuilder {
                 throw new RuntimeException("Unknown terminal type `"+tokenName+"`");
             }
         };
+    }
+
+    private Expression buildTypeDeclaration(NonterminalParseTreeNode ptNode) {
+        Expression internalExpression = buildExpression(ptNode.getChildren().get(1));
+
+        return new RefinementTypeExpression(internalExpression, ptNode);
     }
 
     private Expression buildExpressionCall(NonterminalParseTreeNode ptNode) {

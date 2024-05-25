@@ -376,4 +376,90 @@ public class ErrorLibrary {
                 "Try simplifying these expressions or removing the regular declaration"
         );
     }
+
+    public static Error getNotStaticArgTypeDeclaration(ParseTreeNode innerExpression) {
+        StringBuilder bodyMessage = new StringBuilder();
+
+        Annotator annotator = new Annotator(innerExpression.getLine());
+
+        annotator.applyStyle(innerExpression,
+                new Annotator.Style(AnsiCodes.RED, '^', "This argument is not static.")
+        );
+
+        bodyMessage.append(annotator.getAnnotatedString());
+
+        bodyMessage.append("\n`type` has to take a statically-known argument. But I can't reduce this argument to a static value.\n");
+
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "Failed Static Argument",
+                bodyMessage.toString(),
+                true,
+                0
+        );
+    }
+
+    public static Error getNotSupportedFunctionTypeDeclaration(ParseTreeNode innerExpression) {
+        StringBuilder bodyMessage = new StringBuilder();
+
+        Annotator annotator = new Annotator(innerExpression.getLine());
+
+        annotator.applyStyle(innerExpression,
+                new Annotator.Style(AnsiCodes.RED, '^')
+        );
+
+        bodyMessage.append(annotator.getAnnotatedString());
+
+        bodyMessage.append("\nI only support lambdas for arguments in `type` right now.\n");
+
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "Unsupported Function Type",
+                bodyMessage.toString(),
+                true,
+                0
+        );
+    }
+
+    public static Error getNotRegularTypeDeclaration(ParseTreeNode innerExpression) {
+        StringBuilder bodyMessage = new StringBuilder();
+
+        Annotator annotator = new Annotator(innerExpression.getLine());
+
+        annotator.applyStyle(innerExpression,
+                new Annotator.Style(AnsiCodes.RED, '^')
+        );
+
+        bodyMessage.append(annotator.getAnnotatedString());
+
+        bodyMessage.append("\n`type` only takes regular arguments, but this argument hasn't been notated as regular.\n");
+
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "Regularity Mismatch",
+                bodyMessage.toString(),
+                true,
+                0
+        );
+    }
+
+
+    public static Error getTypeStatementTypeMismatch(Expression expr, Type actual) {
+        Annotator annotator = new Annotator(expr.underlyingParseTree.getLine());
+        annotator.applyStyle(
+                expr.underlyingParseTree,
+                new Annotator.Style(AnsiCodes.RED, '^', "This has type `"+actual+"`")
+        );
+
+        String bodyMessage = annotator.getAnnotatedString()
+                + "\n\nThe condition of this if statement has type `"+actual+"`, which doesn't match what I expected, type `Function(Bool, Universe)`.\n";
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "type mismatch",
+                bodyMessage,
+                true,
+                0);
+    }
+
+
 }

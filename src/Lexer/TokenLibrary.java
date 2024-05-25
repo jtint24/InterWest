@@ -33,7 +33,8 @@ public class TokenLibrary {
                 backslash,
                 doubleEquals,
                 notEquals,
-                regularToken
+                regularToken,
+                typeToken
         };
     }
 
@@ -67,6 +68,8 @@ public class TokenLibrary {
     public static final Token dot = fromString(".");
     public static final Token ifToken = fromString("if");
     public static final Token regularToken = fromString("regular");
+    public static final Token typeToken = fromString("type");
+
     public static final Token doubleEquals = fromString("==").toBinder(new BindingPowers(PrecedenceLevel.COMPARISON, Associativity.LEFT));
     public static final Token notEquals = fromString("!=").toBinder(new BindingPowers(PrecedenceLevel.COMPARISON, Associativity.LEFT));
 
@@ -194,6 +197,7 @@ public class TokenLibrary {
                 add("else");
                 add("return");
                 add("regular");
+                add("type");
         }};
 
         return keywords.contains(lexeme);
