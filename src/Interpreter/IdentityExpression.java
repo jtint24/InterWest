@@ -24,7 +24,7 @@ public class IdentityExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
         if (wrappedValue instanceof ExpressionFunction) {
-            ValidationContext innerContext = ((ExpressionFunction) wrappedValue).validate();
+            ValidationContext innerContext = ((ExpressionFunction) wrappedValue).validate(context);
             context.addErrors(innerContext.errors);
         }
         return context;
@@ -34,12 +34,16 @@ public class IdentityExpression extends Expression {
     public Type getType(ValidationContext context) {
         return wrappedValue.getType();
     }
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return wrappedValue.getType();
+    }
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.ok(wrappedValue);
         if (wrappedValue instanceof ExpressionFunction) {
-            ((ExpressionFunction) wrappedValue).initializeStaticValues();
+            ((ExpressionFunction) wrappedValue).initializeStaticValues(context);
         }
         return context;
     }

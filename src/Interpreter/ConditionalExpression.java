@@ -71,6 +71,10 @@ public class ConditionalExpression extends Expression {
     public Type getType(ValidationContext context) {
         return ValueLibrary.boolType;
     }
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return ValueLibrary.boolType;
+    }
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {

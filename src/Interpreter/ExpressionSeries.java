@@ -47,6 +47,10 @@ public class ExpressionSeries extends ExpressionContainer {
     public Type getType(ValidationContext context) {
         return ValueLibrary.boolType;
     }
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return ValueLibrary.boolType;
+    }
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {

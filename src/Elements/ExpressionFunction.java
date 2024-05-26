@@ -9,6 +9,7 @@ import Regularity.DFAConverter;
 import Utils.Result;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static ErrorManager.ErrorLibrary.getUnresolvableTypeExpression;
 import static ErrorManager.ErrorLibrary.getWrongArgCountForRegular;
@@ -93,9 +94,8 @@ public class ExpressionFunction extends Function {
         }
     }
 
-    public ValidationContext validate() {
-        ValidationContext context = new ValidationContext();
-
+    public ValidationContext validate(ValidationContext context) {
+        context.addScope();
         for (Type paramType : type.parameterTypes) {
             if ((paramType instanceof TypeExpression) && (((TypeExpression) paramType).getExpression() == null || !((TypeExpression) paramType).getStaticValue().isOK())) {
                 context.addError(getUnresolvableTypeExpression((TypeExpression) paramType));
@@ -129,23 +129,39 @@ public class ExpressionFunction extends Function {
             Type parameterType = type.parameterTypes[i];
             context.addVariableType(parameterName, parameterType);
         }
-        return wrappedExpression.validate(context);
+
+        ValidationContext endContext = wrappedExpression.validate(context);
+
+        if (type.resultType == null) {
+            type = (FunctionType) wrappedExpression.getType(context);
+        }
+        endContext.killScope();
+
+        return endContext;
     }
 
-    public StaticReductionContext initializeStaticValues() {
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
 
 
         for (Type paramType : type.parameterTypes) {
             if (paramType instanceof TypeExpression) {
-                ((TypeExpression) paramType).getExpression().initializeStaticValues(new StaticReductionContext());
+                ((TypeExpression) paramType).getExpression().initializeStaticValues(context);
             }
+        }
+        for (int i = 0; i<type.parameterTypes.length; i++) {
+            context.constantTypes.put(parameterNames[i], type.parameterTypes[i]);
+        }
+
+        context = wrappedExpression.initializeStaticValues(context);
+        if (type.getResultType() == null) {
+            type.resultType = wrappedExpression.getType(context);
         }
 
         if (type.getResultType() instanceof TypeExpression) {
-            ((TypeExpression) type.getResultType()).getExpression().initializeStaticValues(new StaticReductionContext());
+            ((TypeExpression) type.getResultType()).getExpression().initializeStaticValues(context);
         }
 
-        return wrappedExpression.initializeStaticValues(new StaticReductionContext());
+        return context;
     }
 
     public Expression getWrappedExpression() {

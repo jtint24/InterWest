@@ -1,5 +1,6 @@
 package Interpreter;
 
+import Elements.Type;
 import Elements.Value;
 import Utils.Result;
 import ErrorManager.Error;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 
 public class StaticReductionContext {
     HashMap<String, Value> declaredConstants = new HashMap<>();
+    public HashMap<String, Type> constantTypes = new HashMap<>();
     ArrayList<Error> errors = new ArrayList<>();
     Result<Value, String> returnedValue = null;
 

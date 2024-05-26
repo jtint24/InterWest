@@ -41,6 +41,13 @@ public class ReturnableExpressionSeries extends ExpressionContainer {
     public ValidationContext validate(ValidationContext context) {
         // TODO: Ensure that there's no fallthrough; every branch has to end with a return
 
+        if (returnType == null) {
+            if (subExpressions.get(0) instanceof ReturnExpression) {
+                returnType = ((ReturnExpression) subExpressions.get(0)).exprToReturn.getType(context);
+            } else {
+                throw new RuntimeException("This should be a single-return expression lambda but it doesn't have that structure. I can't infer the type!");
+            }
+        }
         context.addScope();
         context.setReturnType(returnType);
         for (Expression expr : subExpressions) {
@@ -54,10 +61,20 @@ public class ReturnableExpressionSeries extends ExpressionContainer {
     public Type getType(ValidationContext context) {
         return returnType;
     }
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return returnType;
+    }
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         StaticReductionContext oldContext = context;
+
+        if (returnType == null) {
+            assert subExpressions.size()==1;
+            assert subExpressions.get(0) instanceof ReturnExpression;
+            returnType = ((ReturnExpression) subExpressions.get(0)).getExprToReturn().getType(context);
+        }
 
         for (Expression subExpression : subExpressions) {
             context = subExpression.initializeStaticValues(context);

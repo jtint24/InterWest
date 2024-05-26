@@ -55,16 +55,21 @@ public class LetExpression extends Expression {
     }
 
     @Override
+    public Type getType(StaticReductionContext context) {
+        return ValueLibrary.boolType;
+    }
+
+    @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.ok(ValueLibrary.trueValue);
 
         if (exprToSet != null) {
             StaticReductionContext discardedContext = exprToSet.initializeStaticValues(context);
 
-
             // NOTE: We could build some mechanism to chain other errors to this one
             // Like, if this constant is used later, and the static value of it isn't available, then we could link it to
             // the error in the let statement instead of the error in the reference
+            context.constantTypes.put(identifierName, exprToSet.getType(context));
 
             if (exprToSet.staticValue.isOK()) {
                 context.declaredConstants.put(identifierName, exprToSet.staticValue.getOkValue());

@@ -96,6 +96,17 @@ public class FunctionExpression extends Expression {
     }
 
     @Override
+    public Type getType(StaticReductionContext context) {
+        Type funcType = funcExpression.getType(context);
+
+        if (funcType instanceof FunctionType) {
+            return ((FunctionType) funcType).getResultType();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.error("Function expressions cannot be statically reduced");
         for (Expression argExpression : argumentExpressions) {

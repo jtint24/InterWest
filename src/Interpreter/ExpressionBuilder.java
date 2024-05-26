@@ -188,7 +188,7 @@ public class ExpressionBuilder {
         int lBraceIdx = 0;
         boolean isRegular = false;
 
-        if (ptNode.getChildren().get(0) instanceof TerminalParseTreeNode) {
+        if (ptNode.getChildren().get(0) instanceof TerminalParseTreeNode && ((TerminalParseTreeNode) ptNode.getChildren().get(0)).getWrappedSymbol().getLexeme().equals("regular")) {
             lBraceIdx = 1;
             isRegular = true;
         }
@@ -207,11 +207,9 @@ public class ExpressionBuilder {
         if (ptNode.getChildren().size()-subExpressionsStartIdx == 2) {
             // We have a single-expression lambda
             subExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(ptNode.getChildren().size() - 2)));
-            returnType = subExpressions.get(0).getType(
-                    new ValidationContext() // NOTE: This empty validation context is probably fine (it probably only impacts the type in the case of a impure function) but WILL need to be changed later! Maybe set it to null then have some code in FunctionExpression::validate?
-            );
-            System.out.println("ReturnType: "+returnType);
-            System.out.println("SubExpression(0): "+subExpressions.get(0));
+            returnType = null;
+            // System.out.println("ReturnType: "+returnType);
+            // System.out.println("SubExpression(0): "+subExpressions.get(0));
 
         } else {
 

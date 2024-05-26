@@ -34,7 +34,10 @@ public class VariableExpression extends Expression {
     public Type getType(ValidationContext context) {
         return context.getVariableType(identifier);
     }
-
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return context.constantTypes.get(identifier);
+    }
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {

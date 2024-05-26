@@ -30,6 +30,10 @@ public class RefinementTypeExpression extends Expression {
     public Type getType(ValidationContext context) {
         return ValueLibrary.typeType;
     }
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return ValueLibrary.typeType;
+    }
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {

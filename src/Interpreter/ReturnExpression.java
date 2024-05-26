@@ -57,6 +57,11 @@ public class ReturnExpression extends Expression {
         return ValueLibrary.boolType;
     }
 
+    @Override
+    public Type getType(StaticReductionContext context) {
+        return ValueLibrary.boolType;
+    }
+
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {

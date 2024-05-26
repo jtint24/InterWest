@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         //args = new String[]{"run", "-f", "/Users/joshuatint/Desktop/code/test-lang/src/interwest1.west"};
         // args = new String[]{"help"};
-        args = new String[]{"validate", "interwest1.west"};
+        args = new String[]{"run", "interwest1.west"};
         if (args.length == 0) {
             argParseError("Please select at least one of the following commands: help, run, validate, test");
         }

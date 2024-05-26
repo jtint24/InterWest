@@ -10,6 +10,7 @@ import Utils.Result;
 import Utils.TriValue;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class Expression {
     public Result<Value, String> staticValue;
@@ -24,6 +25,8 @@ public abstract class Expression {
      * expression may not match this type)
      * */
     public abstract Type getType(ValidationContext context);
+    public abstract Type getType(StaticReductionContext context);
+
 
     /**
      * reduceToValue

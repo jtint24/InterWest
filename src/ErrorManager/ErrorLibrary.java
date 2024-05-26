@@ -337,6 +337,7 @@ public class ErrorLibrary {
 
         String bodyMessage = annotator.getAnnotatedString()
                 + "\n\nI have to know type expressions statically, so that I can check values against them. This expression is too complex to understand statically.\n";
+
         return new Error(
                 Error.ErrorType.INTERPRETER_ERROR,
                 "Unresolvable type expression",
