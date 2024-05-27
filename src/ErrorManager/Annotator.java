@@ -137,7 +137,6 @@ public class Annotator {
                     int coreLength = s.strip().length();
                     if (s.contains("0") && underline == '^') {
                         String str = " ".repeat(startingWhitespaceCount) + ("" + underline).repeat(coreLength) + " ".repeat(trailingWhitespaceCount);
-                        System.out.println("!");
                     }
                     assert startingWhitespaceCount + trailingWhitespaceCount + coreLength == s.length();
                     lines.add("-".repeat(startingWhitespaceCount) + ("" + underline).repeat(coreLength) + ".".repeat(trailingWhitespaceCount));

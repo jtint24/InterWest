@@ -103,7 +103,6 @@ public class ValueLibrary {
                     @Override
                     public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
                         Value inputVal = values[0];
-                        // System.out.println("Testing nonzero of "+inputVal);
                         boolean result = !(inputVal instanceof ValueWrapper && ((ValueWrapper<?>) inputVal).wrappedValue.equals(0));
                         return new ValueWrapper<>(result, boolType);
                     }

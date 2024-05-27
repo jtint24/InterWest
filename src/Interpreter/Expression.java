@@ -1,6 +1,8 @@
 package Interpreter;
 
+import Elements.RefinementType;
 import Elements.Type;
+import Elements.TypeExpression;
 import Elements.Value;
 import ErrorManager.Error;
 import ErrorManager.ErrorManager;
@@ -47,6 +49,7 @@ public abstract class Expression {
             Value inputValue = this.staticValue.getOkValue();
             ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
             subtypeStatus = TriValue.fromBool(type.matchesValue(inputValue, testErrorManager));
+
             context.addErrors(testErrorManager.getErrors());
         }
 

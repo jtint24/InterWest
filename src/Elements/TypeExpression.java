@@ -28,6 +28,10 @@ public class TypeExpression extends Type {
 
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
+        Result<Type, String> staticValue = getStaticValue();
+        if (staticValue.isOK()) {
+            return staticValue.getOkValue().matchesValue(v, errorManager);
+        }
         return false;
     }
 

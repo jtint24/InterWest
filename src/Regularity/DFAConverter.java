@@ -18,8 +18,8 @@ public class DFAConverter {
 
     public static Result<DFA, Function<ParseTreeNode, Error>> dfaFrom(Expression ex, String wrt) {
 
-        System.out.println("Getting DFA from "+ex);
-        System.out.println("underlying parse tree: "+ex.underlyingParseTree);
+        // System.out.println("Getting DFA from "+ex);
+        // System.out.println("underlying parse tree: "+ex.underlyingParseTree);
 
         // ex.initializeStaticValues(new StaticReductionContext());
 

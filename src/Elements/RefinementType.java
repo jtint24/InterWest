@@ -1,6 +1,7 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import Interpreter.Expression;
 import Interpreter.ExpressionResult;
 import Interpreter.State;
 import Regularity.DFA;
@@ -18,7 +19,6 @@ public class RefinementType extends Type {
 
     @Override
     public TriValue subtypeOf(Type superType) {
-        // System.out.println("Checking if "+this+" is a subtype of "+superType);
 
         if (superType instanceof TypeExpression) {
             if (((TypeExpression) superType).getStaticValue().isOK()) {
@@ -42,20 +42,14 @@ public class RefinementType extends Type {
 
             // IF I can turn superType into a DFA and I can turn MYSELF into a DFA, then do that
             DFA myDFA = ((DFAFunction) condition).getDFA(0);
-            // System.out.println("myDFA:");
-            // System.out.println(myDFA);
 
             DFA superDFA = ((DFAFunction) ((RefinementType) superType).condition).getDFA(0);
-            // System.out.println("SuperDFA:");
-            // System.out.println(superDFA);
 
             // Then compare superType's DFA to mine and see if it's a superset language
 
             TriValue dfaIsSubset = TriValue.fromBool(
                     myDFA.subsetLanguageOf(superDFA)
             );
-
-            // System.out.println(dfaIsSubset);
 
             return dfaIsSubset;
         } else {
@@ -67,8 +61,16 @@ public class RefinementType extends Type {
 
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
+
         if (superType.matchesValue(v, errorManager)) {
-            Value result = condition.apply(errorManager, v);
+
+            DFA dfa;
+            if (condition instanceof ExpressionFunction) {
+                dfa = ((ExpressionFunction) condition).equivalentDFA;
+            } else {
+                dfa = ((DFAFunction) condition).getDFA(0);
+            }
+            Value result = dfa.getResult(v.toBoolString(), errorManager);
 
             return result.equals(ValueLibrary.trueValue);
         } else {

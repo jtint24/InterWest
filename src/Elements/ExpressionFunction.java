@@ -114,7 +114,7 @@ public class ExpressionFunction extends Function {
             if (parameterNames.length != 1) {
                 context.addError(getWrongArgCountForRegular(ptNode, parameterNames.length));
             } else {
-                System.out.println(Arrays.toString(((ReturnableExpressionSeries) wrappedExpression).getContainedExpressions().toArray()));
+                // System.out.println(Arrays.toString(((ReturnableExpressionSeries) wrappedExpression).getContainedExpressions().toArray()));
                 Result<DFA, java.util.function.Function<ParseTreeNode, Error>> dfaResult = DFAConverter.dfaFrom(wrappedExpression, parameterNames[0]);
                 if (!dfaResult.isOK()) {
                     context.addError(dfaResult.getErrValue().apply(ptNode));
