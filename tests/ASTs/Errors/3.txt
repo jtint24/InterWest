@@ -1,0 +1,18 @@
+interpreter
+let NonZero = type regular {Int i -> i != 0}
+let myFunc = {NonZero nz -> nz}
+let myResult = myFunc(1)
+let myResult2 = myFunc(0)
+
+EXPECTED_RESULT:
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+4 | let myResult2 = myFunc(0)
+  |                        ^
+  |                        |
+  |                        This has type `Int`
+
+
+I was expecting an expression of type `NonZero` in this argument, but I got type `Int`.
+
+

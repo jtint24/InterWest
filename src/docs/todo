@@ -24,13 +24,13 @@ Things to do:
                 - [x] Make a function to check an expression against a type, either by static value or by the expression's type
                 - [x] Apply Expression::matchesType to everywhere it can be used
             - [ ] Make the type function/statement work
-                - [ ] Make a regularity system
+                - [x] Make a regularity system
                     - [x] Add necessary lexer changes
                     - [x] Change lambda parser definition to allow "regular" prefix
                     - [x] Add regularity enforcement during validation
-                    - [ ] Add necessary errors
-                - [ ] Write function definition for "type"
-                - [ ] Write behavior for static types
+                    - [x] Add necessary errors
+                - [x] Write function definition for "type"
+                - [x] Write behavior for static types
                 - [ ] Write behavior for dynamic types
         - [ ] Improve Error Messages
             - [x] Add line numbers to error messages
@@ -60,6 +60,7 @@ Things to do:
         - [x] Change all methods that return/accept subclasses of Collection to return as general a subclass as possible (ie. ArrayList<> -> List<>)
         - [x] Make test interpreter its own thing that inherits from Interpreter, rather than just having it be a boolean value
         - [ ] Make the parser read token-by-token from the lexer, rather than having it require all the lexemes at once
+        - [ ] Make a unified interface for functions that can be converted into DFAs (regular ExpressionFunctions and DFAFunctions)
     - [ ] Miscellaneous
         - [ ] Update lambdas to new syntax
         - [ ] Change ErrorManager.Error to ErrorManager.InterWestError or something like that to avoid conflict with java.lang.Error

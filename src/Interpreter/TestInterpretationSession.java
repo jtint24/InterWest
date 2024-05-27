@@ -92,9 +92,13 @@ public class TestInterpretationSession extends InterpretationSession {
             ParseTreeNode parseTree = llParser.buildTree();
 
             Expression expr = expressionBuilder.buildNonterminalExpression((NonterminalParseTreeNode) parseTree);
+            StaticReductionContext endStaticContext = expr.initializeStaticValues(new StaticReductionContext());
+            errorManager.logErrors(endStaticContext.errors);
+
             ValidationContext startContext = new ValidationContext();
             ValidationContext endContext = expr.validate(startContext);
             errorManager.logErrors(endContext.errors);
+
 
             outputBuffer.println(expr);
         } catch (RuntimeException exception) {

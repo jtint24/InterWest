@@ -1,5 +1,5 @@
 dfa conversion
-{-> Int
+{Int x-> Int
  return 123212
  }
 

@@ -60,20 +60,6 @@ public class InterpretationSession {
         // outputBuffer.println(symbolString);
         llParser.setSymbols(symbolString);
 
-        // System.out.println("symbol string: "+symbolString);
-
-        //ParseTreeNode ptn = parser.buildParseTree();
-
-        //parser.makeFirstSets();
-        //parser.makeFollowSets();
-
-        //parser.printFirstSets();
-        //parser.printFollowSets();
-
-        //System.out.println(ptn.extractRepresentativeString());
-        // ptn.printTreeRepresentation();
-
-
         NonterminalLibrary.file.apply(llParser);
 
         ParseTreeNode parseTree = llParser.buildTree();
