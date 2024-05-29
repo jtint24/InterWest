@@ -39,9 +39,6 @@ public class ReturnExpression extends Expression {
             if (exprToReturn != null) {
                 context = exprToReturn.validate(context);
             }
-            System.out.print("Validating type for return expression: "+this);
-            System.out.println(exprToReturn+" against "+context.getReturnType());
-            System.out.println(exprToReturn.getType(context)+" against "+context.getReturnType());
 
             TriValue subtypeStatus = exprToReturn.matchesType(context.getReturnType(), context);
             if (subtypeStatus == TriValue.FALSE) {

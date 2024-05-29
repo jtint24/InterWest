@@ -24,8 +24,8 @@ public class IdentityExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
         if (wrappedValue instanceof ExpressionFunction) {
-            ValidationContext innerContext = ((ExpressionFunction) wrappedValue).validate(context);
-            context.addErrors(innerContext.errors);
+            context = ((ExpressionFunction) wrappedValue).validate(context);
+            // context.addErrors(innerContext.errors);
         }
         return context;
     }

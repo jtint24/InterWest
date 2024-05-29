@@ -26,7 +26,6 @@ public class ErrorManager {
     }
 
     public void logErrors(List<Error> newErrors) {
-
         errors.addAll(newErrors);
 
         for (Error error : newErrors) {
