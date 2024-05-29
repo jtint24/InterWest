@@ -36,8 +36,10 @@ public class ExpressionBuilder {
 
         if (ptNode.getKind().toString().equals("TreeKind(delimited expression)")) {
             if (ptNode.getChildren().size() == 0) {
-                // throw new RuntimeException();
-                return null;
+                Expression expr = new NoOpExpression(ptNode);
+                expr.underlyingParseTree = ptNode;
+                return expr;
+                // return null;
             }
             ParseTreeNode childNode = ptNode.getChildren().get(0);
             if (childNode instanceof NonterminalParseTreeNode) {
@@ -58,6 +60,7 @@ public class ExpressionBuilder {
             case "TreeKind(expression call)" -> buildExpressionCall(ptNode);
             case "TreeKind(binary expression)" -> buildBinaryExpression(ptNode);
             case "TreeKind(type declaration)" -> buildTypeDeclaration(ptNode);
+
             default -> {
                 throw new RuntimeException("Unknown nonterminal type `"+ptNode.getKind()+"`");
             }

@@ -67,4 +67,8 @@ public class RefinementTypeExpression extends Expression {
 
         return wrappedContext;
     }
+
+    public String toString() {
+        return "type "+innerExpression;
+    }
 }

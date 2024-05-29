@@ -1,11 +1,13 @@
 package Parser;
 
 import ErrorManager.Error;
+import Lexer.Symbol;
 import Lexer.SymbolString;
 import Lexer.Token;
 import Lexer.TokenLibrary;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +32,12 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
     }
 
     public List<ParseTreeNode> getChildren() {
+        HashSet<Token> filteredTypes = new HashSet<>() {{
+            add(TokenLibrary.whitespace);
+            add(TokenLibrary.inlineComment);
+        }};
         return children.stream().filter(
-                (child) -> (child instanceof NonterminalParseTreeNode) || !((TerminalParseTreeNode) child).wrappedSymbol.getTokenType().equals(TokenLibrary.whitespace)
+                (child) -> (child instanceof NonterminalParseTreeNode) || !filteredTypes.contains(((TerminalParseTreeNode) child).wrappedSymbol.getTokenType())
         ).collect(Collectors.toList());
     }
 
@@ -131,7 +137,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
     }
 
     /**
-     * Gets all children including whitespace (Generally this is unwanted)
+     * Gets all children including whitespace and comments (Generally this is unwanted)
      * */
     public List<ParseTreeNode> getAllChildren() {
         return children;

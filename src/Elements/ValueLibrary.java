@@ -54,6 +54,20 @@ public class ValueLibrary {
         }
     };
 
+    public static Type voidType = new RefinementType(universeType, new DFAFunction(
+            new BuiltinFunction(new FunctionType(boolType, universeType)) {
+                @Override
+                public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+                    return falseValue;
+                }
+            }
+    ) {
+        @Override
+        public DFA getDFA(int wrtArg, Value... inputs) {
+            return DFA.alwaysFalse();
+        }
+    });
+
     public static HashMap<String, Value> builtinValues = new HashMap<>() {{
         put("true", trueValue);
         put("false", falseValue);
@@ -64,10 +78,12 @@ public class ValueLibrary {
         put("printInt", printInt);
         put("printNonzero", printNonzero);
         put("Nonzero", nonzeroType);
+        // put("Void", voidType);
         put("Unit", unitType);
         put("unit", unitValue);
         put("!=", unequalsFunc);
     }};
+
 
     static {
         boolType.condition = new BuiltinFunction(new FunctionType(boolType, universeType)) {

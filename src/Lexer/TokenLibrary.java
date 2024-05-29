@@ -34,7 +34,8 @@ public class TokenLibrary {
                 doubleEquals,
                 notEquals,
                 regularToken,
-                typeToken
+                typeToken,
+                inlineComment
         };
     }
 
@@ -42,6 +43,12 @@ public class TokenLibrary {
             "ERROR",
             (String lexeme) -> false,
             (String lexeme) -> false
+    );
+
+    public static final Token inlineComment = new Token(
+            "inlineComment",
+            (String lexeme) -> lexeme.startsWith("//") && !lexeme.substring(0,lexeme.length()-2).contains("\n") && lexeme.endsWith("\n"),
+            (String lexeme) -> (lexeme.startsWith("//") && !lexeme.substring(0,lexeme.length()-2).contains("\n")) || lexeme.equals("/") || lexeme.equals("")
     );
 
 

@@ -2,13 +2,10 @@ package Parser;
 
 
 import ErrorManager.ErrorManager;
-import Lexer.Symbol;
-import Lexer.SymbolString;
-import Lexer.Token;
+import Lexer.*;
 
 import java.util.*;
 
-import Lexer.Tokenizer;
 import Parser.EventLibrary.*;
 import ErrorManager.Error;
 
@@ -85,6 +82,9 @@ public class Parser {
      }
 
      boolean eat(Token kind) {
+         if (!this.eof() && this.at(TokenLibrary.inlineComment)) {
+             this.advance();
+         }
          if (!this.eof() && this.at(kind)) {
              this.advance();
              return true;
