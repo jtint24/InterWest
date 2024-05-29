@@ -1,10 +1,8 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
-import Interpreter.State;
 import Regularity.DFA;
 import Regularity.DFAConditions;
-import Utils.Result;
 
 import java.util.HashMap;
 
@@ -16,7 +14,7 @@ public class ValueLibrary {
     public static RefinementType intType = new RefinementType(universeType, null);
     public static ValueWrapper<Boolean> trueValue = new ValueWrapper<>(true, boolType);
     public static ValueWrapper<Boolean> falseValue = new ValueWrapper<>(false, boolType);
-    public static BuiltinValue unitValue = new BuiltinValue(unitType);
+    public static Value unitValue = new BuiltinValue(unitType);
 
     public static Function printInt = new BuiltinFunction(new FunctionType(boolType, intType)) {
         @Override
@@ -78,7 +76,7 @@ public class ValueLibrary {
         put("printInt", printInt);
         put("printNonzero", printNonzero);
         put("Nonzero", nonzeroType);
-        // put("Void", voidType);
+        put("Void", voidType);
         put("Unit", unitType);
         put("unit", unitValue);
         put("!=", unequalsFunc);
@@ -86,11 +84,16 @@ public class ValueLibrary {
 
 
     static {
-        boolType.condition = new BuiltinFunction(new FunctionType(boolType, universeType)) {
+        boolType.condition = new DFAFunction(new BuiltinFunction(new FunctionType(boolType, universeType)) {
             @Override
             public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
                 Value inputVal = values[0];
                 return (inputVal == trueValue || inputVal == falseValue) ? trueValue : falseValue;
+            }
+        }) {
+            @Override
+            public DFA getDFA(int wrtArg, Value... inputs) {
+                return DFAConditions.dfaEqualTo(trueValue).unionWith(DFAConditions.dfaEqualTo(falseValue));
             }
         };
         typeType.condition = new BuiltinFunction(new FunctionType(boolType, universeType)) {
@@ -109,7 +112,7 @@ public class ValueLibrary {
         }) {
             @Override
             public DFA getDFA(int wrtArg, Value... inputs) {
-                return DFA.alwaysTrue();
+                return DFAConditions.isInteger();
             }
         };
 

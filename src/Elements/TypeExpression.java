@@ -18,7 +18,6 @@ public class TypeExpression extends Type {
 
     @Override
     public TriValue subtypeOf(Type superType) {
-        // TODO: use static value
         Result<Type, String> staticValue = getStaticValue();
         if (staticValue.isOK()) {
             return staticValue.getOkValue().subtypeOf(superType);

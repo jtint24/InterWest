@@ -55,7 +55,7 @@ public class ValidationContext {
     }
 
     public void addScope() {
-        variableTypes.add(new HashMap<>());
+        variableTypes.addFirst(new HashMap<>());
     }
 
     public void killScope() {

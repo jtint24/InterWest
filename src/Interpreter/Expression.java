@@ -44,11 +44,16 @@ public abstract class Expression {
     public TriValue matchesType(Type type, ValidationContext context) {
 
         TriValue subtypeStatus = getType(context).subtypeOf(type);
+        System.out.println("Expression::matchesType gives initial "+subtypeStatus+" against "+getType(context)+"/"+type);
 
         if (subtypeStatus == TriValue.UNKNOWN && this.staticValue != null && this.staticValue.isOK()) {
             Value inputValue = this.staticValue.getOkValue();
+            System.out.println("MY OK value: "+inputValue);
+
             ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
             subtypeStatus = TriValue.fromBool(type.matchesValue(inputValue, testErrorManager));
+            System.out.println("subtype is : "+subtypeStatus);
+
 
             context.addErrors(testErrorManager.getErrors());
         }

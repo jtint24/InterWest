@@ -85,7 +85,7 @@ public class DFA {
     }
 
     public HashSet<DFANode> getStates() {
-        return states;
+        return getStatesFromStart(startNode);
     }
 
     private static LinkedHashSet<DFANode> getStatesFromStart(DFANode startNode) {
@@ -175,7 +175,6 @@ public class DFA {
 
                 Value returnValue;
 
-
                 // Truth table: False is falsy, EVERY OTHER VALUE (even non-booleans) is truthy
                 // So for any non-false value X, some nonfalse value Y that !=X, and F:
                 // myState | otherState | returnValue
@@ -198,12 +197,13 @@ public class DFA {
                 }
                 // System.out.println("return: "+returnValue);
 
+
+
                 productMapping.get(myState).put(otherState, new DFANode(myState.name + "_"+otherState.name, returnValue, null, null));
             }
         }
 
         // productMapping.get(myFailState).put(otherFailState, null);
-
         // Calculate product state transitions
         return DFA.fromProductMapping(productMapping, startNode, otherDFA.startNode, myFailState, otherFailState);
     }
@@ -263,12 +263,18 @@ public class DFA {
         return DFA.fromProductMapping(productMapping, startNode, otherDFA.startNode, myFailState, otherFailState);
     }
 
+    /**
+     * fromProductMapping
+     *
+     * For a DFA A and DFA B, where the set of states are S(A) and S(B), the product mapping is a function from
+     * S(A) x S(B) to S(C), where S(C) is a set of states for the product DFA of A and B.
+     * */
     public static DFA fromProductMapping(HashMap<DFANode, HashMap<DFANode, DFANode>> productMapping, DFANode startNode1, DFANode startNode2, DFANode failState1, DFANode failState2) {
         Set<DFANode> prodStates1 = productMapping.keySet();
-        Set<DFANode> prodStates2 = productMapping.get(startNode1).keySet();
+        // Set<DFANode> prodStates2 = productMapping.get(startNode1).keySet();
 
         for (DFANode myState : prodStates1) {
-            for (DFANode otherState : prodStates2) {
+            for (DFANode otherState : productMapping.get(myState).keySet()) {
                 for (Value symbol : alphabet) {
                     DFANode mySuccessor = myState.getSuccessor(symbol) == null ? failState1 : myState.getSuccessor(symbol);
                     DFANode otherSuccessor = otherState.getSuccessor(symbol) == null ? failState2 : otherState.getSuccessor(symbol);

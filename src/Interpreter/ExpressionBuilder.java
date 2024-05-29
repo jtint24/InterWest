@@ -216,10 +216,11 @@ public class ExpressionBuilder {
 
         } else {
 
-            Expression resultTypeExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(subExpressionsStartIdx - 1));
+            Expression resultTypeExpression = buildExpression(ptNode.getChildren().get(subExpressionsStartIdx));
+
             returnType = new TypeExpression(resultTypeExpression);
 
-            for (int i = subExpressionsStartIdx; i < ptNode.getChildren().size() - 1; i++) {
+            for (int i = subExpressionsStartIdx+1; i < ptNode.getChildren().size() - 1; i++) {
                 subExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(i)));
             }
         }
@@ -241,7 +242,6 @@ public class ExpressionBuilder {
 
         // System.out.println(Arrays.toString(paramNames.toArray()));
         // System.out.println(Arrays.toString(paramTypes.toArray()));
-
 
         FunctionType type = new FunctionType(returnType, paramTypes.toArray(new Type[0]));
 

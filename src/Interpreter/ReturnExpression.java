@@ -33,14 +33,15 @@ public class ReturnExpression extends Expression {
     @Override
     public ValidationContext validate(ValidationContext context) {
 
-        if (exprToReturn != null) {
-            context = exprToReturn.validate(context);
-        }
-
         if (context.getReturnType() == null) {
             context.addError(getNotReturnable(this));
         } else {
-            Type actualReturnType = exprToReturn.getType(context);
+            if (exprToReturn != null) {
+                context = exprToReturn.validate(context);
+            }
+            System.out.print("Validating type for return expression: "+this);
+            System.out.println(exprToReturn+" against "+context.getReturnType());
+            System.out.println(exprToReturn.getType(context)+" against "+context.getReturnType());
 
             TriValue subtypeStatus = exprToReturn.matchesType(context.getReturnType(), context);
             if (subtypeStatus == TriValue.FALSE) {

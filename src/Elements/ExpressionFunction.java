@@ -132,8 +132,9 @@ public class ExpressionFunction extends Function {
 
         ValidationContext endContext = wrappedExpression.validate(context);
 
+        // null result type means that it has to be inferred from context
         if (type.resultType == null) {
-            type = (FunctionType) wrappedExpression.getType(context);
+            type.resultType = wrappedExpression.getType(context);
         }
         endContext.killScope();
 
@@ -148,6 +149,12 @@ public class ExpressionFunction extends Function {
                 ((TypeExpression) paramType).getExpression().initializeStaticValues(context);
             }
         }
+
+
+        if (type.resultType instanceof TypeExpression) {
+            ((TypeExpression) type.resultType).getExpression().initializeStaticValues(context);
+        }
+
         for (int i = 0; i<type.parameterTypes.length; i++) {
             context.constantTypes.put(parameterNames[i], type.parameterTypes[i]);
         }

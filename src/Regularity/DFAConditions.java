@@ -2,6 +2,7 @@ package Regularity;
 
 import Elements.Value;
 import Elements.ValueLibrary;
+import Elements.ValueWrapper;
 
 import java.util.BitSet;
 
@@ -14,6 +15,15 @@ public class DFAConditions {
         DFA equalDFA = dfaEqualTo(v);
         equalDFA.invert();
         return equalDFA;
+    }
+
+    public static DFA isInteger() {
+        DFA retDFA = DFA.alwaysTrue();
+        for (int i = -20; i<20; i++) {
+            retDFA = retDFA.unionWith(dfaEqualTo(new ValueWrapper<>(i, ValueLibrary.intType)));
+            DFAConverter.minimizeDFA(retDFA);
+        }
+        return retDFA;
     }
 
     /**
