@@ -82,7 +82,7 @@ public class Parser {
      }
 
      boolean eat(Token kind) {
-         if (!this.eof() && this.at(TokenLibrary.inlineComment)) {
+         if (!this.eof() && (this.at(TokenLibrary.inlineComment) || this.at(TokenLibrary.blockComment))) {
              this.advance();
          }
          if (!this.eof() && this.at(kind)) {

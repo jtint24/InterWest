@@ -1,0 +1,20 @@
+lexer
+/* here's a block */
+/**/
+/*/
+/**//**/
+/*
+awef
+awef
+awef
+awefawef
+*//*
+awef
+awef
+awef
+awef*/
+*/
+if /* who cares about this */ () {}
+
+EXPECTED_RESULT:
+{ lexeme = `/* here's a block */` tokenType = blockComment lineNumber = 1 }{ lexeme = `\n` tokenType = whitespace lineNumber = 1 }{ lexeme = `/**/` tokenType = blockComment lineNumber = 2 }{ lexeme = `\n` tokenType = whitespace lineNumber = 2 }{ lexeme = `/` tokenType = / lineNumber = 3 }{ lexeme = `*` tokenType = * lineNumber = 3 }{ lexeme = `/` tokenType = / lineNumber = 3 }{ lexeme = `\n` tokenType = whitespace lineNumber = 3 }{ lexeme = `/**/` tokenType = blockComment lineNumber = 4 }{ lexeme = `/**/` tokenType = blockComment lineNumber = 4 }{ lexeme = `\n` tokenType = whitespace lineNumber = 4 }{ lexeme = `/*\nawef\nawef\nawef\nawefawef\n*/` tokenType = blockComment lineNumber = 5 }{ lexeme = `/*\nawef\nawef\nawef\nawef*/` tokenType = blockComment lineNumber = 10 }{ lexeme = `\n` tokenType = whitespace lineNumber = 14 }{ lexeme = `*` tokenType = * lineNumber = 15 }{ lexeme = `/` tokenType = / lineNumber = 15 }{ lexeme = `\n` tokenType = whitespace lineNumber = 15 }{ lexeme = `if` tokenType = if lineNumber = 16 }{ lexeme = ` ` tokenType = whitespace lineNumber = 16 }{ lexeme = `/* who cares about this */` tokenType = blockComment lineNumber = 16 }{ lexeme = ` ` tokenType = whitespace lineNumber = 16 }{ lexeme = `(` tokenType = ( lineNumber = 16 }{ lexeme = `)` tokenType = ) lineNumber = 16 }{ lexeme = ` ` tokenType = whitespace lineNumber = 16 }{ lexeme = `{` tokenType = { lineNumber = 16 }{ lexeme = `}` tokenType = } lineNumber = 16 }{ lexeme = `\n\n` tokenType = whitespace lineNumber = 16 }

@@ -124,7 +124,10 @@ public class Annotator {
 
 
             ArrayList<String> lines = new ArrayList<>();
-            String flattenedCore = s.replace("\n", "");
+            String flattenedCore = s;
+            if (s.contains("\n")) {
+                flattenedCore = s.substring(0, s.indexOf('\n'));
+            }
             lines.add(ansiColor+flattenedCore+AnsiCodes.RESET);
 
             if (underline != null) {

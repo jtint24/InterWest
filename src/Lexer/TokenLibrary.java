@@ -35,7 +35,9 @@ public class TokenLibrary {
                 notEquals,
                 regularToken,
                 typeToken,
-                inlineComment
+                inlineComment,
+                blockComment,
+                star
         };
     }
 
@@ -47,8 +49,13 @@ public class TokenLibrary {
 
     public static final Token inlineComment = new Token(
             "inlineComment",
-            (String lexeme) -> lexeme.startsWith("//") && !lexeme.substring(0,lexeme.length()-2).contains("\n") && lexeme.endsWith("\n"),
-            (String lexeme) -> (lexeme.startsWith("//") && !lexeme.substring(0,lexeme.length()-2).contains("\n")) || lexeme.equals("/") || lexeme.equals("")
+            (String lexeme) -> lexeme.startsWith("//") && !lexeme.substring(0,lexeme.length()-1).contains("\n") && lexeme.endsWith("\n"),
+            (String lexeme) -> (lexeme.startsWith("//") && !lexeme.substring(0,lexeme.length()-1).contains("\n")) || lexeme.equals("/") || lexeme.equals("")
+    );
+    public static final Token blockComment = new Token(
+            "blockComment",
+            (String lexeme) -> lexeme.startsWith("/*") && lexeme.length() > 3 && !lexeme.substring(2,lexeme.length()-1).contains("*/") && lexeme.endsWith("*/"),
+            (String lexeme) -> (lexeme.startsWith("/*") && !lexeme.substring(0,lexeme.length()-1).contains("*/")) || lexeme.equals("/") || lexeme.equals("")
     );
 
 
@@ -76,6 +83,8 @@ public class TokenLibrary {
     public static final Token ifToken = fromString("if");
     public static final Token regularToken = fromString("regular");
     public static final Token typeToken = fromString("type");
+    public static final Token star = fromString("*");
+
 
     public static final Token doubleEquals = fromString("==").toBinder(new BindingPowers(PrecedenceLevel.COMPARISON, Associativity.LEFT));
     public static final Token notEquals = fromString("!=").toBinder(new BindingPowers(PrecedenceLevel.COMPARISON, Associativity.LEFT));

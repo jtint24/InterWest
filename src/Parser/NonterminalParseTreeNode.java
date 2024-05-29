@@ -35,6 +35,7 @@ public class NonterminalParseTreeNode extends ParseTreeNode {
         HashSet<Token> filteredTypes = new HashSet<>() {{
             add(TokenLibrary.whitespace);
             add(TokenLibrary.inlineComment);
+            add(TokenLibrary.blockComment);
         }};
         return children.stream().filter(
                 (child) -> (child instanceof NonterminalParseTreeNode) || !filteredTypes.contains(((TerminalParseTreeNode) child).wrappedSymbol.getTokenType())
