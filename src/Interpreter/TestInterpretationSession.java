@@ -47,6 +47,9 @@ public class TestInterpretationSession extends InterpretationSession {
             ParseTreeNode parseTree = llParser.buildTree();
 
             Expression programExpr = expressionBuilder.buildNonterminalExpression((NonterminalParseTreeNode) parseTree);
+            StaticReductionContext staticReductionContext = new StaticReductionContext();
+            programExpr.initializeStaticValues(staticReductionContext);
+
             ValidationContext startContext = new ValidationContext();
             ValidationContext endContext = programExpr.validate(startContext);
 
