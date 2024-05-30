@@ -27,7 +27,7 @@ public class DFAConditions {
         return dfaPrefixedBy(BitSet.valueOf(bytes));
     }
 
-    private static void printBS(BitSet bs) {
+    static void printBS(BitSet bs) {
         for (int i = 0; i<bs.size(); i++) {
             System.out.print(bs.get(i) ? 1 : 0);
         }

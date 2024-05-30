@@ -1,5 +1,7 @@
 Things to do:
 
+    - [ ] Bugfixes
+        - [ ] Make DFA::unionWith NOT affect the existing DFA
     - [ ] Lexer
         - [ ] Revise identifier definition to be actual (accept a-Z, 0-9 after first char, and _)
         - [x] Make the lexer resilient by skipping over error tokens

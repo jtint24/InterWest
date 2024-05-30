@@ -1,0 +1,29 @@
+interpreter
+let tryThis = {Int i -> Int
+    return unit // Comment on this line
+}
+let tryThis = {Int i -> i}
+
+EXPECTED_RESULT:
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+2 | return unit // Comment on this line
+  |        ^^^^
+  |        |
+  |        This has type `Unit`
+
+
+I was expecting an expression of type `Int` but here we're returning a value of `Unit`.
+
+
+[X] REDECLARED CONSTANT --------------------------------------------------- A000
+
+4 | let tryThis = {Int i -> i}
+  |     ^^^^^^^
+  |     |
+  |     This constant exists in scope
+
+
+This constant, `tryThis`, already exists and can't be redeclared.
+
+

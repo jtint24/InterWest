@@ -2,11 +2,13 @@ package Regularity;
 
 import Elements.Value;
 import Elements.ValueLibrary;
+import Elements.ValueWrapper;
 import ErrorManager.ErrorManager;
+import IO.OutputBuffer;
 
 import java.util.*;
 
-public class DFA {
+public class DFA implements Cloneable {
     DFANode startNode;
     LinkedHashSet<DFANode> states;
     static HashSet<Value> alphabet = new HashSet<>() {{
@@ -330,7 +332,8 @@ public class DFA {
     }
 
     public boolean subsetLanguageOf(DFA superDFA) {
-        DFA union = this.unionWith(superDFA);
+        DFA union = ((DFA)this.clone()).unionWith(superDFA);
+
         // System.out.println("Large Union DFA: \n" + union);
         // System.out.println("Compare against: \n" + superDFA);
         // System.out.println("Are equal? " + DFAConverter.checkEquivalence(union, superDFA));
@@ -354,4 +357,23 @@ public class DFA {
         reject.falseNode = reject;
         return new DFA(reject);
     }
+
+    @Override
+    public Object clone() {
+        HashMap<DFANode, DFANode> old2newMapping = new HashMap<>();
+
+        HashSet<DFANode> newNodes = new HashSet<>();
+        for (DFANode state : states) {
+            DFANode newNode = new DFANode(state.name+"_clone", state.returnValue, state.trueNode, state.falseNode);
+            old2newMapping.put(state, newNode);
+            newNodes.add(newNode);
+        }
+
+        for (DFANode newNode : newNodes) {
+            newNode.trueNode = old2newMapping.get(newNode.trueNode);
+            newNode.falseNode = old2newMapping.get(newNode.falseNode);
+        }
+        return new DFA(old2newMapping.get(startNode));
+    }
+
 }

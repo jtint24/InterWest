@@ -1,10 +1,13 @@
 package Regularity;
 
 import Elements.DFAFunction;
+import Elements.ValueWrapper;
 import ErrorManager.Error;
 import Elements.Value;
 import Elements.ValueLibrary;
 import ErrorManager.ErrorLibrary;
+import ErrorManager.ErrorManager;
+import IO.OutputBuffer;
 import Interpreter.*;
 import Parser.ParseTreeNode;
 import Utils.Result;
@@ -234,13 +237,19 @@ public class DFAConverter {
     }
 
     public static boolean checkEquivalence(DFA dfa1, DFA dfa2) {
-        DFA minimalDFA1 = minimizeDFA(dfa1);
-        DFA minimalDFA2 = minimizeDFA(dfa2);
+
+        DFA minimalDFA1 = minimizeDFA((DFA) dfa1.clone());
+        DFA minimalDFA2 = minimizeDFA((DFA) dfa2.clone());
 
         return checkIdentical(minimalDFA1, minimalDFA2);
     }
 
     public static boolean checkIdentical(DFA baseDFA, DFA otherDFA) {
+
+        if (baseDFA.getStates().size() != otherDFA.getStates().size()) {
+            return false;
+        }
+
         HashMap<DFANode, DFANode> equivalentNodes = new HashMap<>();
 
         ArrayList<DFANode> baseFrontier = new ArrayList<>();
