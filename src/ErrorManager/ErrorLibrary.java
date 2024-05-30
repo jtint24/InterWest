@@ -147,7 +147,7 @@ public class ErrorLibrary {
     public static Error getNotReturnable(ReturnExpression returnExpression) {
         Annotator annotator = new Annotator(returnExpression.underlyingParseTree.getLine());
         annotator.applyStyle(
-                returnExpression.underlyingParseTree,
+                ((NonterminalParseTreeNode)returnExpression.underlyingParseTree).getChildren().get(0),
                 new Annotator.Style(AnsiCodes.RED, '^', "This statement can't return")
         );
 

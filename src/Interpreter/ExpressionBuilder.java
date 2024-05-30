@@ -41,6 +41,15 @@ public class ExpressionBuilder {
                 return expr;
                 // return null;
             }
+
+            // Gets expressions wrapped in parentheses
+            if (ptNode.getChildren().size() == 3
+                    && ptNode.getChildren().get(0) instanceof TerminalParseTreeNode
+                    && ptNode.getChildren().get(2) instanceof TerminalParseTreeNode
+            ) {
+                return buildExpression(ptNode.getChildren().get(1));
+            }
+
             ParseTreeNode childNode = ptNode.getChildren().get(0);
             if (childNode instanceof NonterminalParseTreeNode) {
                 ptNode = (NonterminalParseTreeNode) childNode;

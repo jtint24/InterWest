@@ -1,0 +1,55 @@
+interpreter
+if 1{
+    return unit
+}
+let a = unit
+if (a) {
+    let b = 4
+}
+let c = b
+
+EXPECTED_RESULT:
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+1 | if 1{
+  |    ^
+  |    |
+  |    This has type `Int`
+
+
+The condition of this if statement has type `Int`, which doesn't match what I expected, type `Bool`.
+
+
+[X] NOT RETURNABLE -------------------------------------------------------- A000
+
+2 | return unit
+  | ^^^^^^
+  | |
+  | This statement can't return
+
+
+I don't actually see any scope for this statement to return from.
+
+help: Make sure that this return statement is in a function
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+5 | if (a) {
+  |     ^
+  |     |
+  |     This has type `Unit`
+
+
+The condition of this if statement has type `Unit`, which doesn't match what I expected, type `Bool`.
+
+
+[X] UNKNOWN CONSTANT ------------------------------------------------------ A000
+
+8 | let c = b
+  |         ^
+  |         |
+  |         I don't recognize this
+
+
+I can't find a constant called `b` in scope.
+
+
