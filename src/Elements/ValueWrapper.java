@@ -1,5 +1,7 @@
 package Elements;
 
+import java.util.BitSet;
+
 public class ValueWrapper<T> extends Value {
     T wrappedValue;
     Type type;
@@ -27,5 +29,13 @@ public class ValueWrapper<T> extends Value {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public BitSet toBoolString() {
+        String s = wrappedValue.getClass().toString()+((char)31)+this;
+        byte[] bytes = s.getBytes();
+
+        return BitSet.valueOf(bytes);
     }
 }
