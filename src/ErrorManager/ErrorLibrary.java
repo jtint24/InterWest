@@ -3,10 +3,13 @@ package ErrorManager;
 import Elements.Type;
 import Elements.TypeExpression;
 import Interpreter.*;
+import Lexer.Symbol;
+import Lexer.SymbolString;
 import Lexer.Token;
 import Lexer.TokenLibrary;
 import Parser.NonterminalParseTreeNode;
 import Parser.ParseTreeNode;
+import Parser.TerminalParseTreeNode;
 import Parser.TreeKind;
 
 import java.util.ArrayList;
@@ -212,9 +215,12 @@ public class ErrorLibrary {
         );
     }
 
-    public static Error getWrongToken(Token expected, Token actualToken) {
+    public static Error getWrongToken(SymbolString line, Token expected, Symbol actualSymbol) {
 
-        String bodyMessage = "On this line, I was expecting a `"+expected+"` but received `"+actualToken+"`, which doesn't seem to match";
+        Annotator annotator = new Annotator(line);
+        annotator.applyStyle(new TerminalParseTreeNode(actualSymbol, new SymbolString(actualSymbol)), new Annotator.Style(AnsiCodes.RED, '^'));
+
+        String bodyMessage = annotator.getAnnotatedString()+"\n\nOn this line, I was expecting a `"+expected+"` but received `"+actualSymbol.getLexeme()+"`, which doesn't seem to match";
 
         return new Error(
                 Error.ErrorType.PARSER_ERROR,

@@ -97,7 +97,7 @@ public class Parser {
          if (this.eat(kind)) {
              return;
          }
-         errorManager.logError(getWrongToken(kind, this.nth(0)));
+         errorManager.logError( getWrongToken(symbols.symbolsOnLine(symbols.get(pos).getStartingLineNumber()), kind, symbols.get(pos)));
          // errorManager.logError(new Error(Error.ErrorType.PARSER_ERROR, "Expected token of type "+kind+", got "+this.nth(0), true));
      }
 

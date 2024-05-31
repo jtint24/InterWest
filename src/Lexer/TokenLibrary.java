@@ -65,10 +65,10 @@ public class TokenLibrary {
             (String lexeme) -> allIn(lexeme, " \t\n")
     );
     public static final Token backslash = fromString("\\");
-    public static final Token slash = fromString("/");
+    public static final Token slash = fromString("/").toBinder(new BindingPowers(PrecedenceLevel.MULTIPLICATION, Associativity.LEFT));;
     public static final Token colon = fromString(":");
     public static final Token semicolon = fromString(";");
-    public static final Token dash = fromString("-");
+    public static final Token dash = fromString("-").toBinder(new BindingPowers(PrecedenceLevel.ADDITION, Associativity.LEFT));;
     public static final Token lParen = fromString("(");
     public static final Token rParen = fromString(")");
     public static final Token lBrace = fromString("{");
@@ -83,7 +83,7 @@ public class TokenLibrary {
     public static final Token ifToken = fromString("if");
     public static final Token regularToken = fromString("regular");
     public static final Token typeToken = fromString("type");
-    public static final Token star = fromString("*");
+    public static final Token star = fromString("*").toBinder(new BindingPowers(PrecedenceLevel.MULTIPLICATION, Associativity.LEFT));;
 
 
     public static final Token doubleEquals = fromString("==").toBinder(new BindingPowers(PrecedenceLevel.COMPARISON, Associativity.LEFT));

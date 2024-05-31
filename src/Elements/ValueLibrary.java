@@ -31,10 +31,17 @@ public class ValueLibrary {
             return trueValue;
         }
     };
-    public static Function equalsFunc = new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
+    public static Function equalsFunc = new DFAFunction(
+            new BuiltinFunction(new FunctionType(boolType, universeType, universeType)) {
+                @Override
+                public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+                    return values[0].equals(values[1]) ? trueValue : falseValue;
+                }
+            }
+    ) {
         @Override
-        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
-            return values[0].equals(values[1]) ? trueValue : falseValue;
+        public DFA getDFA(int wrtArg, Value... inputs) {
+            return DFAConditions.dfaEqualTo(inputs[0]);
         }
     };
 
@@ -66,6 +73,46 @@ public class ValueLibrary {
         }
     });
 
+    public static BuiltinFunction plusFunc = new BuiltinFunction(new FunctionType(intType, intType, intType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            assert values[0] instanceof ValueWrapper;
+            assert values[1] instanceof ValueWrapper;
+
+            return new ValueWrapper<>(((ValueWrapper<Integer>) values[0]).wrappedValue + ((ValueWrapper<Integer>) values[1]).wrappedValue, intType);
+        }
+    };
+
+    public static BuiltinFunction minusFunc = new BuiltinFunction(new FunctionType(intType, intType, intType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            assert values[0] instanceof ValueWrapper;
+            assert values[1] instanceof ValueWrapper;
+
+            return new ValueWrapper<>(((ValueWrapper<Integer>) values[0]).wrappedValue - ((ValueWrapper<Integer>) values[1]).wrappedValue, intType);
+        }
+    };
+
+    public static BuiltinFunction multiplyFunc = new BuiltinFunction(new FunctionType(intType, intType, intType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            assert values[0] instanceof ValueWrapper;
+            assert values[1] instanceof ValueWrapper;
+
+            return new ValueWrapper<>(((ValueWrapper<Integer>) values[0]).wrappedValue * ((ValueWrapper<Integer>) values[1]).wrappedValue, intType);
+        }
+    };
+
+    public static BuiltinFunction divideFunc = new BuiltinFunction(new FunctionType(intType, intType, intType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            assert values[0] instanceof ValueWrapper;
+            assert values[1] instanceof ValueWrapper;
+
+            return new ValueWrapper<>(((ValueWrapper<Integer>) values[0]).wrappedValue / ((ValueWrapper<Integer>) values[1]).wrappedValue, intType);
+        }
+    };
+
     public static HashMap<String, Value> builtinValues = new HashMap<>() {{
         put("true", trueValue);
         put("false", falseValue);
@@ -80,6 +127,11 @@ public class ValueLibrary {
         put("Unit", unitType);
         put("unit", unitValue);
         put("!=", unequalsFunc);
+        put("==", equalsFunc);
+        put("+", plusFunc);
+        put("-", minusFunc);
+        put("/", divideFunc);
+        put("*", multiplyFunc);
     }};
 
 

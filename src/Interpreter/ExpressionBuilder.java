@@ -88,6 +88,11 @@ public class ExpressionBuilder {
             case "identifier" -> new VariableExpression(lexeme, ptNode);
             case "int" -> new IdentityExpression(new ValueWrapper<>(Integer.parseInt(lexeme), ValueLibrary.intType), ptNode);
             case "!=" -> new IdentityExpression(ValueLibrary.unequalsFunc, ptNode);
+            case "==" -> new IdentityExpression(ValueLibrary.equalsFunc, ptNode);
+            case "plus" -> new IdentityExpression(ValueLibrary.plusFunc, ptNode);
+            case "-" -> new IdentityExpression(ValueLibrary.minusFunc, ptNode);
+            case "*" -> new IdentityExpression(ValueLibrary.multiplyFunc, ptNode);
+            case "/" -> new IdentityExpression(ValueLibrary.divideFunc, ptNode);
             default -> {
                 throw new RuntimeException("Unknown terminal type `"+tokenName+"`");
             }
