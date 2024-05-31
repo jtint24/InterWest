@@ -89,7 +89,7 @@ public class ConditionalExpression extends Expression {
 
     @Override
     public String toString() {
-        return "if "+condition+" {\n"+expressionSeries+"}";
+        return "if "+condition+" {\n"+expressionSeries+"}\n";
     }
 
     /*

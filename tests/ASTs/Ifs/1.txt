@@ -1,0 +1,20 @@
+interpreter
+let a = true
+if a {
+    if (true) {
+        if false {
+            let b = 2
+        }
+    }
+}
+
+EXPECTED_RESULT:
+let a = true
+if a {
+if true {
+if false {
+let b = 2
+}
+}
+}
+
