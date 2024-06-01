@@ -61,6 +61,10 @@ public class RefinementType extends Type {
 
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
+        if (v == null) {
+            var a =1;
+            throw new RuntimeException();
+        }
 
         if (superType.matchesValue(v, errorManager)) {
 

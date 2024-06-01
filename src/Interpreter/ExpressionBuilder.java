@@ -6,7 +6,6 @@ import Lexer.TokenLibrary;
 import Parser.*;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ExpressionBuilder {
@@ -69,6 +68,7 @@ public class ExpressionBuilder {
             case "TreeKind(expression call)" -> buildExpressionCall(ptNode);
             case "TreeKind(binary expression)" -> buildBinaryExpression(ptNode);
             case "TreeKind(type declaration)" -> buildTypeDeclaration(ptNode);
+            case "TreeKind(negation expression)" -> buildNegationFunctionExpression(ptNode);
 
             default -> {
                 throw new RuntimeException("Unknown nonterminal type `"+ptNode.getKind()+"`");
@@ -97,6 +97,13 @@ public class ExpressionBuilder {
                 throw new RuntimeException("Unknown terminal type `"+tokenName+"`");
             }
         };
+    }
+
+    private Expression buildNegationFunctionExpression(NonterminalParseTreeNode ptNode) {
+        Expression internalExpression = buildExpression(ptNode.getChildren().get(1));
+        ArrayList<Expression> argExpression = new ArrayList<>();
+        argExpression.add(internalExpression);
+        return new FunctionExpression(new IdentityExpression(ValueLibrary.negationFunc, ptNode.getChildren().get(0)), argExpression, ptNode);
     }
 
     private Expression buildTypeDeclaration(NonterminalParseTreeNode ptNode) {

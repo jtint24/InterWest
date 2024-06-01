@@ -153,13 +153,13 @@ public class TokenLibrary {
                 if (lexeme.length() == 0) {
                     return false;
                 }
-                return ((lexeme.charAt(0) == '-' && lexeme.length() > 1) || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
+                return allIn(lexeme, "1234567890"); // ((lexeme.charAt(0) == '-' && lexeme.length() > 1) || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
             },
             (String lexeme) -> {
                 if (lexeme.length() == 0) {
                     return false;
                 }
-                return (lexeme.charAt(0) == '-' || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
+                return allIn(lexeme, "1234567890"); // (lexeme.charAt(0) == '-' || Character.isDigit(lexeme.charAt(0))) && allIn(lexeme.substring(1), "1234567890");
             }
     );
 

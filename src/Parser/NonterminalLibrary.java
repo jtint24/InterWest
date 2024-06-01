@@ -123,6 +123,14 @@ public class NonterminalLibrary {
         }
     };
 
+    public static Nonterminal negationExpression = new Nonterminal("negation expression") {
+        @Override
+        public void parse(Parser parser) {
+            parser.eat(TokenLibrary.dash);
+            fullExpression.apply(parser);
+        }
+    };
+
     // Basic expressions: including expressions in parentheses, literals, identifiers, lambdas
     public static Nonterminal delimitedExpression = new Nonterminal("delimited expression") {
         @Override
@@ -139,6 +147,8 @@ public class NonterminalLibrary {
                 parser.expect(TokenLibrary.rParen);
             } else if (parser.at(TokenLibrary.identifier)) {
                 parser.eat(TokenLibrary.identifier);
+            } else if (parser.at(TokenLibrary.dash)) {
+                negationExpression.apply(parser);
             } else if (parser.at(TokenLibrary.lBrace) || parser.at(TokenLibrary.regularToken)) {
                 lambda.apply(parser);
             } else if (parser.at(TokenLibrary.let)) {

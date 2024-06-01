@@ -113,6 +113,15 @@ public class ValueLibrary {
         }
     };
 
+    public static BuiltinFunction negationFunc = new BuiltinFunction(new FunctionType(intType, intType)) {
+        @Override
+        public Value prevalidatedApply(ErrorManager errorManager, Value[] values) {
+            assert values[0] instanceof ValueWrapper;
+
+            return new ValueWrapper<>(-(Integer)((ValueWrapper<?>) values[0]).wrappedValue, intType);
+        }
+    };
+
     public static HashMap<String, Value> builtinValues = new HashMap<>() {{
         put("true", trueValue);
         put("false", falseValue);
