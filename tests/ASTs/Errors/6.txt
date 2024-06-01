@@ -1,0 +1,16 @@
+interpreter
+
+let divide = {Int i -> nz}
+
+EXPECTED_RESULT:
+[X] UNKNOWN CONSTANT ------------------------------------------------------ A000
+
+2 | let divide = {Int i -> nz}
+  |                        ^^
+  |                        |
+  |                        I don't recognize this
+
+
+I can't find a constant called `nz` in scope.
+
+

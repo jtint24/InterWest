@@ -1,8 +1,8 @@
 execution
-let a = 2+2
-let b = 2==2
-let c = (11+9)/(200-8*4)+(8+3*-2)
-let d = (11+9)/(200-8*4)+(8+3*2)
+if true == true {
+    let a = {Int i, Bool b     -> b}(3, true)
+    let b = {Int i, Bool c -> i}
+}
 
 EXPECTED_RESULT:
 ------
@@ -26,9 +26,10 @@ Void: Void
 printNonzero: printNonzero
 ------
 ------
-a: 4
-b: true
-c: 2
-d: 14
+------
+a: true
+b: {i, c->
+return i
+}
 
 true

@@ -176,7 +176,7 @@ public class ExpressionFunction extends Function {
     }
 
     public String toString() {
-        return "{->\n"+wrappedExpression.toString()+"}";
+        return "{"+String.join(", ", parameterNames)+"->\n"+wrappedExpression.toString()+"}";
     }
 
     public boolean getIsRegular() {

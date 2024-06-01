@@ -24,6 +24,7 @@ public class FunctionExpression extends Expression {
 
     @Override
     public ExpressionResult evaluate(State situatedState) {
+        situatedState.addScope();
         ArrayList<Value> results = new ArrayList<>();
         for (Expression inputExpression : argumentExpressions) {
             ExpressionResult result = inputExpression.evaluate(situatedState);
@@ -35,9 +36,12 @@ public class FunctionExpression extends Expression {
 
         situatedState = innerFuncResult.resultingState;
 
+        situatedState.killScope();
+
         Function wrappedFunction = (Function) innerFuncResult.resultingValue;
 
         Value functionResult = wrappedFunction.apply(situatedState.errorManager, results.toArray(new Value[0]));
+
 
         return new ExpressionResult(situatedState, functionResult);
     }
@@ -63,20 +67,26 @@ public class FunctionExpression extends Expression {
 
 
         Type[] parameterTypes = ((FunctionType) funcType).getParameterTypes();
-        for (int i = 0; i<parameterTypes.length; i++) {
-            Type parameterType = parameterTypes[i];
-            Type argumentType = argumentExpressions.get(i).getType(context);
 
-            TriValue subtypeStatus = argumentExpressions.get(i).matchesType(parameterType, context);
+        if (argumentExpressions.size() != parameterTypes.length) {
+            context.addError(argumentCountMismatch(this, argumentExpressions.size(), parameterTypes.length));
+        } else {
 
-            if (subtypeStatus == TriValue.FALSE) {
-                context.addError(
-                        getFunctionArgumentTypeMismatch(this, argumentExpressions.get(i), parameterType, argumentType)
-                );
-            } else if (subtypeStatus == TriValue.UNKNOWN) {
-                context.addError(
-                        getFunctionArgumentTypeWarning(this, argumentExpressions.get(i), parameterType, argumentType)
-                );
+            for (int i = 0; i < parameterTypes.length; i++) {
+                Type parameterType = parameterTypes[i];
+                Type argumentType = argumentExpressions.get(i).getType(context);
+
+                TriValue subtypeStatus = argumentExpressions.get(i).matchesType(parameterType, context);
+
+                if (subtypeStatus == TriValue.FALSE) {
+                    context.addError(
+                            getFunctionArgumentTypeMismatch(this, argumentExpressions.get(i), parameterType, argumentType)
+                    );
+                } else if (subtypeStatus == TriValue.UNKNOWN) {
+                    context.addError(
+                            getFunctionArgumentTypeWarning(this, argumentExpressions.get(i), parameterType, argumentType)
+                    );
+                }
             }
         }
 

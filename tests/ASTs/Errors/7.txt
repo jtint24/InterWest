@@ -1,0 +1,16 @@
+interpreter
+
+if true == true {
+    let a = {Int i, Bool b     -> b}(3)
+    let b = {Int i, Bool b -> i}
+}
+
+EXPECTED_RESULT:
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+3 | let a = {Int i, Bool b     -> b}(3)
+  |         ^^^^ ^^ ^^^^ ^     ^^ ^^^^^
+
+
+I was expecting 2 argument(s) in this function call, but I got 1
+

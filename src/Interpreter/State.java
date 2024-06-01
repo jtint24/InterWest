@@ -14,6 +14,7 @@ public class State {
         this.errorManager = errorManager;
 
         scopes.push(ValueLibrary.builtinValues);
+        scopes.push(new HashMap<>());
     }
 
     public void addScope() {

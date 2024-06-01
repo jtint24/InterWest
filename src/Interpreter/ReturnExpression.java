@@ -38,13 +38,16 @@ public class ReturnExpression extends Expression {
         } else {
             if (exprToReturn != null) {
                 context = exprToReturn.validate(context);
-            }
 
-            TriValue subtypeStatus = exprToReturn.matchesType(context.getReturnType(), context);
-            if (subtypeStatus == TriValue.FALSE) {
-                context.addError(getReturnTypeMismatch(this, context.getReturnType(), exprToReturn.getType(context)));
-            } else if (subtypeStatus == TriValue.UNKNOWN) {
-                context.addError(getReturnTypeWarning(this, context.getReturnType(), exprToReturn.getType(context)));
+                if (exprToReturn.getType(context) != null) {
+
+                    TriValue subtypeStatus = exprToReturn.matchesType(context.getReturnType(), context);
+                    if (subtypeStatus == TriValue.FALSE) {
+                        context.addError(getReturnTypeMismatch(this, context.getReturnType(), exprToReturn.getType(context)));
+                    } else if (subtypeStatus == TriValue.UNKNOWN) {
+                        context.addError(getReturnTypeWarning(this, context.getReturnType(), exprToReturn.getType(context)));
+                    }
+                }
             }
         }
         return context;

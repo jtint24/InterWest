@@ -468,5 +468,21 @@ public class ErrorLibrary {
                 0);
     }
 
+    public static Error argumentCountMismatch(FunctionExpression expr, int argCount, int paramCount) {
+        Annotator annotator = new Annotator(expr.underlyingParseTree.getLine());
+        annotator.applyStyle(
+                expr.underlyingParseTree,
+                new Annotator.Style(AnsiCodes.RED, '^')
+        );
+
+        String bodyMessage = annotator.getAnnotatedString()+"\n\nI was expecting "+paramCount+" argument(s) in this function call, but I got "+argCount;
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "type mismatch",
+                bodyMessage,
+                true,
+                0);
+    }
+
 
 }

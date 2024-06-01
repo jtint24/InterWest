@@ -123,7 +123,9 @@ public class ExpressionBuilder {
         ArrayList<Expression> argumentExpressions = new ArrayList<>();
 
         for (ParseTreeNode argument : argList.getChildren()) {
-            argumentExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) argument));
+            if (argument instanceof NonterminalParseTreeNode) {
+                argumentExpressions.add(buildNonterminalExpression((NonterminalParseTreeNode) argument));
+            }
         }
 
         return new FunctionExpression(calledExpr, argumentExpressions, ptNode);
@@ -253,7 +255,7 @@ public class ExpressionBuilder {
         ArrayList<String> paramNames = new ArrayList<>();
         ArrayList<Type> paramTypes = new ArrayList<>();
 
-        for (int i = 0; i<parameterList.size(); i+=2) {
+        for (int i = 0; i<parameterList.size(); i+=3) {
             Expression paramType = buildNonterminalExpression((NonterminalParseTreeNode) parameterList.get(i));
             String paramName = ((TerminalParseTreeNode)parameterList.get(i+1)).getWrappedSymbol().getLexeme();
 

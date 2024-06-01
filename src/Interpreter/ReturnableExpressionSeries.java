@@ -71,9 +71,15 @@ public class ReturnableExpressionSeries extends ExpressionContainer {
         StaticReductionContext oldContext = context;
 
         if (returnType == null) {
+            // This is to infer the return type of an implicit lambda
             assert subExpressions.size()==1;
             assert subExpressions.get(0) instanceof ReturnExpression;
             returnType = ((ReturnExpression) subExpressions.get(0)).getExprToReturn().getType(context);
+            if (returnType == null) {
+                // This is called when the underlying expression has some error causing its type to be null
+
+                returnType = ValueLibrary.universeType;
+            }
         }
 
         for (Expression subExpression : subExpressions) {
