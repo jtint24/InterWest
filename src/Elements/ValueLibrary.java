@@ -120,6 +120,11 @@ public class ValueLibrary {
 
             return new ValueWrapper<>(-(Integer)((ValueWrapper<?>) values[0]).wrappedValue, intType);
         }
+
+        @Override
+        public String toString() {
+            return "-";
+        }
     };
 
     public static HashMap<String, Value> builtinValues = new HashMap<>() {{

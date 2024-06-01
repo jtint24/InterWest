@@ -38,6 +38,33 @@ public class TestInterpretationSession extends InterpretationSession {
         return outputBuffer;
     }
 
+    public OutputBuffer testExecution() {
+        try {
+            SymbolString symbolString = tokenizer.extractAllSymbols();
+
+            llParser.setSymbols(symbolString);
+            NonterminalLibrary.file.apply(llParser);
+            ParseTreeNode parseTree = llParser.buildTree();
+
+            Expression expr = expressionBuilder.buildNonterminalExpression((NonterminalParseTreeNode) parseTree);
+            StaticReductionContext endStaticContext = expr.initializeStaticValues(new StaticReductionContext());
+            errorManager.logErrors(endStaticContext.errors);
+
+            ValidationContext startContext = new ValidationContext();
+            ValidationContext endContext = expr.validate(startContext);
+            errorManager.logErrors(endContext.errors);
+
+            ExpressionResult s = expr.evaluate(new State(errorManager));
+
+            outputBuffer.println(s.resultingState);
+            outputBuffer.println(s.resultingValue);
+        } catch (Exception e) {
+            outputBuffer.println(e);
+            outputBuffer.println(Arrays.toString(e.getStackTrace()));
+        }
+        return outputBuffer;
+    }
+
     public OutputBuffer testDFAConversion() {
         try {
             SymbolString symbolString = tokenizer.extractAllSymbols();

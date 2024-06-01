@@ -46,6 +46,7 @@ public class Test implements Testable {
             case "lexer" -> TestFunction.lexer;
             case "parser" -> TestFunction.parser;
             case "interpreter" -> TestFunction.interpreter;
+            case "execution" -> TestFunction.execution;
             case "condition dfa" ->  TestFunction.conditionDFA;
             case "dfa conversion" -> TestFunction.dfaConversion;
             default -> null;
@@ -86,6 +87,10 @@ public class Test implements Testable {
         TestFunction dfaConversion = (String inputCode) -> {
             TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
             return sesh.testDFAConversion();
+        };
+        TestFunction execution = (String inputCode) -> {
+            TestInterpretationSession sesh = new TestInterpretationSession(inputCode);
+            return sesh.testExecution();
         };
         TestFunction conditionDFA = (String inputCode) -> {
             String[] args = inputCode.trim().split(" ");

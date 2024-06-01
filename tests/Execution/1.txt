@@ -1,0 +1,33 @@
+execution
+let a = 2+2
+let b = 2==2
+let c = (11+9)/(200-8*4)+(8+3*-2)
+let d = (11+9)/(200-8*4)+(8+3*2)
+
+EXPECTED_RESULT:
+------
+==: ==
+Nonzero: Nonzero
+false: false
+Universe: Universe
+*: *
++: +
+Unit: Unit
+-: -
+Int: Int
+/: /
+Type: Type
+unit: unit
+Bool: Bool
+true: true
+printInt: printInt
+Void: Void
+!=: !=
+printNonzero: printNonzero
+------
+a: 4
+b: true
+c: 2
+d: 14
+
+true
