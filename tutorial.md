@@ -13,7 +13,7 @@ let NonZero = type isNonZero
 
 let divide = {Int n, Int d -> n / d}
 
-print(divide(10,5))
+print(divide(10, 5))
 
 print(divide(10, 0))
 ```
@@ -93,7 +93,7 @@ Note that this takes a nonzero denominator--no more division by zero errors! Int
 So if we were to test it with the following code:
 
 ```
-print(divide(10,5))
+print(divide(10, 5))
 
 print(divide(10, 0))
 ```
