@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         // args = new String[]{"run", "-f", "interwest1.west"};
         // args = new String[]{"help"};
-        args = new String[]{"test", "tests"};
+        // args = new String[]{"test", "tests"};
         if (args.length == 0) {
             argParseError("Please select at least one of the following commands: help, run, validate, test");
         }
@@ -76,8 +76,9 @@ public class Main {
     }
 
     public static void printHelp() {
-        // TODO
-        System.out.println("some help message");
+        System.out.println("InterWest interpreter");
+        System.out.println("usage");
+        System.out.println("[run | test | validate] [-f] file");
     }
 
     public static void validateFlags(HashMap<String, String> flags, Collection<String> validFlags, Collection<String> requiredFlags) {
