@@ -1,9 +1,6 @@
 package Interpreter;
 
-import Elements.BuiltinValue;
-import Elements.ExpressionFunction;
-import Elements.Type;
-import Elements.Value;
+import Elements.*;
 import ErrorManager.Error;
 import Parser.ParseTreeNode;
 import Utils.Result;
@@ -42,7 +39,7 @@ public class IdentityExpression extends Expression {
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
         staticValue = Result.ok(wrappedValue);
-        if (wrappedValue instanceof ExpressionFunction) {
+        if (wrappedValue instanceof Evaluatable) {
             ((ExpressionFunction) wrappedValue).initializeStaticValues(context);
         }
         return context;

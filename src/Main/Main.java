@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        // args = new String[]{"run", "-f", "interwest1.west"};
+        args = new String[]{"run", "-f", "interwest1.west"};
         // args = new String[]{"help"};
         // args = new String[]{"test", "tests"};
         if (args.length == 0) {
@@ -168,7 +168,7 @@ public class Main {
                         flag = unassignedArgs[unnassignedArgCount];
                         unnassignedArgCount++;
                     } else {
-                        argParseError("I don't know what `"+arg+"` means. It's an unlabeled argument, but there are too many unlabeled arguments for the pattern I need.");
+                        argParseError("I don't know what `" + arg + "` means. It's an unlabeled argument, but there are too many unlabeled arguments for the pattern I need.");
 
                     }
                 }
@@ -177,7 +177,7 @@ public class Main {
                 argMap.put(flag, arg);
                 flag = "";
             } else {
-                argParseError("There are two conflicting arguments for the `"+flag+"` flag. The arguments are `"+argMap.get(flag)+"`, and `"+arg+"`.");
+                argParseError("There are two conflicting arguments for the `" + flag + "` flag. The arguments are `" + argMap.get(flag) + "`, and `" + arg + "`.");
             }
         }
         return argMap;

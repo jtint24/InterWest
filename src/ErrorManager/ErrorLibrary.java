@@ -465,7 +465,8 @@ public class ErrorLibrary {
                 "type mismatch",
                 bodyMessage,
                 true,
-                0);
+                0
+        );
     }
 
     public static Error argumentCountMismatch(FunctionExpression expr, int argCount, int paramCount) {
@@ -481,8 +482,41 @@ public class ErrorLibrary {
                 "type mismatch",
                 bodyMessage,
                 true,
-                0);
+                0
+        );
     }
 
+    public static Error getNontypeTypeExpression(TypeExpression typeExpression, Type actualType) {
+        Annotator annotator = new Annotator(typeExpression.getExpression().underlyingParseTree.getLine());
+        annotator.applyStyle(
+                typeExpression.getExpression().underlyingParseTree,
+                new Annotator.Style(AnsiCodes.RED, '^', "This has type "+actualType)
+        );
+        String bodyMessage = annotator.getAnnotatedString()+"\n\nI was expecting this to be a type but it's actually of type "+actualType;
 
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "type mismatch",
+                bodyMessage,
+                true,
+                0
+        );
+    }
+
+    public static Error getNonstaticTypeExpression(TypeExpression typeExpression) {
+        Annotator annotator = new Annotator(typeExpression.getExpression().underlyingParseTree.getLine());
+        annotator.applyStyle(
+                typeExpression.getExpression().underlyingParseTree,
+                new Annotator.Style(AnsiCodes.RED, '^')
+        );
+        String bodyMessage = annotator.getAnnotatedString()+"\n\nI have to be able to evaluate this type statically, but I this is too complex for me to reduce to a static value. ";
+
+        return new Error(
+                Error.ErrorType.INTERPRETER_ERROR,
+                "type mismatch",
+                bodyMessage,
+                true,
+                0
+        );
+    }
 }

@@ -1,16 +1,22 @@
 package Elements;
 
-import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 import Interpreter.Expression;
+import Interpreter.StaticReductionContext;
+import Interpreter.ValidationContext;
 import Utils.Result;
 import Utils.TriValue;
+import static ErrorManager.ErrorLibrary.getNontypeTypeExpression;
+import static ErrorManager.ErrorLibrary.getNonstaticTypeExpression;
 
-public class TypeExpression extends Type {
+
+public class TypeExpression extends Type implements Evaluatable {
 
     // An expression that resolves to a type
 
     Expression definition;
+
+    Result<Type, String> staticValue = Result.error("Not initialized");
 
     public TypeExpression(Expression definition) {
         this.definition = definition;
@@ -18,7 +24,6 @@ public class TypeExpression extends Type {
 
     @Override
     public TriValue subtypeOf(Type superType) {
-        Result<Type, String> staticValue = getStaticValue();
         if (staticValue.isOK()) {
             return staticValue.getOkValue().subtypeOf(superType);
         }
@@ -27,7 +32,6 @@ public class TypeExpression extends Type {
 
     @Override
     public boolean matchesValue(Value v, ErrorManager errorManager) {
-        Result<Type, String> staticValue = getStaticValue();
         if (staticValue.isOK()) {
             return staticValue.getOkValue().matchesValue(v, errorManager);
         }
@@ -38,14 +42,36 @@ public class TypeExpression extends Type {
         return definition;
     }
 
-    public Result<Type, String> getStaticValue() {
-        Result<Value, String> staticValue = getExpression().staticValue;
-        if (staticValue.isOK()) {
-            assert staticValue.getOkValue() instanceof Type;
-            return Result.ok((Type) staticValue.getOkValue());
+
+    public ValidationContext validate(ValidationContext context) {
+        definition.validate(context);
+        return context;
+    }
+
+    @Override
+    public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        context = definition.initializeStaticValues(context);
+
+        if (!definition.staticValue.isOK()) {
+            context.addError(getNonstaticTypeExpression(this));
+            staticValue = Result.error("Invalid");
         } else {
-            return Result.error(staticValue.getErrValue());
+            if (!(definition.staticValue.getOkValue() instanceof Type)) {
+                context.addError(getNontypeTypeExpression(this, definition.staticValue.getOkValue().getType()));
+                staticValue = Result.error("Invalid");
+            } else {
+                staticValue = Result.ok((Type) definition.staticValue.getOkValue());
+            }
         }
+
+        return context;
+    }
+
+    public Result<Type, String> getStaticValue() {
+        if (!staticValue.isOK() && staticValue.getErrValue().equals("Not initialized")) {
+            initializeStaticValues(new StaticReductionContext());
+        }
+        return staticValue;
     }
 
     @Override

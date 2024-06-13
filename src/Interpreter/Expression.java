@@ -1,9 +1,6 @@
 package Interpreter;
 
-import Elements.RefinementType;
-import Elements.Type;
-import Elements.TypeExpression;
-import Elements.Value;
+import Elements.*;
 import ErrorManager.Error;
 import ErrorManager.ErrorManager;
 import IO.OutputBuffer;
@@ -14,12 +11,10 @@ import Utils.TriValue;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class Expression {
+public abstract class Expression implements Evaluatable {
     public Result<Value, String> staticValue;
     public ParseTreeNode underlyingParseTree;
     public abstract ExpressionResult evaluate(State situatedState);
-    public abstract ValidationContext validate(ValidationContext context);
-
     /**
      * getType
      *
@@ -38,9 +33,6 @@ public abstract class Expression {
     public Result<Value, String> reduceToValue() {
         return staticValue;
     }
-
-    public abstract StaticReductionContext initializeStaticValues(StaticReductionContext context);
-
     public TriValue matchesType(Type type, ValidationContext context) {
 
         TriValue subtypeStatus = getType(context).subtypeOf(type);

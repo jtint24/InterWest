@@ -14,7 +14,7 @@ import java.util.Map;
 import static ErrorManager.ErrorLibrary.getUnresolvableTypeExpression;
 import static ErrorManager.ErrorLibrary.getWrongArgCountForRegular;
 
-public class ExpressionFunction extends Function {
+public class ExpressionFunction extends Function implements Evaluatable {
     /**
      * THIS CLASS MAY NEED TO BE DELETED!
      *
