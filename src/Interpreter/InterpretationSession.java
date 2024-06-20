@@ -45,7 +45,8 @@ public class InterpretationSession {
 
         // outputBuffer.println(expr);
 
-        expr.initializeStaticValues(new StaticReductionContext());
+        StaticReductionContext staticReductionContext = expr.initializeStaticValues(new StaticReductionContext());
+        errorManager.logErrors(staticReductionContext.errors);
         ValidationContext validationContext = expr.validate(new ValidationContext());
         errorManager.logErrors(validationContext.errors);
 

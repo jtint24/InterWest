@@ -26,8 +26,10 @@ public class FunctionType extends Type {
             return TriValue.FALSE;
         }
 
-        if (resultType.subtypeOf(fSuperType.resultType) != TriValue.TRUE) {
-            return resultType.subtypeOf(fSuperType.resultType);
+        TriValue resultTypeSubtypeValue = resultType.subtypeOf(fSuperType.resultType);
+
+        if (resultTypeSubtypeValue != TriValue.TRUE) {
+            return resultTypeSubtypeValue;
         }
 
         for (int i = 0; i<fSuperType.parameterTypes.length; i++) {

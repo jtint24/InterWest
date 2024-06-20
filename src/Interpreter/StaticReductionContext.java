@@ -7,6 +7,7 @@ import ErrorManager.Error;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class StaticReductionContext {
     HashMap<String, Value> declaredConstants = new HashMap<>();

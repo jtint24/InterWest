@@ -59,7 +59,6 @@ public class ExpressionSeries extends ExpressionContainer {
         for (Expression subExpression : subExpressions) {
             context = subExpression.initializeStaticValues(context);
         }
-        oldContext.addErrors(context.errors);
         return oldContext;
     }
 

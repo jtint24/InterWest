@@ -145,14 +145,14 @@ public class ExpressionFunction extends Function implements Evaluatable {
 
 
         for (Type paramType : type.parameterTypes) {
-            if (paramType instanceof TypeExpression) {
-                ((TypeExpression) paramType).getExpression().initializeStaticValues(context);
+            if (paramType instanceof Evaluatable) {
+                ((Evaluatable) paramType).initializeStaticValues(context);
             }
         }
 
 
-        if (type.resultType instanceof TypeExpression) {
-            ((TypeExpression) type.resultType).getExpression().initializeStaticValues(context);
+        if (type.resultType instanceof Evaluatable) {
+            ((Evaluatable) type.resultType).initializeStaticValues(context);
         }
 
         for (int i = 0; i<type.parameterTypes.length; i++) {

@@ -100,7 +100,7 @@ public class ErrorLibrary {
         );
 
         String bodyMessage = annotator.getAnnotatedString()
-                + "\n\nThe condition of this if statement has type `"+actualType+"`, and I expected type `"+expectedType+"`.\nThese types could still match! I just can't prove that they'll match all the time. This CAN cause a runtime error!\n";
+                + "\n\nThe argument of this function has type `"+actualType+"`, and I expected type `"+expectedType+"`.\nThese types could still match! I just can't prove that they'll match all the time. This CAN cause a runtime error!\n";
         return new Error(
                 Error.ErrorType.INTERPRETER_ERROR,
                 "type mismatch",
@@ -459,7 +459,7 @@ public class ErrorLibrary {
         );
 
         String bodyMessage = annotator.getAnnotatedString()
-                + "\n\nThe condition of this if statement has type `"+actual+"`, which doesn't match what I expected, type `Function(Bool, Universe)`.\n";
+                + "\n\nThe condition of this type expression has type `"+actual+"`, which doesn't match what I expected, type `Function(Bool, Universe)`.\n";
         return new Error(
                 Error.ErrorType.INTERPRETER_ERROR,
                 "type mismatch",

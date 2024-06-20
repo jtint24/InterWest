@@ -78,6 +78,7 @@ public class ConditionalExpression extends Expression {
 
     @Override
     public StaticReductionContext initializeStaticValues(StaticReductionContext context) {
+        condition.initializeStaticValues(context);
         for (Expression innerExpression : expressionSeries.getContainedExpressions()) {
             context = innerExpression.initializeStaticValues(context);
         }

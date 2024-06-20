@@ -101,6 +101,7 @@ public class DFAConverter {
     }
 
     static Result<DFA, List<Expression>> inlineExpressionToDFA(Expression ex, String wrtIdentifier) {
+        // System.out.println("inline expression: "+ex);
         if (ex instanceof FunctionExpression) {
             FunctionExpression functionEx = (FunctionExpression) ex;
             Result<Value, String> functionResult = functionEx.getFuncExpression().staticValue;
@@ -109,7 +110,7 @@ public class DFAConverter {
             // System.out.println("Static value: "+functionResult);
             // System.out.println(functionResult.getOkValue() instanceof DFAFunction);
 
-            if (functionResult.isOK() && functionResult.getOkValue() instanceof DFAFunction) {
+            if (functionResult != null && functionResult.isOK() && functionResult.getOkValue() instanceof DFAFunction) {
                 // Ensure that all the arguments are statically known except for one which can be wrt variable
                 ArrayList<Value> staticArguments = new ArrayList<>();
                 ArrayList<Expression> errorArguments = new ArrayList<>();
@@ -162,13 +163,6 @@ public class DFAConverter {
             this.passConditions = conditions;
             this.unconvertableExpressions = unconvertableExpressions;
         }
-/*
-        public ReturnClauseConditionResult(HashMap<ReturnExpression, ArrayList<DFA>> returnClauses, ArrayList<DFA> conditions, boolean terminates) {
-            this.returnClauses = returnClauses;
-            this.conditions = conditions;
-            this.terminates = terminates;
-        }
- */
     }
 
     private static ReturnClauseConditionResult getReturnClauseConditions(Expression root, String wrt) {
@@ -176,17 +170,15 @@ public class DFAConverter {
     }
 
     private static ReturnClauseConditionResult getReturnClauseConditions(Expression root, DFA conditions, String wrt) {
-        // System.out.println("Getting returns from \n"+root);
         HashMap<ReturnExpression, DFA> returnClauses = new HashMap<>();
         DFA passConditions = conditions;
 
         if (root instanceof ExpressionContainer) {
-            // System.out.println("Expression container:");
 
             for (Expression ex : ((ExpressionContainer) root).getContainedExpressions()) {
                 ReturnClauseConditionResult outResult;
                 if (ex instanceof ConditionalExpression) {
-                    Result<DFA, Function<ParseTreeNode, Error>> ifConditionResult = dfaFrom(((ConditionalExpression) ex).getCondition(), wrt);
+                    Result<DFA, List<Expression>> ifConditionResult = inlineExpressionToDFA(((ConditionalExpression) ex).getCondition(), wrt);
                     if (!ifConditionResult.isOK()) {
                         ArrayList<Expression> unconvertableExpression = new ArrayList<>();
                         unconvertableExpression.add(ex);
@@ -197,6 +189,7 @@ public class DFAConverter {
                     ExpressionSeries body = ((ConditionalExpression) ex).getBody();
 
                     DFA inConditions = passConditions.intersectionWith(ifCondition);
+
 
                     outResult = getReturnClauseConditions(body, inConditions, wrt);
 
@@ -226,8 +219,6 @@ public class DFAConverter {
             }
 
         } else if (root instanceof ReturnExpression) {
-            // System.out.println("Return expression:");
-
             returnClauses.put((ReturnExpression) root, conditions);
 
             return new ReturnClauseConditionResult(returnClauses, DFA.alwaysFalse());
