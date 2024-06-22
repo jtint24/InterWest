@@ -51,6 +51,9 @@ public class Test implements Testable {
             case "dfa conversion" -> TestFunction.dfaConversion;
             default -> null;
         };
+        if (function == null) {
+            throw new RuntimeException("Unrecognized test type `"+funcLine+"`");
+        }
 
         while(sc.hasNextLine()) {
             String line = sc.nextLine();

@@ -1,6 +1,8 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import Regularity.DFA;
+import Utils.Result;
 import Utils.TriValue;
 
 public class UniverseType extends Type {
@@ -11,6 +13,11 @@ public class UniverseType extends Type {
         } else {
             return TriValue.FALSE;
         }
+    }
+
+    @Override
+    public Result<DFA, String> getDFA() {
+        return Result.ok(DFA.alwaysTrue());
     }
 
     @Override

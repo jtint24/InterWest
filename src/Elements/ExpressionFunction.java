@@ -182,4 +182,8 @@ public class ExpressionFunction extends Function implements Evaluatable {
     public boolean getIsRegular() {
         return isRegular;
     }
+
+    public DFA getDFA() {
+        return equivalentDFA;
+    }
 }

@@ -1,0 +1,26 @@
+interpreter
+let NonZero = type regular {Int i -> Bool
+    if i == 0 {
+        return false
+    }
+    return true
+}
+
+let div = {NonZero nz -> nz}
+
+let a = div(1)
+
+let b = div(0)
+
+EXPECTED_RESULT:
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+12 | let b = div(0)
+   |             ^
+   |             |
+   |             This has type `Int`
+
+
+I was expecting an expression of type `NonZero` in this argument, but I got type `Int`.
+
+

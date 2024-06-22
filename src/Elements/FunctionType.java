@@ -1,6 +1,8 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import Regularity.DFA;
+import Utils.Result;
 import Utils.TriValue;
 
 import java.util.Arrays;
@@ -59,8 +61,12 @@ public class FunctionType extends Type {
     }
 
     @Override
+    public Result<DFA, String> getDFA() {
+        return Result.error("Can't convert FunctionType conditions to dfas yet");
+    }
+
+    @Override
     public String toString() {
         return "Function("+resultType+"; "+Arrays.stream(parameterTypes).map(Type::toString).collect(Collectors.joining(", "))+")";
-
     }
 }

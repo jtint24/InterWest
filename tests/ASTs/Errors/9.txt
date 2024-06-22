@@ -1,0 +1,34 @@
+interpreter
+let Always_True = type regular {Bool b -> b == true}
+let Never_False = type regular {Bool b -> b != false}
+let at_func = {Always_True at -> at}
+let nf_func = {Never_False nf -> nf}
+let result = at_func(nf_func(true))
+let result2 = nf_func(at_func(true))
+let result3 = nf_func(false)
+let result4 = at_func(false)
+
+
+EXPECTED_RESULT:
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+7 | let result3 = nf_func(false)
+  |                       ^^^^^
+  |                       |
+  |                       This has type `Bool`
+
+
+I was expecting an expression of type `Never_False` in this argument, but I got type `Bool`.
+
+
+[X] TYPE MISMATCH --------------------------------------------------------- A000
+
+8 | let result4 = at_func(false)
+  |                       ^^^^^
+  |                       |
+  |                       This has type `Bool`
+
+
+I was expecting an expression of type `Always_True` in this argument, but I got type `Bool`.
+
+

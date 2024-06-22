@@ -34,22 +34,20 @@ public abstract class Expression implements Evaluatable {
         return staticValue;
     }
     public TriValue matchesType(Type type, ValidationContext context) {
+        TriValue subtypeStatus;
 
-        TriValue subtypeStatus = getType(context).subtypeOf(type);
-
-        if (subtypeStatus == TriValue.UNKNOWN && this.staticValue != null && this.staticValue.isOK()) {
+        if (this.staticValue.isOK()) {
             Value inputValue = this.staticValue.getOkValue();
 
             ErrorManager testErrorManager = new ErrorManager(new OutputBuffer());
             subtypeStatus = TriValue.fromBool(type.matchesValue(inputValue, testErrorManager));
 
-
             context.addErrors(testErrorManager.getErrors());
+
+            return subtypeStatus;
         }
 
-        if (subtypeStatus != TriValue.TRUE && this.staticValue == null) {
-            return TriValue.FALSE;
-        }
+        subtypeStatus = getType(context).subtypeOf(type);
 
         return subtypeStatus;
     }

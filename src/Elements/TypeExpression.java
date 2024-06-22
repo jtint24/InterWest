@@ -2,8 +2,10 @@ package Elements;
 
 import ErrorManager.ErrorManager;
 import Interpreter.Expression;
+import Interpreter.ReturnExpression;
 import Interpreter.StaticReductionContext;
 import Interpreter.ValidationContext;
+import Regularity.DFA;
 import Utils.Result;
 import Utils.TriValue;
 import static ErrorManager.ErrorLibrary.getNontypeTypeExpression;
@@ -36,6 +38,15 @@ public class TypeExpression extends Type implements Evaluatable {
             return staticValue.getOkValue().matchesValue(v, errorManager);
         }
         return false;
+    }
+
+    @Override
+    public Result<DFA, String> getDFA() {
+        if (staticValue.isOK()) {
+            return staticValue.getOkValue().getDFA();
+        } else {
+            return Result.error("The TypeExpression "+this+" doesn't have an initialized static value");
+        }
     }
 
     public Expression getExpression() {
@@ -78,4 +89,6 @@ public class TypeExpression extends Type implements Evaluatable {
     public String toString() {
         return getExpression().toString();
     }
+
+
 }

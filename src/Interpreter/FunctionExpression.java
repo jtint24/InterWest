@@ -57,6 +57,10 @@ public class FunctionExpression extends Expression {
 
         Type funcType = funcExpression.getType(context);
 
+        if (funcType == null) {
+            return context;
+        }
+
         if (!(funcType instanceof FunctionType)) {
             context.addError(
                     getCallabilityMismatch(this, funcType)

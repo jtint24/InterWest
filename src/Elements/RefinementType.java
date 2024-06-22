@@ -1,10 +1,12 @@
 package Elements;
 
 import ErrorManager.ErrorManager;
+import IO.OutputBuffer;
 import Interpreter.Expression;
 import Interpreter.ExpressionResult;
 import Interpreter.State;
 import Regularity.DFA;
+import Utils.Result;
 import Utils.TriValue;
 
 public class RefinementType extends Type {
@@ -38,12 +40,17 @@ public class RefinementType extends Type {
             return TriValue.TRUE;
         }
 
-        if (condition instanceof DFAFunction && superType instanceof RefinementType && ((RefinementType) superType).condition instanceof DFAFunction) {
+        Result<DFA, String> myDFAResult = getDFA();
+        Result<DFA, String> superDFAResult = superType.getDFA();
+
+
+        if (myDFAResult.isOK() && superDFAResult.isOK()) {
+
+
+            DFA myDFA = myDFAResult.getOkValue();
+            DFA superDFA = superDFAResult.getOkValue();
 
             // IF I can turn superType into a DFA and I can turn MYSELF into a DFA, then do that
-            DFA myDFA = ((DFAFunction) condition).getDFA(0);
-
-            DFA superDFA = ((DFAFunction) ((RefinementType) superType).condition).getDFA(0);
 
             // Then compare superType's DFA to mine and see if it's a superset language
 
@@ -54,7 +61,9 @@ public class RefinementType extends Type {
             return dfaIsSubset;
         } else {
             // If I can't do the conversion, then I don't know if I'm a subtype at all!
-
+            String mdrString = myDFAResult.toString().split("\n")[0];
+            String sdrString = superDFAResult.toString().split("\n")[0];
+            System.out.println("The DFA results were mine "+mdrString+" and others "+sdrString);
             return TriValue.UNKNOWN;
         }
     }
@@ -80,4 +89,24 @@ public class RefinementType extends Type {
             return false;
         }
     }
+
+    @Override
+    public Result<DFA, String> getDFA() {
+        Result<DFA,String> superTypeDFA = superType.getDFA();
+        if (superTypeDFA.isOK()) {
+            if (condition instanceof DFAFunction) {
+                DFA myDFA = ((DFAFunction) condition).getDFA(0);
+                return Result.ok(((DFA)myDFA.clone()).intersectionWith((DFA)superTypeDFA.getOkValue().clone()));
+             } else if (condition instanceof ExpressionFunction && ((ExpressionFunction) condition).getIsRegular()) {
+                 DFA myDFA = ((ExpressionFunction) condition).getDFA();
+                 return Result.ok(((DFA)myDFA.clone()).intersectionWith((DFA)superTypeDFA.getOkValue().clone()));
+            } else {
+                return Result.error("The type "+this+" doesn't have a condition that can be turned into a DFA.");
+            }
+        } else {
+            return superTypeDFA;
+        }
+    }
+
+
 }
