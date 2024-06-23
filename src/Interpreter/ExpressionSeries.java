@@ -7,6 +7,7 @@ import Parser.ParseTreeNode;
 import Utils.Result;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ExpressionSeries extends ExpressionContainer {
     ArrayList<Expression> subExpressions;
@@ -35,7 +36,14 @@ public class ExpressionSeries extends ExpressionContainer {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
+        HashMap<String, Type> forwardDeclaredTypes = new HashMap<>();
+
+        for (Expression expr : subExpressions) {
+            forwardDeclaredTypes.putAll(expr.validateForwardDeclaration(context));
+        }
+
         context.addScope();
+        context.addVariableTypes(forwardDeclaredTypes);
         for (Expression expr : subExpressions) {
             context = expr.validate(context);
         }

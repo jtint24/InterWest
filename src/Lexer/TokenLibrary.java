@@ -37,7 +37,8 @@ public class TokenLibrary {
                 typeToken,
                 inlineComment,
                 blockComment,
-                star
+                star,
+                forwardToken
         };
     }
 
@@ -83,6 +84,7 @@ public class TokenLibrary {
     public static final Token ifToken = fromString("if");
     public static final Token regularToken = fromString("regular");
     public static final Token typeToken = fromString("type");
+    public static final Token forwardToken = fromString("forward");
     public static final Token star = fromString("*").toBinder(new BindingPowers(PrecedenceLevel.MULTIPLICATION, Associativity.LEFT));;
 
 
@@ -214,6 +216,7 @@ public class TokenLibrary {
                 add("return");
                 add("regular");
                 add("type");
+                add("forward");
         }};
 
         return keywords.contains(lexeme);

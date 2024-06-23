@@ -3,21 +3,25 @@ package Interpreter;
 import Elements.Type;
 import Elements.Value;
 import Elements.ValueLibrary;
-import ErrorManager.Error;
 import ErrorManager.ErrorLibrary;
 import Parser.ParseTreeNode;
 import Utils.Result;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static ErrorManager.ErrorLibrary.getRedefinition;
 
 public class LetExpression extends Expression {
     String identifierName;
     public Expression exprToSet;
+    boolean isForward;
 
-    public LetExpression(String identifierName, Expression exprToSet, ParseTreeNode underlyingParseTree) {
+    public LetExpression(String identifierName, Expression exprToSet, boolean isForward, ParseTreeNode underlyingParseTree) {
         this.identifierName = identifierName;
         this.exprToSet = exprToSet;
         this.underlyingParseTree = underlyingParseTree;
+        this.isForward = isForward;
     }
 
     @Override
@@ -34,16 +38,23 @@ public class LetExpression extends Expression {
 
     @Override
     public ValidationContext validate(ValidationContext context) {
-        if (exprToSet == null) {
-            context.addError(ErrorLibrary.getEmptyLetError(this));
+
+        if (!isForward) {
+            if (exprToSet == null) {
+                context.addError(ErrorLibrary.getEmptyLetError(this));
+            } else {
+                context = exprToSet.validate(context);
+            }
+            if (context.hasVariable(identifierName)) {
+                context.addError(getRedefinition(this, identifierName));
+            }
+            if (exprToSet != null) {
+                context.addVariableType(identifierName, exprToSet.getType(context));
+            }
         } else {
-            context = exprToSet.validate(context);
-        }
-        if (context.hasVariable(identifierName)) {
-            context.addError(getRedefinition(this, identifierName));
-        }
-        if (exprToSet != null) {
-            context.addVariableType(identifierName, exprToSet.getType(context));
+            if (exprToSet != null) {
+                context = exprToSet.validate(context);
+            }
         }
 
         return context;
@@ -86,5 +97,20 @@ public class LetExpression extends Expression {
             line += "\n";
         }
         return line;
+    }
+
+    @Override
+    protected Map<String, Type> validateForwardDeclaration(ValidationContext context) {
+        if (isForward) {
+            if (exprToSet == null) {
+                context.addError(ErrorLibrary.getEmptyLetError(this));
+            }
+            if (context.hasVariable(identifierName)) {
+                context.addError(getRedefinition(this, identifierName));
+            }
+            return Map.of(identifierName, exprToSet.getType(context));
+        } else {
+            return new HashMap<>();
+        }
     }
 }

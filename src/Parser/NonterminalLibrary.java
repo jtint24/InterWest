@@ -26,7 +26,8 @@ public class NonterminalLibrary {
     static Nonterminal letStatement = new Nonterminal("let") {
         @Override
         public void parse(Parser parser) {
-
+            parser.eat(TokenLibrary.forwardToken);
+            parser.eat(TokenLibrary.whitespace);
             parser.expect(TokenLibrary.let);
             parser.eat(TokenLibrary.whitespace);
             parser.expect(TokenLibrary.identifier);
@@ -151,7 +152,7 @@ public class NonterminalLibrary {
                 negationExpression.apply(parser);
             } else if (parser.at(TokenLibrary.lBrace) || parser.at(TokenLibrary.regularToken)) {
                 lambda.apply(parser);
-            } else if (parser.at(TokenLibrary.let)) {
+            } else if (parser.at(TokenLibrary.let) || parser.at(TokenLibrary.forwardToken) ) {
                 letStatement.apply(parser);
             } else if (parser.at(TokenLibrary.typeToken)) {
                 typeStatement.apply(parser);

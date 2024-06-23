@@ -10,6 +10,7 @@ import Utils.TriValue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Expression implements Evaluatable {
     public Result<Value, String> staticValue;
@@ -50,5 +51,9 @@ public abstract class Expression implements Evaluatable {
         subtypeStatus = getType(context).subtypeOf(type);
 
         return subtypeStatus;
+    }
+
+    protected Map<String, Type> validateForwardDeclaration(ValidationContext context) {
+        return new HashMap<>();
     }
 }

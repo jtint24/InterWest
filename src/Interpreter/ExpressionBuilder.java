@@ -188,11 +188,18 @@ public class ExpressionBuilder {
         // System.out.println(ptNode.getKind());
 
         ptNode.removeSymbolsOfType(TokenLibrary.whitespace);
-        // [let] [identifier] [=] [expression]
-        String identifier = ((TerminalParseTreeNode)ptNode.getChildren().get(1)).getWrappedSymbol().getLexeme();
-        Expression assignToExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3));
+        // [forward?] [let] [identifier] [=] [expression]
 
-        return new LetExpression(identifier, assignToExpression, ptNode);
+        int offset = 0;
+        boolean isForward = false;
+        if (ptNode.getChildren().get(0).getSymbols().get(0).getTokenType() == TokenLibrary.forwardToken) {
+            offset = 1;
+            isForward = true;
+        }
+        String identifier = ((TerminalParseTreeNode)ptNode.getChildren().get(1+offset)).getWrappedSymbol().getLexeme();
+        Expression assignToExpression = buildNonterminalExpression((NonterminalParseTreeNode) ptNode.getChildren().get(3+offset));
+
+        return new LetExpression(identifier, assignToExpression, isForward, ptNode);
     };
 
     public Expression buildReturnExpression(NonterminalParseTreeNode ptNode) {
